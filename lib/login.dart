@@ -65,7 +65,7 @@ class _LoginDemoState extends State<LoginDemo> {
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    //border: OutlineInputBorder(),
                     labelText: 'Pseudo/Email',
                     hintText: 'Enter valid pseudo/email'),
               ),
@@ -77,7 +77,7 @@ class _LoginDemoState extends State<LoginDemo> {
               child: TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    //border: OutlineInputBorder(),
                     labelText: 'Password',
                     hintText: 'Enter secure password'),
               ),

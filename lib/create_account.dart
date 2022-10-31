@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:write_me/login.dart';
+import 'package:intl/intl.dart';
 
 import 'home.dart';
 
@@ -27,6 +28,14 @@ class Account extends StatefulWidget {
 }
 
 class _Account extends State<Account> {
+  TextEditingController dateInput = TextEditingController();
+
+  @override
+  void initState() {
+    dateInput.text = ""; //set the initial value of text field
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +74,7 @@ class _Account extends State<Account> {
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    //border: OutlineInputBorder(),
                     labelText: 'Pseudo',
                     hintText: 'Enter valid pseudo'),
               ),
@@ -76,7 +85,7 @@ class _Account extends State<Account> {
                   EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
               child: TextField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    //border: OutlineInputBorder(),
                     labelText: 'Email',
                     hintText: 'Enter valid email'),
               ),
@@ -87,7 +96,7 @@ class _Account extends State<Account> {
                   EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
               child: TextField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    //border: OutlineInputBorder(),
                     labelText: 'Telephone',
                     hintText: 'Enter valid phone number'),
               ),
@@ -98,7 +107,7 @@ class _Account extends State<Account> {
                   EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
               child: TextField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    //border: OutlineInputBorder(),
                     labelText: 'Name',
                     hintText: 'Enter your name'),
               ),
@@ -109,20 +118,46 @@ class _Account extends State<Account> {
                   EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
               child: TextField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    //border: OutlineInputBorder(),
                     labelText: 'Surname',
                     hintText: 'Enter your surname'),
               ),
             ),
-            const Padding(
+            Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 15, bottom: 0),
               child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Date of birth',
-                    hintText: 'Enter your day of birth'),
+                controller: dateInput,
+                //editing controller of this TextField
+                decoration: const InputDecoration(
+                    //border: OutlineInputBorder(),
+                    //icon: Icon(Icons.calendar_today), //icon of text field
+                    labelText: "Enter Date" //label text of field
+                    ),
+                readOnly: true,
+                //set it true, so that user will not able to edit text
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1950),
+                      //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2100));
+
+                  if (pickedDate != null) {
+                    print(
+                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                    print(
+                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                    setState(() {
+                      dateInput.text =
+                          formattedDate; //set output date to TextField value.
+                    });
+                  } else {}
+                },
               ),
             ),
             const Padding(
@@ -132,7 +167,7 @@ class _Account extends State<Account> {
               child: TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    //border: OutlineInputBorder(),
                     labelText: 'Password',
                     hintText: 'Enter secure password'),
               ),
@@ -144,7 +179,7 @@ class _Account extends State<Account> {
               child: TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    //border: OutlineInputBorder(),
                     labelText: 'Password Confirmation',
                     hintText: 'Enter secure password'),
               ),
