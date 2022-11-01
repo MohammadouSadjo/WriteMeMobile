@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:write_me/email_validation.dart';
 import 'package:write_me/login.dart';
 import 'package:intl/intl.dart';
 
@@ -71,7 +72,7 @@ class _Account extends State<Account> {
             ),
             const Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: EdgeInsets.symmetric(horizontal: 60),
               child: TextField(
                 decoration: InputDecoration(
                     //border: OutlineInputBorder(),
@@ -82,7 +83,7 @@ class _Account extends State<Account> {
             const Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+                  EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
               child: TextField(
                 decoration: InputDecoration(
                     //border: OutlineInputBorder(),
@@ -93,7 +94,7 @@ class _Account extends State<Account> {
             const Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+                  EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
               child: TextField(
                 decoration: InputDecoration(
                     //border: OutlineInputBorder(),
@@ -104,7 +105,7 @@ class _Account extends State<Account> {
             const Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+                  EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
               child: TextField(
                 decoration: InputDecoration(
                     //border: OutlineInputBorder(),
@@ -115,7 +116,7 @@ class _Account extends State<Account> {
             const Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+                  EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
               child: TextField(
                 decoration: InputDecoration(
                     //border: OutlineInputBorder(),
@@ -126,7 +127,7 @@ class _Account extends State<Account> {
             Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
+                  left: 60.0, right: 60.0, top: 15, bottom: 0),
               child: TextField(
                 controller: dateInput,
                 //editing controller of this TextField
@@ -146,12 +147,10 @@ class _Account extends State<Account> {
                       lastDate: DateTime(2100));
 
                   if (pickedDate != null) {
-                    print(
-                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                    //print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                     String formattedDate =
                         DateFormat('yyyy-MM-dd').format(pickedDate);
-                    print(
-                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                    //print(formattedDate); //formatted date output using intl package =>  2021-03-16
                     setState(() {
                       dateInput.text =
                           formattedDate; //set output date to TextField value.
@@ -162,7 +161,7 @@ class _Account extends State<Account> {
             ),
             const Padding(
               padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+                  EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
                 obscureText: true,
@@ -174,7 +173,7 @@ class _Account extends State<Account> {
             ),
             const Padding(
               padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 25),
+                  EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 60),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
                 obscureText: true,
@@ -192,8 +191,10 @@ class _Account extends State<Account> {
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const Login()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const EmailValidation()));
                 },
                 child: const Text(
                   'Create account',
