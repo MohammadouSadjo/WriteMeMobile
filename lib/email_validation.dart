@@ -28,7 +28,70 @@ class ValidEmail extends StatefulWidget {
 }
 
 class _ValidEmail extends State<ValidEmail> {
-  TextEditingController dateInput = TextEditingController();
+  _showSimpleModalDialog(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+            child: Container(
+              constraints: const BoxConstraints(maxHeight: 200),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Center(
+                      child: Text(
+                        'Email Confirmed',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.0,
+                          color: Color.fromRGBO(61, 110, 201, 1.0),
+                        ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 30, bottom: 30),
+                      child: Center(
+                        child: Text(
+                          'Your email has been confirmed. You will be redirected to Login page',
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Container(
+                        height: 50,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            color: const Color.fromRGBO(61, 110, 201, 1.0),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => const Login()),
+                            );
+                          },
+                          child: const Text(
+                            'OK',
+                            style: TextStyle(color: Colors.white, fontSize: 25),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +133,7 @@ class _ValidEmail extends State<ValidEmail> {
                 decoration: InputDecoration(
                     //border: OutlineInputBorder(),
                     labelText: 'Verification code',
-                    hintText: 'Enter your verification code received by email'),
+                    hintText: 'Enter your verification code'),
               ),
             ),
             Container(
@@ -81,8 +144,7 @@ class _ValidEmail extends State<ValidEmail> {
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const Login()));
+                  _showSimpleModalDialog(context);
                 },
                 child: const Text(
                   'Send',
