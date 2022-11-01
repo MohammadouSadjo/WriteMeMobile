@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:write_me/create_account.dart';
+import 'package:write_me/password_forgotten.dart';
 
 import 'home.dart';
 
@@ -84,7 +85,10 @@ class _LoginDemoState extends State<LoginDemo> {
             ),
             TextButton(
               onPressed: () {
-                //TODO FORGOT PASSWORD SCREEN GOES HERE
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const PasswordForgotten()));
               },
               child: const Text(
                 'Forgot Password',

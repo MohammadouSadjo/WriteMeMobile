@@ -5,30 +5,30 @@ import 'package:intl/intl.dart';
 import 'home.dart';
 
 void main() {
-  runApp(const EmailValidation());
+  runApp(const ChangePassword());
 }
 
-class EmailValidation extends StatelessWidget {
-  const EmailValidation({super.key});
+class ChangePassword extends StatelessWidget {
+  const ChangePassword({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ValidEmail(),
+      home: ChangeState(),
     );
   }
 }
 
-class ValidEmail extends StatefulWidget {
-  const ValidEmail({super.key});
+class ChangeState extends StatefulWidget {
+  const ChangeState({super.key});
 
   @override
-  _ValidEmail createState() => _ValidEmail();
+  _ChangeState createState() => _ChangeState();
 }
 
-class _ValidEmail extends State<ValidEmail> {
-  _EmailConfirm(context) {
+class _ChangeState extends State<ChangeState> {
+  _PasswordChanged(context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -44,7 +44,7 @@ class _ValidEmail extends State<ValidEmail> {
                   children: [
                     const Center(
                       child: Text(
-                        'Email Confirmed',
+                        'Password changed',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 25.0,
@@ -56,7 +56,7 @@ class _ValidEmail extends State<ValidEmail> {
                       padding: EdgeInsets.only(top: 30, bottom: 30),
                       child: Center(
                         child: Text(
-                          'Your email has been confirmed. You will be redirected to Login page',
+                          'Your password has been changed. You will be redirected to Login page',
                           style: TextStyle(
                             fontSize: 15.0,
                             color: Colors.black,
@@ -115,7 +115,7 @@ class _ValidEmail extends State<ValidEmail> {
                         borderRadius: BorderRadius.circular(50.0)),*/
                   child: const Center(
                     child: Text(
-                      'Email Validation',
+                      'Change Password',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 35.0,
@@ -128,12 +128,22 @@ class _ValidEmail extends State<ValidEmail> {
             ),
             const Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+              padding: EdgeInsets.only(left: 60, right: 60, bottom: 15),
+              child: TextField(
+                decoration: InputDecoration(
+                    //border: OutlineInputBorder(),
+                    labelText: 'New Password',
+                    hintText: 'Enter your new password'),
+              ),
+            ),
+            const Padding(
+              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.only(left: 60, right: 60, bottom: 60),
               child: TextField(
                 decoration: InputDecoration(
                     //border: OutlineInputBorder(),
-                    labelText: 'Verification code',
-                    hintText: 'Enter your verification code'),
+                    labelText: 'Confirm Password',
+                    hintText: 'Confirm your new password'),
               ),
             ),
             Container(
@@ -144,10 +154,10 @@ class _ValidEmail extends State<ValidEmail> {
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () {
-                  _EmailConfirm(context);
+                  _PasswordChanged(context);
                 },
                 child: const Text(
-                  'Send',
+                  'Submit',
                   style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
               ),
