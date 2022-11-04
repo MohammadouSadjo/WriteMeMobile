@@ -14,9 +14,10 @@ class CreateAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Account(),
+      theme: ThemeData(fontFamily: 'RobotoSerif'),
+      home: const Account(),
     );
   }
 }
@@ -40,7 +41,7 @@ class _Account extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromRGBO(16, 43, 64, 1),
       appBar: AppBar(
         title: const Text("WriteMe"),
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
@@ -61,8 +62,8 @@ class _Account extends State<Account> {
                     child: Text(
                       'New Account',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 35.0,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 30.0,
                         color: Color.fromRGBO(61, 110, 201, 1.0),
                       ),
                     ),
@@ -74,10 +75,20 @@ class _Account extends State<Account> {
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.symmetric(horizontal: 60),
               child: TextField(
+                style: TextStyle(
+                  color: Colors.white,
+                ),
                 decoration: InputDecoration(
-                    //border: OutlineInputBorder(),
-                    labelText: 'Pseudo',
-                    hintText: 'Enter valid pseudo'),
+                  //border: OutlineInputBorder(),
+                  labelText: 'Pseudo',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  hintText: 'Enter valid pseudo',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             const Padding(
@@ -85,10 +96,20 @@ class _Account extends State<Account> {
               padding:
                   EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
               child: TextField(
+                style: TextStyle(
+                  color: Colors.white,
+                ),
                 decoration: InputDecoration(
-                    //border: OutlineInputBorder(),
-                    labelText: 'Email',
-                    hintText: 'Enter valid email'),
+                  //border: OutlineInputBorder(),
+                  labelText: 'Email',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  hintText: 'Enter valid email',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             const Padding(
@@ -96,10 +117,20 @@ class _Account extends State<Account> {
               padding:
                   EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
               child: TextField(
+                style: TextStyle(
+                  color: Colors.white,
+                ),
                 decoration: InputDecoration(
-                    //border: OutlineInputBorder(),
-                    labelText: 'Telephone',
-                    hintText: 'Enter valid phone number'),
+                  //border: OutlineInputBorder(),
+                  labelText: 'Telephone',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  hintText: 'Enter valid phone number',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             const Padding(
@@ -107,10 +138,20 @@ class _Account extends State<Account> {
               padding:
                   EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
               child: TextField(
+                style: TextStyle(
+                  color: Colors.white,
+                ),
                 decoration: InputDecoration(
-                    //border: OutlineInputBorder(),
-                    labelText: 'Name',
-                    hintText: 'Enter your name'),
+                  //border: OutlineInputBorder(),
+                  labelText: 'Name',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  hintText: 'Enter your name',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             const Padding(
@@ -118,10 +159,20 @@ class _Account extends State<Account> {
               padding:
                   EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
               child: TextField(
+                style: TextStyle(
+                  color: Colors.white,
+                ),
                 decoration: InputDecoration(
-                    //border: OutlineInputBorder(),
-                    labelText: 'Surname',
-                    hintText: 'Enter your surname'),
+                  //border: OutlineInputBorder(),
+                  labelText: 'Surname',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  hintText: 'Enter your surname',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             Padding(
@@ -129,13 +180,19 @@ class _Account extends State<Account> {
               padding: const EdgeInsets.only(
                   left: 60.0, right: 60.0, top: 15, bottom: 0),
               child: TextField(
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
                 controller: dateInput,
                 //editing controller of this TextField
                 decoration: const InputDecoration(
-                    //border: OutlineInputBorder(),
-                    //icon: Icon(Icons.calendar_today), //icon of text field
-                    labelText: "Enter Date" //label text of field
-                    ),
+                  //border: OutlineInputBorder(),
+                  //icon: Icon(Icons.calendar_today), //icon of text field
+                  labelText: "Enter Date",
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ), //label text of field
+                ),
                 readOnly: true,
                 //set it true, so that user will not able to edit text
                 onTap: () async {
@@ -164,11 +221,21 @@ class _Account extends State<Account> {
                   EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
+                style: TextStyle(
+                  color: Colors.white,
+                ),
                 obscureText: true,
                 decoration: InputDecoration(
-                    //border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter secure password'),
+                  //border: OutlineInputBorder(),
+                  labelText: 'Password',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  hintText: 'Enter secure password',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             const Padding(
@@ -176,16 +243,26 @@ class _Account extends State<Account> {
                   EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 60),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
+                style: TextStyle(
+                  color: Colors.white,
+                ),
                 obscureText: true,
                 decoration: InputDecoration(
-                    //border: OutlineInputBorder(),
-                    labelText: 'Password Confirmation',
-                    hintText: 'Enter secure password'),
+                  //border: OutlineInputBorder(),
+                  labelText: 'Password Confirmation',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  hintText: 'Enter secure password',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             Container(
               height: 50,
-              width: 250,
+              width: 200,
               decoration: BoxDecoration(
                   color: const Color.fromRGBO(61, 110, 201, 1.0),
                   borderRadius: BorderRadius.circular(20)),
@@ -198,7 +275,7 @@ class _Account extends State<Account> {
                 },
                 child: const Text(
                   'Create account',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
             ),

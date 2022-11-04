@@ -25,21 +25,23 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
+        fontFamily: 'RobotoSerif',
         primarySwatch: Colors.blue,
       ),
       home: SplashScreen(
-          seconds: 8,
-          navigateAfterSeconds: const Login(),
-          title: const Text(
-            'WriteMe',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 40.0,
-              color: Color.fromRGBO(61, 110, 201, 1.0),
-            ),
+        seconds: 8,
+        navigateAfterSeconds: const Login(),
+        title: const Text(
+          'WriteMe',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 40.0,
+            color: Color.fromRGBO(61, 110, 201, 1.0),
           ),
-          backgroundColor: const Color(0xffffffff),
-          loaderColor: const Color.fromRGBO(61, 110, 201, 1.0)),
+        ),
+        backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
+        loaderColor: const Color.fromRGBO(61, 110, 201, 1.0),
+      ),
     );
   }
 }

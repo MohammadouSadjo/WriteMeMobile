@@ -14,9 +14,10 @@ class PasswordForgotten extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: PasswordState(),
+      theme: ThemeData(fontFamily: 'RobotoSerif'),
+      home: const PasswordState(),
     );
   }
 }
@@ -32,7 +33,7 @@ class _PasswordState extends State<PasswordState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromRGBO(16, 43, 64, 1),
       appBar: AppBar(
         title: const Text("WriteMe"),
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
@@ -53,8 +54,8 @@ class _PasswordState extends State<PasswordState> {
                     child: Text(
                       'Password Forgotten',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 35.0,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 30.0,
                         color: Color.fromRGBO(61, 110, 201, 1.0),
                       ),
                     ),
@@ -66,15 +67,25 @@ class _PasswordState extends State<PasswordState> {
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.only(left: 60, right: 60, bottom: 60),
               child: TextField(
+                style: TextStyle(
+                  color: Colors.white,
+                ),
                 decoration: InputDecoration(
-                    //border: OutlineInputBorder(),
-                    labelText: 'Verification code',
-                    hintText: 'Enter your verification code'),
+                  //border: OutlineInputBorder(),
+                  labelText: 'Verification code',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  hintText: 'Enter your verification code',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             Container(
               height: 50,
-              width: 250,
+              width: 200,
               decoration: BoxDecoration(
                   color: const Color.fromRGBO(61, 110, 201, 1.0),
                   borderRadius: BorderRadius.circular(20)),
@@ -87,7 +98,7 @@ class _PasswordState extends State<PasswordState> {
                 },
                 child: const Text(
                   'Send',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
             ),

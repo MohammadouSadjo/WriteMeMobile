@@ -13,9 +13,10 @@ class EmailValidation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ValidEmail(),
+      theme: ThemeData(fontFamily: 'RobotoSerif'),
+      home: const ValidEmail(),
     );
   }
 }
@@ -33,6 +34,7 @@ class _ValidEmail extends State<ValidEmail> {
         context: context,
         builder: (BuildContext context) {
           return Dialog(
+            backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
             child: Container(
@@ -46,7 +48,7 @@ class _ValidEmail extends State<ValidEmail> {
                       child: Text(
                         'Email Confirmed',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           fontSize: 25.0,
                           color: Color.fromRGBO(61, 110, 201, 1.0),
                         ),
@@ -96,7 +98,7 @@ class _ValidEmail extends State<ValidEmail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromRGBO(16, 43, 64, 1),
       appBar: AppBar(
         title: const Text("WriteMe"),
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
@@ -117,8 +119,8 @@ class _ValidEmail extends State<ValidEmail> {
                     child: Text(
                       'Email Validation',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 35.0,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 30.0,
                         color: Color.fromRGBO(61, 110, 201, 1.0),
                       ),
                     ),
@@ -130,15 +132,25 @@ class _ValidEmail extends State<ValidEmail> {
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.only(left: 60, right: 60, bottom: 60),
               child: TextField(
+                style: TextStyle(
+                  color: Colors.white,
+                ),
                 decoration: InputDecoration(
-                    //border: OutlineInputBorder(),
-                    labelText: 'Verification code',
-                    hintText: 'Enter your verification code'),
+                  //border: OutlineInputBorder(),
+                  labelText: 'Verification code',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  hintText: 'Enter your verification code',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             Container(
               height: 50,
-              width: 250,
+              width: 200,
               decoration: BoxDecoration(
                   color: const Color.fromRGBO(61, 110, 201, 1.0),
                   borderRadius: BorderRadius.circular(20)),
@@ -148,7 +160,7 @@ class _ValidEmail extends State<ValidEmail> {
                 },
                 child: const Text(
                   'Send',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
             ),
