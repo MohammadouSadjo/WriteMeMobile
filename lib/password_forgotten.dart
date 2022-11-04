@@ -71,6 +71,10 @@ class _PasswordState extends State<PasswordState> {
                   color: Colors.white,
                 ),
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.security,
+                    color: Colors.white,
+                  ),
                   //border: OutlineInputBorder(),
                   labelText: 'Verification code',
                   labelStyle: TextStyle(

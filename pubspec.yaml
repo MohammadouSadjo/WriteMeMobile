@@ -62,6 +62,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - lib/images/logo_transparent.png
+    - lib/images/logo_transparent.jpg
+
   fonts:
     - family: Nova Round
       fonts:

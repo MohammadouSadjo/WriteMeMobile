@@ -70,6 +70,10 @@ class _LoginDemoState extends State<LoginDemo> {
                   color: Colors.white,
                 ),
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.email,
+                    color: Colors.white,
+                  ),
                   //border: OutlineInputBorder(),
                   labelText: 'Pseudo/Email',
                   labelStyle: TextStyle(
@@ -92,6 +96,10 @@ class _LoginDemoState extends State<LoginDemo> {
                 ),
                 obscureText: true,
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.password,
+                    color: Colors.white,
+                  ),
                   //border: OutlineInputBorder(),
                   labelText: 'Password',
                   labelStyle: TextStyle(
@@ -112,7 +120,7 @@ class _LoginDemoState extends State<LoginDemo> {
                         builder: (_) => const PasswordForgotten()));
               },
               child: const Text(
-                'Forgot Password',
+                'Forgot Password?',
                 style: TextStyle(
                     color: Color.fromRGBO(61, 110, 201, 1.0), fontSize: 15),
               ),

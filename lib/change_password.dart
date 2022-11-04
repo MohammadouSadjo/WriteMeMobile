@@ -38,7 +38,7 @@ class _ChangeState extends State<ChangeState> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
             child: Container(
-              constraints: const BoxConstraints(maxHeight: 200),
+              constraints: const BoxConstraints(maxHeight: 250),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -54,11 +54,18 @@ class _ChangeState extends State<ChangeState> {
                         ),
                       ),
                     ),
+                    const Center(
+                      child: Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 50,
+                      ),
+                    ),
                     const Padding(
                       padding: EdgeInsets.only(top: 30, bottom: 30),
                       child: Center(
                         child: Text(
-                          'Your password has been changed. You will be redirected to Login page',
+                          'You will be redirected to Login page',
                           style: TextStyle(
                             fontSize: 15.0,
                             color: Colors.black,
@@ -136,6 +143,10 @@ class _ChangeState extends State<ChangeState> {
                   color: Colors.white,
                 ),
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.password,
+                    color: Colors.white,
+                  ),
                   //border: OutlineInputBorder(),
                   labelText: 'New Password',
                   labelStyle: TextStyle(
@@ -156,6 +167,10 @@ class _ChangeState extends State<ChangeState> {
                   color: Colors.white,
                 ),
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.password,
+                    color: Colors.white,
+                  ),
                   //border: OutlineInputBorder(),
                   labelText: 'Confirm Password',
                   labelStyle: TextStyle(
