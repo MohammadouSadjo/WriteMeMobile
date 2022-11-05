@@ -133,7 +133,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context,
+                  Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) => const MyApp()));
                 },
                 child: const Text(

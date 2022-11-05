@@ -50,6 +50,12 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   intl: ^0.17.0
+  flutter_launcher_icons:
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/images/logov2resize3.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
