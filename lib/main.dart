@@ -41,9 +41,9 @@ class MyApp extends StatelessWidget {
           ),
         ),*/
             image: Image.asset(
-              'lib/images/logo_transparent.png',
+              'lib/images/logov2.png',
             ),
-            photoSize: 150,
+            photoSize: 200,
             backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
             loaderColor: const Color.fromRGBO(61, 110, 201, 1.0),
             loadingText: const Text('Loading'),

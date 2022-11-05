@@ -65,6 +65,8 @@ flutter:
   assets:
     - lib/images/logo_transparent.png
     - lib/images/logo_transparent.jpg
+    - lib/images/logov2.png
+    - lib/images/logov2.jpg
 
   fonts:
     - family: Nova Round
