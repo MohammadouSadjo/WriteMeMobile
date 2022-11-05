@@ -38,7 +38,7 @@ class _ValidEmail extends State<ValidEmail> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
             child: Container(
-              constraints: const BoxConstraints(maxHeight: 200),
+              constraints: const BoxConstraints(maxHeight: 250),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -54,11 +54,18 @@ class _ValidEmail extends State<ValidEmail> {
                         ),
                       ),
                     ),
+                    const Center(
+                      child: Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 50,
+                      ),
+                    ),
                     const Padding(
                       padding: EdgeInsets.only(top: 30, bottom: 30),
                       child: Center(
                         child: Text(
-                          'Your email has been confirmed. You will be redirected to Login page',
+                          'You will be redirected to Login page',
                           style: TextStyle(
                             fontSize: 15.0,
                             color: Colors.black,
@@ -136,6 +143,10 @@ class _ValidEmail extends State<ValidEmail> {
                   color: Colors.white,
                 ),
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.security,
+                    color: Colors.white,
+                  ),
                   //border: OutlineInputBorder(),
                   labelText: 'Verification code',
                   labelStyle: TextStyle(

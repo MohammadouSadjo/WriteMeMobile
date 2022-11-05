@@ -79,6 +79,10 @@ class _Account extends State<Account> {
                   color: Colors.white,
                 ),
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
                   //border: OutlineInputBorder(),
                   labelText: 'Pseudo',
                   labelStyle: TextStyle(
@@ -100,6 +104,10 @@ class _Account extends State<Account> {
                   color: Colors.white,
                 ),
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.email,
+                    color: Colors.white,
+                  ),
                   //border: OutlineInputBorder(),
                   labelText: 'Email',
                   labelStyle: TextStyle(
@@ -112,7 +120,7 @@ class _Account extends State<Account> {
                 ),
               ),
             ),
-            const Padding(
+            /*const Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding:
                   EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
@@ -132,8 +140,8 @@ class _Account extends State<Account> {
                   ),
                 ),
               ),
-            ),
-            const Padding(
+            ),*/
+            /*const Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding:
                   EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
@@ -153,8 +161,8 @@ class _Account extends State<Account> {
                   ),
                 ),
               ),
-            ),
-            const Padding(
+            ),*/
+            /*const Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding:
                   EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
@@ -174,8 +182,8 @@ class _Account extends State<Account> {
                   ),
                 ),
               ),
-            ),
-            Padding(
+            ),*/
+            /*Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: const EdgeInsets.only(
                   left: 60.0, right: 60.0, top: 15, bottom: 0),
@@ -188,7 +196,7 @@ class _Account extends State<Account> {
                 decoration: const InputDecoration(
                   //border: OutlineInputBorder(),
                   //icon: Icon(Icons.calendar_today), //icon of text field
-                  labelText: "Enter Date",
+                  labelText: "Date of birth",
                   labelStyle: TextStyle(
                     color: Colors.white,
                   ), //label text of field
@@ -215,7 +223,7 @@ class _Account extends State<Account> {
                   } else {}
                 },
               ),
-            ),
+            ),*/
             const Padding(
               padding:
                   EdgeInsets.only(left: 60.0, right: 60.0, top: 15, bottom: 0),
@@ -226,6 +234,10 @@ class _Account extends State<Account> {
                 ),
                 obscureText: true,
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.password,
+                    color: Colors.white,
+                  ),
                   //border: OutlineInputBorder(),
                   labelText: 'Password',
                   labelStyle: TextStyle(
@@ -248,6 +260,10 @@ class _Account extends State<Account> {
                 ),
                 obscureText: true,
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.password,
+                    color: Colors.white,
+                  ),
                   //border: OutlineInputBorder(),
                   labelText: 'Password Confirmation',
                   labelStyle: TextStyle(
