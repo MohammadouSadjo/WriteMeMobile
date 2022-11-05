@@ -31,6 +31,7 @@ class ValidEmail extends StatefulWidget {
 class _ValidEmail extends State<ValidEmail> {
   _EmailConfirm(context) {
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return Dialog(
@@ -82,9 +83,12 @@ class _ValidEmail extends State<ValidEmail> {
                             borderRadius: BorderRadius.circular(20)),
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(builder: (_) => const Login()),
+                              MaterialPageRoute(
+                                builder: (_) => const Login(),
+                              ),
+                              (Route<dynamic> route) => false,
                             );
                           },
                           child: const Text(

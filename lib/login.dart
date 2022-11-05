@@ -115,9 +115,11 @@ class _LoginDemoState extends State<LoginDemo> {
             TextButton(
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const PasswordForgotten()));
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const PasswordForgotten(),
+                  ),
+                );
               },
               child: const Text(
                 'Forgot Password?',
@@ -133,8 +135,13 @@ class _LoginDemoState extends State<LoginDemo> {
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => const MyApp()));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const MyApp(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
                 },
                 child: const Text(
                   'Login',
@@ -150,8 +157,12 @@ class _LoginDemoState extends State<LoginDemo> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const CreateAccount()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const CreateAccount(),
+                  ),
+                );
               },
               child: const Text(
                 'New User? Create Account',

@@ -96,9 +96,11 @@ class _PasswordState extends State<PasswordState> {
               child: TextButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const ChangePassword()));
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ChangePassword(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Send',

@@ -285,9 +285,11 @@ class _Account extends State<Account> {
               child: TextButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const EmailValidation()));
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const EmailValidation(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Create account',
