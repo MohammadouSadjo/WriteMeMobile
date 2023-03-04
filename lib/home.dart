@@ -22,9 +22,10 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        fontFamily: 'RobotoSerif',
+        primaryColor: const Color.fromRGBO(61, 110, 201, 1.0),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'WriteMe'),
     );
   }
 }
@@ -50,66 +51,194 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              // afficher une boîte de dialogue avec un TextField
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Center(
+                      child: Text(
+                        'Recherche',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 25.0,
+                          color: Color.fromRGBO(61, 110, 201, 1.0),
+                        ),
+                      ),
+                    ),
+                    content: const TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Rechercher...',
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        child: const Text(
+                          'Annuler',
+                          style: TextStyle(
+                            color: Color.fromRGBO(61, 110, 201, 1.0),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text(
+                          'Rechercher',
+                          style: TextStyle(
+                            color: Color.fromRGBO(61, 110, 201, 1.0),
+                          ),
+                        ),
+                        onPressed: () {
+                          // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ],
+        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Mon menu'),
+            ),
+            ListTile(
+              title: const Text('Option 1'),
+              onTap: () {
+                // Ajoutez le code pour traiter l'option 1 ici.
+              },
+            ),
+            ListTile(
+              title: const Text('Option 2'),
+              onTap: () {
+                // Ajoutez le code pour traiter l'option 2 ici.
+              },
+            ),
+            // Ajoutez autant d'options que nécessaire...
+          ],
+        ),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Image.asset(
+              'lib/images/logov2.png',
+              width: 200.0,
+              height: 200.0,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            const Text(
+              "Ajouter une note",
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 17.0,
+                  color: Colors.grey),
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+              child: const Center(
+                child: Text(
+                  "Aucune note n'a encore été créée! Cliquez sur le bouton en bas à droite pour commencer.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12.0,
+                    color: Colors.grey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                height: 150.0,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(
+                        Icons.description,
+                        color: Color.fromRGBO(16, 43, 64, 1),
+                      ),
+                      title: const Text(
+                        'Ajouter une note',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.0,
+                          color: Color.fromRGBO(16, 43, 64, 1),
+                        ),
+                      ),
+                      onTap: () {
+                        // Do something
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(
+                        Icons.folder,
+                        color: Color.fromRGBO(16, 43, 64, 1),
+                      ),
+                      title: const Text(
+                        'Ajouter un dossier',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.0,
+                          color: Color.fromRGBO(16, 43, 64, 1),
+                        ),
+                      ),
+                      onTap: () {
+                        // Do something
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+        tooltip: "Ajout d'une note",
+        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        child: const Icon(Icons.edit),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

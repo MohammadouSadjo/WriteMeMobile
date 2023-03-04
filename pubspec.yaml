@@ -55,7 +55,9 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "lib/images/logov2resize3.png"
+  image_path: "lib/images/logov2.png"
+  adaptive_icon_background: "lib/images/fond_blanc.png"
+  adaptive_icon_foreground: "lib/images/logov2.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
