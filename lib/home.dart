@@ -127,24 +127,45 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            Container(
+              color: const Color.fromRGBO(16, 43, 64, 1),
+              height: 100.0,
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  height: 50,
+                  child: const Center(
+                    child: Text("Menu",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
               ),
-              child: Text('Mon menu'),
             ),
             ListTile(
-              title: const Text('Option 1'),
+              leading: const Icon(
+                Icons.settings,
+                color: Color.fromRGBO(16, 43, 64, 1),
+              ),
+              title: const Text(
+                'Paramètres du compte',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               onTap: () {
                 // Ajoutez le code pour traiter l'option 1 ici.
               },
             ),
-            ListTile(
+            /*ListTile(
+              leading: const Icon(Icons.menu),
               title: const Text('Option 2'),
               onTap: () {
                 // Ajoutez le code pour traiter l'option 2 ici.
               },
-            ),
+            ),*/
             // Ajoutez autant d'options que nécessaire...
           ],
         ),
