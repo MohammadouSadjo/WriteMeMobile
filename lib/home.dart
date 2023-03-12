@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -49,7 +50,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  List<Color> colors = [
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.purple,
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -170,8 +177,54 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20.0, left: 10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Dossiers",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 13,
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: colors.map((color) {
+                  return Column(
+                    children: [
+                      Container(
+                        width: 120.0,
+                        height: 120.0,
+                        margin: const EdgeInsets.only(right: 10.0, top: 15.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: color,
+                        ),
+                      ),
+                      Container(
+                        width: 120.0,
+                        height: 20.0,
+                        margin: const EdgeInsets.only(right: 10.0, top: 10.0),
+                        child: const Text(
+                          "Dossier Numéro",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 11,
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
+      ),
+      /*Center(child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
@@ -202,8 +255,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ],
-        ),
-      ),
+        ),),*/
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
