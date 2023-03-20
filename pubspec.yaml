@@ -83,7 +83,23 @@ flutter:
         - asset: lib/fonts/NovaRound-Regular.ttf
     - family: RobotoSerif
       fonts:
-        - asset: lib/fonts/RobotoSerif-Regular.ttf
+        - asset: lib/fonts/RobotoSerif-Black.ttf
+        - asset: lib/fonts/RobotoSerif-BlackItalic.ttf
+        - asset: lib/fonts/RobotoSerif-Bold.ttf
+        - asset: lib/fonts/RobotoSerif-BoldItalic.ttf
+        - asset: lib/fonts/RobotoSerif-ExtraBold.ttf
+        - asset: lib/fonts/RobotoSerif-ExtraBoldItalic.ttf
+        - asset: lib/fonts/RobotoSerif-ExtraLight.ttf
+        - asset: lib/fonts/RobotoSerif-ExtraLightItalic.ttf
+        - asset: lib/fonts/RobotoSerif-Italic.ttf
+        - asset: lib/fonts/RobotoSerif-Light.ttf
+        - asset: lib/fonts/RobotoSerif-LightItalic.ttf
+        - asset: lib/fonts/RobotoSerif-Medium.ttf
+        - asset: lib/fonts/RobotoSerif-MediumItalic.ttf
+        - asset: lib/fonts/RobotoSerif-SemiBold.ttf
+        - asset: lib/fonts/RobotoSerif-SemiBoldItalic.ttf
+        - asset: lib/fonts/RobotoSerif-Thin.ttf
+        - asset: lib/fonts/RobotoSerif-ThinItalic.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
