@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,6 +46,113 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class MyListTile extends StatelessWidget {
+  const MyListTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            "20 mars \n2023",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: Color.fromRGBO(16, 43, 64, 0.5),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(left: 5),
+            height: double.infinity,
+            width: 3,
+            decoration: const BoxDecoration(
+              color: Color.fromRGBO(16, 43, 64, 0.4),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
+              ),
+            ),
+          ),
+        ],
+      ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text(
+            "23:27",
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              fontSize: 10,
+            ),
+          ),
+          Text(
+            "Paramètres du compte",
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 13,
+            ),
+          ),
+          Text(
+            "\nParamètres du compte parametres ...",
+            style: TextStyle(
+              fontWeight: FontWeight.w200,
+              fontSize: 11,
+            ),
+          ),
+        ],
+      ),
+      onTap: () {
+        // Ajoutez le code pour traiter l'option 1 ici.
+      },
+      trailing: PopupMenuButton<String>(
+        itemBuilder: (BuildContext context) {
+          return <PopupMenuEntry<String>>[
+            PopupMenuItem<String>(
+              value: 'edit',
+              child: Row(
+                children: const <Widget>[
+                  Icon(
+                    Icons.edit,
+                    color: Color.fromRGBO(16, 43, 64, 1),
+                  ),
+                  Text(
+                    '  Modifier',
+                    style: TextStyle(
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            PopupMenuItem<String>(
+              value: 'delete',
+              child: Row(
+                children: const <Widget>[
+                  Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                  Text(
+                    '  Supprimer',
+                    style: TextStyle(
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ];
+        },
+      ),
+    );
+  }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -200,8 +306,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 120.0,
                         margin: const EdgeInsets.only(right: 10.0, top: 15.0),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: color,
+                          border: Border.all(
+                            style: BorderStyle.solid,
+                            width: 1,
+                            color: const Color.fromRGBO(16, 43, 64, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(60),
+                          color: Colors.white,
                         ),
                       ),
                       Container(
@@ -232,347 +343,43 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.only(top: 0.0),
-                children: <Widget>[
-                  ListTile(
-                    leading: const Text(
-                      "20 mars \n2023",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 12,
-                      ),
-                    ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "23:27",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 10,
-                          ),
-                        ),
-                        Text(
-                          "Paramètres du compte",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                          ),
-                        ),
-                        Text(
-                          "Paramètres du compte parametres ...",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w200,
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      // Ajoutez le code pour traiter l'option 1 ici.
-                    },
-                    trailing: PopupMenuButton<String>(
-                      itemBuilder: (BuildContext context) {
-                        return <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(
-                            value: 'edit',
-                            child: Row(
-                              children: const <Widget>[
-                                Icon(
-                                  Icons.edit,
-                                  color: Color.fromRGBO(16, 43, 64, 1),
-                                ),
-                                Text(
-                                  '  Modifier',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          PopupMenuItem<String>(
-                            value: 'delete',
-                            child: Row(
-                              children: const <Widget>[
-                                Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                Text(
-                                  '  Supprimer',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ];
-                      },
-                    ),
-                  ),
-                  const Divider(
+                children: const <Widget>[
+                  MyListTile(),
+                  Divider(
                     indent: 80,
-                    height: 5,
+                    height: 20,
                     thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 1),
+                    color: Color.fromRGBO(16, 43, 64, 0.4),
                   ),
-                  ListTile(
-                    leading: const Text(
-                      "20 mars \n2023",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 12,
-                      ),
-                    ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "23:27",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 10,
-                          ),
-                        ),
-                        Text(
-                          "Paramètres du compte",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                          ),
-                        ),
-                        Text(
-                          "Paramètres du compte parametres ...",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w200,
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      // Ajoutez le code pour traiter l'option 1 ici.
-                    },
-                    trailing: PopupMenuButton<String>(
-                      itemBuilder: (BuildContext context) {
-                        return <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(
-                            value: 'edit',
-                            child: Row(
-                              children: const <Widget>[
-                                Icon(
-                                  Icons.edit,
-                                  color: Color.fromRGBO(16, 43, 64, 1),
-                                ),
-                                Text(
-                                  '  Modifier',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          PopupMenuItem<String>(
-                            value: 'delete',
-                            child: Row(
-                              children: const <Widget>[
-                                Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                Text(
-                                  '  Supprimer',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ];
-                      },
-                    ),
-                  ),
-                  const Divider(
+                  MyListTile(),
+                  Divider(
                     indent: 80,
-                    height: 5,
+                    height: 20,
                     thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 1),
+                    color: Color.fromRGBO(16, 43, 64, 0.4),
                   ),
-                  ListTile(
-                    leading: const Text(
-                      "20 mars \n2023",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 12,
-                      ),
-                    ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "23:27",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 10,
-                          ),
-                        ),
-                        Text(
-                          "Paramètres du compte",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                          ),
-                        ),
-                        Text(
-                          "Paramètres du compte parametres ...",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w200,
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      // Ajoutez le code pour traiter l'option 1 ici.
-                    },
-                    trailing: PopupMenuButton<String>(
-                      itemBuilder: (BuildContext context) {
-                        return <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(
-                            value: 'edit',
-                            child: Row(
-                              children: const <Widget>[
-                                Icon(
-                                  Icons.edit,
-                                  color: Color.fromRGBO(16, 43, 64, 1),
-                                ),
-                                Text(
-                                  '  Modifier',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          PopupMenuItem<String>(
-                            value: 'delete',
-                            child: Row(
-                              children: const <Widget>[
-                                Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                Text(
-                                  '  Supprimer',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ];
-                      },
-                    ),
-                  ),
-                  const Divider(
+                  MyListTile(),
+                  Divider(
                     indent: 80,
-                    height: 5,
+                    height: 20,
                     thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 1),
+                    color: Color.fromRGBO(16, 43, 64, 0.4),
                   ),
-                  ListTile(
-                    leading: const Text(
-                      "20 mars \n2023",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 12,
-                      ),
-                    ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "23:27",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 10,
-                          ),
-                        ),
-                        Text(
-                          "Paramètres du compte",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                          ),
-                        ),
-                        Text(
-                          "Paramètres du compte parametres ...",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w200,
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      // Ajoutez le code pour traiter l'option 1 ici.
-                    },
-                    trailing: PopupMenuButton<String>(
-                      itemBuilder: (BuildContext context) {
-                        return <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(
-                            value: 'edit',
-                            child: Row(
-                              children: const <Widget>[
-                                Icon(
-                                  Icons.edit,
-                                  color: Color.fromRGBO(16, 43, 64, 1),
-                                ),
-                                Text(
-                                  '  Modifier',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          PopupMenuItem<String>(
-                            value: 'delete',
-                            child: Row(
-                              children: const <Widget>[
-                                Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                Text(
-                                  '  Supprimer',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ];
-                      },
-                    ),
-                  ),
-                  const Divider(
+                  MyListTile(),
+                  Divider(
                     indent: 80,
-                    height: 5,
+                    height: 20,
                     thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 1),
+                    color: Color.fromRGBO(16, 43, 64, 0.4),
                   ),
+                  MyListTile(),
+                  Divider(
+                    indent: 80,
+                    height: 20,
+                    thickness: 0.7,
+                    color: Color.fromRGBO(16, 43, 64, 0.4),
+                  ),
+                  ListTile(),
                   /*ListTile(
               leading: const Icon(Icons.menu),
               title: const Text('Option 2'),
