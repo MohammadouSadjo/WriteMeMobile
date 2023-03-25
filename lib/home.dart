@@ -99,14 +99,14 @@ class MyListTile extends StatelessWidget {
               fontSize: 13,
             ),
           ),
-          Text(
-            "\nParamètres du compte parametres ...",
-            style: TextStyle(
-              fontWeight: FontWeight.w200,
-              fontSize: 11,
-            ),
-          ),
         ],
+      ),
+      subtitle: const Text(
+        "Paramètres du compte parametres ...",
+        style: TextStyle(
+          fontWeight: FontWeight.w300,
+          fontSize: 12,
+        ),
       ),
       onTap: () {
         // Ajoutez le code pour traiter l'option 1 ici.
@@ -288,12 +288,20 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Dossiers",
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 13,
-              ),
+            Row(
+              children: const [
+                Icon(
+                  Icons.folder,
+                  color: Color.fromRGBO(16, 43, 64, 1),
+                ),
+                Text(
+                  " Dossiers",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -301,7 +309,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: colors.map((color) {
                   return Column(
                     children: [
-                      Container(
+                      const Icon(
+                        Icons.folder_rounded,
+                        color: Color.fromRGBO(16, 43, 64, 1),
+                        size: 100,
+                      ),
+                      /*Container(
                         width: 120.0,
                         height: 120.0,
                         margin: const EdgeInsets.only(right: 10.0, top: 15.0),
@@ -314,7 +327,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           borderRadius: BorderRadius.circular(60),
                           color: Colors.white,
                         ),
-                      ),
+                      ),*/
                       Container(
                         width: 120.0,
                         height: 20.0,
@@ -322,6 +335,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             right: 10.0, top: 10.0, bottom: 40),
                         child: const Text(
                           "Dossier Numéro",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12,
@@ -333,49 +347,57 @@ class _MyHomePageState extends State<MyHomePage> {
                 }).toList(),
               ),
             ),
-            const Text(
-              "Notes",
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 13,
-              ),
+            Row(
+              children: const [
+                Icon(
+                  Icons.description,
+                  color: Color.fromRGBO(16, 43, 64, 1),
+                ),
+                Text(
+                  " Notes",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.only(top: 0.0),
+                padding: const EdgeInsets.only(top: 15.0),
                 children: const <Widget>[
                   MyListTile(),
                   Divider(
                     indent: 80,
-                    height: 20,
+                    height: 15,
                     thickness: 0.7,
                     color: Color.fromRGBO(16, 43, 64, 0.4),
                   ),
                   MyListTile(),
                   Divider(
                     indent: 80,
-                    height: 20,
+                    height: 15,
                     thickness: 0.7,
                     color: Color.fromRGBO(16, 43, 64, 0.4),
                   ),
                   MyListTile(),
                   Divider(
                     indent: 80,
-                    height: 20,
+                    height: 15,
                     thickness: 0.7,
                     color: Color.fromRGBO(16, 43, 64, 0.4),
                   ),
                   MyListTile(),
                   Divider(
                     indent: 80,
-                    height: 20,
+                    height: 15,
                     thickness: 0.7,
                     color: Color.fromRGBO(16, 43, 64, 0.4),
                   ),
                   MyListTile(),
                   Divider(
                     indent: 80,
-                    height: 20,
+                    height: 15,
                     thickness: 0.7,
                     color: Color.fromRGBO(16, 43, 64, 0.4),
                   ),
