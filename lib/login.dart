@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:write_me/create_account.dart';
+import 'package:write_me/home_empty.dart';
 import 'package:write_me/password_forgotten.dart';
 
 import 'home.dart';
@@ -138,7 +139,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const MyApp(),
+                      builder: (_) => const MyAppEmpty(),
                     ),
                     (Route<dynamic> route) => false,
                   );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'home_empty.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -269,6 +271,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               onTap: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const MyAppEmpty(),
+                  ),
+                  (Route<dynamic> route) => false,
+                );
                 // Ajoutez le code pour traiter l'option 1 ici.
               },
             ),
@@ -330,16 +339,29 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),*/
                       Container(
                         width: 120.0,
-                        height: 20.0,
+                        height: 30.0,
                         margin: const EdgeInsets.only(
-                            right: 10.0, top: 10.0, bottom: 40),
-                        child: const Text(
-                          "Dossier Numéro",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
-                          ),
+                            right: 10.0, top: 10.0, bottom: 35),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Text(
+                              "Dossier Numéro",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "25 mars",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 11,
+                                color: Color.fromRGBO(16, 43, 64, 0.5),
+                              ),
+                            ),
+                          ],
                         ),
                       )
                     ],
