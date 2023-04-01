@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:write_me/folder_contain.dart';
 
 import 'home_empty.dart';
 
@@ -281,13 +282,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Ajoutez le code pour traiter l'option 1 ici.
               },
             ),
-            /*ListTile(
-              leading: const Icon(Icons.menu),
-              title: const Text('Option 2'),
-              onTap: () {
-                // Ajoutez le code pour traiter l'option 2 ici.
-              },
-            ),*/
             // Ajoutez autant d'options que nécessaire...
           ],
         ),
@@ -318,11 +312,54 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: colors.map((color) {
                   return Column(
                     children: [
-                      const Icon(
-                        Icons.folder_rounded,
-                        color: Color.fromRGBO(16, 43, 64, 1),
-                        size: 100,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const FolderContain(),
+                            ),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            const Icon(
+                              Icons.folder_rounded,
+                              color: Color.fromRGBO(16, 43, 64, 1),
+                              size: 100,
+                            ),
+                            Container(
+                              width: 120.0,
+                              height: 30.0,
+                              // ignore: unnecessary_const
+                              margin: const EdgeInsets.only(
+                                  right: 10.0, top: 10.0, bottom: 35),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: const [
+                                  Text(
+                                    "Dossier Numéro",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Text(
+                                    "25 mars",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11,
+                                      color: Color.fromRGBO(16, 43, 64, 0.5),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
+
                       /*Container(
                         width: 120.0,
                         height: 120.0,
@@ -337,33 +374,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Colors.white,
                         ),
                       ),*/
-                      Container(
-                        width: 120.0,
-                        height: 30.0,
-                        margin: const EdgeInsets.only(
-                            right: 10.0, top: 10.0, bottom: 35),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text(
-                              "Dossier Numéro",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              "25 mars",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 11,
-                                color: Color.fromRGBO(16, 43, 64, 0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
                     ],
                   );
                 }).toList(),
