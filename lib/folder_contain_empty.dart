@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:write_me/folder_contain_empty.dart';
+import 'package:write_me/folder_contain.dart';
 
 import 'home.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
 void main() {
-  runApp(const FolderContain());
+  runApp(const FolderContainEmpty());
 }
 
-class FolderContain extends StatelessWidget {
-  const FolderContain({super.key});
+class FolderContainEmpty extends StatelessWidget {
+  const FolderContainEmpty({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MyFolderContain(title: "WriteMe");
+    return const MyFolderContainEmpty(title: "WriteMe");
     /*MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -36,115 +36,8 @@ class FolderContain extends StatelessWidget {
   }
 }
 
-class MyListTile extends StatelessWidget {
-  const MyListTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            "20 mars \n2023",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              color: Color.fromRGBO(16, 43, 64, 0.5),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 5),
-            height: double.infinity,
-            width: 3,
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(16, 43, 64, 0.4),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              ),
-            ),
-          ),
-        ],
-      ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
-            "23:27",
-            style: TextStyle(
-              fontWeight: FontWeight.w300,
-              fontSize: 10,
-            ),
-          ),
-          Text(
-            "Paramètres du compte",
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 13,
-            ),
-          ),
-        ],
-      ),
-      subtitle: const Text(
-        "Paramètres du compte parametres ...",
-        style: TextStyle(
-          fontWeight: FontWeight.w300,
-          fontSize: 12,
-        ),
-      ),
-      onTap: () {
-        // Ajoutez le code pour traiter l'option 1 ici.
-      },
-      trailing: PopupMenuButton<String>(
-        itemBuilder: (BuildContext context) {
-          return <PopupMenuEntry<String>>[
-            PopupMenuItem<String>(
-              value: 'edit',
-              child: Row(
-                children: const <Widget>[
-                  Icon(
-                    Icons.edit,
-                    color: Color.fromRGBO(16, 43, 64, 1),
-                  ),
-                  Text(
-                    '  Modifier',
-                    style: TextStyle(
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            PopupMenuItem<String>(
-              value: 'delete',
-              child: Row(
-                children: const <Widget>[
-                  Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                  Text(
-                    '  Supprimer',
-                    style: TextStyle(
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ];
-        },
-      ),
-    );
-  }
-}
-
-class MyFolderContain extends StatefulWidget {
-  const MyFolderContain({super.key, required this.title});
+class MyFolderContainEmpty extends StatefulWidget {
+  const MyFolderContainEmpty({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -158,10 +51,10 @@ class MyFolderContain extends StatefulWidget {
   final String title;
 
   @override
-  State<MyFolderContain> createState() => _MyFolderContainState();
+  State<MyFolderContainEmpty> createState() => _MyFolderContainEmptyState();
 }
 
-class _MyFolderContainState extends State<MyFolderContain> {
+class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -269,69 +162,35 @@ class _MyFolderContainState extends State<MyFolderContain> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 20.0, left: 10.0),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: const [
-                Icon(
-                  Icons.description,
-                  color: Color.fromRGBO(16, 43, 64, 1),
-                ),
-                Text(
-                  " Notes",
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              'lib/images/logov2.png',
+              width: 200.0,
+              height: 200.0,
+            ),
+            const Text(
+              "Ajouter une note",
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 17.0,
+                  color: Colors.grey),
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+              child: const Center(
+                child: Text(
+                  "Aucune note n'a encore été créée! Cliquez sur le bouton en bas à droite pour commencer.",
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: 13,
+                    fontSize: 12.0,
+                    color: Colors.grey,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-              ],
-            ),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.only(top: 15.0),
-                children: const <Widget>[
-                  MyListTile(),
-                  Divider(
-                    indent: 80,
-                    height: 15,
-                    thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 0.4),
-                  ),
-                  MyListTile(),
-                  Divider(
-                    indent: 80,
-                    height: 15,
-                    thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 0.4),
-                  ),
-                  MyListTile(),
-                  Divider(
-                    indent: 80,
-                    height: 15,
-                    thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 0.4),
-                  ),
-                  MyListTile(),
-                  Divider(
-                    indent: 80,
-                    height: 15,
-                    thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 0.4),
-                  ),
-                  MyListTile(),
-                  Divider(
-                    indent: 80,
-                    height: 15,
-                    thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 0.4),
-                  ),
-                  ListTile(),
-
-                  // Ajoutez autant d'options que nécessaire...
-                ],
               ),
             ),
           ],
@@ -366,7 +225,7 @@ class _MyFolderContainState extends State<MyFolderContain> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const FolderContainEmpty(),
+                            builder: (context) => const FolderContain(),
                           ),
                         );
                       },

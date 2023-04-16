@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:write_me/folder_contain.dart';
+import 'package:write_me/folder_contain_empty.dart';
 
 import 'home_empty.dart';
 
@@ -317,7 +317,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FolderContain(),
+                              builder: (context) => const FolderContainEmpty(),
                             ),
                           );
                         },
