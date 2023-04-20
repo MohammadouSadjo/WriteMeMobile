@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:write_me/login.dart';
+import 'package:write_me/parameters.dart';
 
 import 'home.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -113,7 +115,13 @@ class _MyHomePageEmptyState extends State<MyHomePageEmpty> {
                         ),
                         onPressed: () {
                           // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
-                          Navigator.of(context).pop();
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const MyApp(),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
                         },
                       ),
                     ],
@@ -158,10 +166,31 @@ class _MyHomePageEmptyState extends State<MyHomePageEmpty> {
                 ),
               ),
               onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyParameters(),
+                  ),
+                );
+                // Ajoutez le code pour traiter l'option 1 ici.
+              },
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.logout,
+                color: Color.fromRGBO(16, 43, 64, 1),
+              ),
+              title: const Text(
+                'Se déonnecter',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              onTap: () {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const MyApp(),
+                    builder: (_) => const Login(),
                   ),
                   (Route<dynamic> route) => false,
                 );

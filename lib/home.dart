@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:write_me/folder_contain_empty.dart';
+import 'package:write_me/login.dart';
+import 'package:write_me/parameters.dart';
 
 import 'home_empty.dart';
 
@@ -227,7 +229,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         onPressed: () {
                           // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
-                          Navigator.of(context).pop();
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const MyAppEmpty(),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
                         },
                       ),
                     ],
@@ -272,10 +280,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyParameters(),
+                  ),
+                );
+                // Ajoutez le code pour traiter l'option 1 ici.
+              },
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.logout,
+                color: Color.fromRGBO(16, 43, 64, 1),
+              ),
+              title: const Text(
+                'Se déonnecter',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              onTap: () {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const MyAppEmpty(),
+                    builder: (_) => const Login(),
                   ),
                   (Route<dynamic> route) => false,
                 );
@@ -359,21 +388,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-
-                      /*Container(
-                        width: 120.0,
-                        height: 120.0,
-                        margin: const EdgeInsets.only(right: 10.0, top: 15.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            style: BorderStyle.solid,
-                            width: 1,
-                            color: const Color.fromRGBO(16, 43, 64, 1),
-                          ),
-                          borderRadius: BorderRadius.circular(60),
-                          color: Colors.white,
-                        ),
-                      ),*/
                     ],
                   );
                 }).toList(),
@@ -434,13 +448,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Color.fromRGBO(16, 43, 64, 0.4),
                   ),
                   ListTile(),
-                  /*ListTile(
-              leading: const Icon(Icons.menu),
-              title: const Text('Option 2'),
-              onTap: () {
-                // Ajoutez le code pour traiter l'option 2 ici.
-              },
-            ),*/
+
                   // Ajoutez autant d'options que nécessaire...
                 ],
               ),
