@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:write_me/folder_contain_empty.dart';
 import 'package:write_me/login.dart';
+import 'package:write_me/note.dart';
 import 'package:write_me/parameters.dart';
 
 import 'home_empty.dart';
@@ -513,7 +514,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       onTap: () {
                         // Do something
-                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Note(),
+                          ),
+                        );
                       },
                     ),
                     ListTile(
