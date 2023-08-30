@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:splashscreen/splashscreen.dart';
+import 'package:splash_view/splash_view.dart';
 import 'package:write_me/login.dart';
 
 void main() {
@@ -29,24 +29,25 @@ class MyApp extends StatelessWidget {
           primaryColor: const Color.fromRGBO(61, 110, 201, 1.0),
         ),
         home: Center(
-          child: SplashScreen(
-            seconds: 8,
-            navigateAfterSeconds: const Login(),
-            /*title: const Text(
-          'WriteMe',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 40.0,
-            color: Color.fromRGBO(61, 110, 201, 1.0),
-          ),
-        ),*/
+          child: SplashView(
+            duration: Duration(seconds: 8),
+            logo: Image.asset(
+              'lib/images/logov2.png',
+            ),
+            loadingIndicator: CircularProgressIndicator(),
+            done: Done(Login()),
+            backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
+            bottomLoading: false,
+            showStatusBar: true,
+            /*seconds: 8,
+            navigateAfterSeconds: const Login(),            
             image: Image.asset(
               'lib/images/logov2.png',
             ),
             photoSize: 200,
-            backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
+            
             loaderColor: const Color.fromRGBO(61, 110, 201, 1.0),
-            loadingText: const Text('Loading'),
+            loadingText: const Text('Loading'),*/
           ),
         ));
   }

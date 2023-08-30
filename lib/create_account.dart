@@ -3,7 +3,6 @@ import 'package:write_me/email_validation.dart';
 import 'package:write_me/login.dart';
 import 'package:intl/intl.dart';
 
-import 'home.dart';
 
 void main() {
   runApp(const CreateAccount());

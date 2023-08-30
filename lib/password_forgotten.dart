@@ -3,7 +3,6 @@ import 'package:write_me/change_password.dart';
 import 'package:write_me/login.dart';
 import 'package:intl/intl.dart';
 
-import 'home.dart';
 
 void main() {
   runApp(const PasswordForgotten());

@@ -3,8 +3,6 @@ import 'package:write_me/create_account.dart';
 import 'package:write_me/home_empty.dart';
 import 'package:write_me/password_forgotten.dart';
 
-import 'home.dart';
-
 void main() {
   runApp(const Login());
 }
