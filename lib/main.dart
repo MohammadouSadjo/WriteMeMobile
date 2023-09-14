@@ -30,12 +30,14 @@ class MyApp extends StatelessWidget {
         ),
         home: Center(
           child: SplashView(
-            duration: Duration(seconds: 8),
+            duration: const Duration(seconds: 8),
             logo: Image.asset(
               'lib/images/logov2.png',
             ),
-            loadingIndicator: CircularProgressIndicator(),
-            done: Done(Login()),
+            loadingIndicator: const CircularProgressIndicator(
+              color: Color.fromRGBO(61, 110, 201, 1.0),
+            ),
+            done: Done(const Login()),
             backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
             bottomLoading: false,
             showStatusBar: true,

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:write_me/folder_contain_empty.dart';
 import 'package:write_me/login.dart';
 import 'package:write_me/note.dart';
 import 'package:write_me/parameters.dart';
 
+import 'database_helper.dart';
 import 'home_empty.dart';
 
 void main() {
@@ -17,6 +19,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/note': (context) => const Note(), // Deuxième page
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -88,9 +93,9 @@ class MyListTile extends StatelessWidget {
           ),
         ],
       ),
-      title: Column(
+      title: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             "23:27",
             style: TextStyle(
@@ -120,10 +125,10 @@ class MyListTile extends StatelessWidget {
       trailing: PopupMenuButton<String>(
         itemBuilder: (BuildContext context) {
           return <PopupMenuEntry<String>>[
-            PopupMenuItem<String>(
+            const PopupMenuItem<String>(
               value: 'edit',
               child: Row(
-                children: const <Widget>[
+                children: <Widget>[
                   Icon(
                     Icons.edit,
                     color: Color.fromRGBO(16, 43, 64, 1),
@@ -137,10 +142,10 @@ class MyListTile extends StatelessWidget {
                 ],
               ),
             ),
-            PopupMenuItem<String>(
+            const PopupMenuItem<String>(
               value: 'delete',
               child: Row(
-                children: const <Widget>[
+                children: <Widget>[
                   Icon(
                     Icons.delete,
                     color: Colors.red,
@@ -170,8 +175,28 @@ class _MyHomePageState extends State<MyHomePage> {
     Colors.purple,
   ];
 
+  late Future<List<Map<String, dynamic>>> _notes;
+  late Future<List<Map<String, dynamic>>> _typenotes;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNotes();
+  }
+
+  Future<void> _loadNotes() async {
+    _notes = DatabaseHelper.getNotes();
+    _typenotes = DatabaseHelper.getTypeNotes();
+  }
+
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(
+      const Color.fromRGBO(61, 110, 201, 1.0),
+    );
+
+    // Définissez la couleur des icônes de la barre de statut en blanc (clair)
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -230,13 +255,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         onPressed: () {
                           // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
-                          Navigator.pushAndRemoveUntil(
+                          /*Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                               builder: (_) => const MyAppEmpty(),
                             ),
                             (Route<dynamic> route) => false,
-                          );
+                          );*/
                         },
                       ),
                     ],
@@ -248,6 +273,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
       ),
+
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -296,7 +322,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Color.fromRGBO(16, 43, 64, 1),
               ),
               title: const Text(
-                'Se déonnecter',
+                'Se déconnecter',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
@@ -316,179 +342,206 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 20.0, left: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: const [
-                Icon(
-                  Icons.folder,
-                  color: Color.fromRGBO(16, 43, 64, 1),
-                ),
-                Text(
-                  " Dossiers",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13,
-                  ),
-                ),
-              ],
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: colors.map((color) {
-                  return Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const FolderContainEmpty(),
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: _typenotes,
+        builder: (context, typenotesSnapshot) {
+          return FutureBuilder<List<Map<String, dynamic>>>(
+            future: _notes,
+            builder: (context, notesSnapshot) {
+              if ((typenotesSnapshot.connectionState ==
+                          ConnectionState.waiting &&
+                      notesSnapshot.connectionState ==
+                          ConnectionState.waiting) ||
+                  (typenotesSnapshot.hasError && notesSnapshot.hasError)) {
+                return const Center(child: CircularProgressIndicator());
+              } else if ((typenotesSnapshot.hasData &&
+                      typenotesSnapshot.data!.isEmpty) &&
+                  (notesSnapshot.hasData && notesSnapshot.data!.isEmpty)) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        'lib/images/logov2.png',
+                        width: 200.0,
+                        height: 200.0,
+                      ),
+                      const Text(
+                        "Ajouter une note",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17.0,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30.0, vertical: 15.0),
+                        child: const Center(
+                          child: Text(
+                            "Aucune note n'a encore été créée! Cliquez sur le bouton en bas à droite pour commencer.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12.0,
+                              color: Colors.grey,
                             ),
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            const Icon(
-                              Icons.folder_rounded,
-                              color: Color.fromRGBO(16, 43, 64, 1),
-                              size: 100,
-                            ),
-                            Container(
-                              width: 120.0,
-                              height: 30.0,
-                              // ignore: unnecessary_const
-                              margin: const EdgeInsets.only(
-                                  right: 10.0, top: 10.0, bottom: 35),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: const [
-                                  Text(
-                                    "Dossier Numéro",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    "25 mars",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 11,
-                                      color: Color.fromRGBO(16, 43, 64, 0.5),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ],
-                  );
-                }).toList(),
-              ),
-            ),
-            Row(
-              children: const [
-                Icon(
-                  Icons.description,
-                  color: Color.fromRGBO(16, 43, 64, 1),
-                ),
-                Text(
-                  " Notes",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13,
                   ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.only(top: 15.0),
-                children: const <Widget>[
-                  MyListTile(),
-                  Divider(
-                    indent: 80,
-                    height: 15,
-                    thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 0.4),
+                );
+              } else {
+                // Le reste du code pour afficher la liste des dossiers et des notes
+                // ...
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20.0, left: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Row(
+                        children: [
+                          Icon(
+                            Icons.folder,
+                            color: Color.fromRGBO(16, 43, 64, 1),
+                          ),
+                          Text(
+                            " Dossiers",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: FutureBuilder<List<Map<String, dynamic>>>(
+                          future: _typenotes,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Erreur: ${snapshot.error}');
+                            } else {
+                              return ListView.builder(
+                                scrollDirection: Axis
+                                    .horizontal, // Définir la direction de défilement comme horizontale
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  final typenote = snapshot.data![index];
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const FolderContainEmpty(),
+                                        ),
+                                      );
+                                    },
+                                    child: Column(
+                                      children: [
+                                        const Icon(
+                                          Icons.folder_rounded,
+                                          color: Color.fromRGBO(16, 43, 64, 1),
+                                          size: 100,
+                                        ),
+                                        Container(
+                                          width: 120.0,
+                                          height: 30.0,
+                                          margin: const EdgeInsets.only(
+                                              right: 10.0,
+                                              top: 10.0,
+                                              bottom: 35),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                typenote['intitule_type'],
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                              Text(
+                                                typenote['date_creation'],
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 11,
+                                                  color: Color.fromRGBO(
+                                                      16, 43, 64, 0.5),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      const Row(
+                        children: [
+                          Icon(
+                            Icons.description,
+                            color: Color.fromRGBO(16, 43, 64, 1),
+                          ),
+                          Text(
+                            " Notes",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: FutureBuilder<List<Map<String, dynamic>>>(
+                          future: _notes,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Erreur: ${snapshot.error}');
+                            } else {
+                              return ListView.builder(
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  final note = snapshot.data![index];
+                                  return const Column(
+                                    children: [
+                                      MyListTile(),
+                                      Divider(
+                                        indent: 80,
+                                        height: 15,
+                                        thickness: 0.7,
+                                        color: Color.fromRGBO(16, 43, 64, 0.4),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                  MyListTile(),
-                  Divider(
-                    indent: 80,
-                    height: 15,
-                    thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 0.4),
-                  ),
-                  MyListTile(),
-                  Divider(
-                    indent: 80,
-                    height: 15,
-                    thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 0.4),
-                  ),
-                  MyListTile(),
-                  Divider(
-                    indent: 80,
-                    height: 15,
-                    thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 0.4),
-                  ),
-                  MyListTile(),
-                  Divider(
-                    indent: 80,
-                    height: 15,
-                    thickness: 0.7,
-                    color: Color.fromRGBO(16, 43, 64, 0.4),
-                  ),
-                  ListTile(),
-
-                  // Ajoutez autant d'options que nécessaire...
-                ],
-              ),
-            ),
-          ],
-        ),
+                );
+              }
+            },
+          );
+        },
       ),
-      /*Center(child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset(
-              'lib/images/logov2.png',
-              width: 200.0,
-              height: 200.0,
-            ),
-            const Text(
-              "Ajouter une note",
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 17.0,
-                  color: Colors.grey),
-            ),
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
-              child: const Center(
-                child: Text(
-                  "Aucune note n'a encore été créée! Cliquez sur le bouton en bas à droite pour commencer.",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12.0,
-                    color: Colors.grey,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ],
-        ),),*/
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -514,11 +567,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       onTap: () {
                         // Do something
-                        Navigator.push(
+                        Navigator.pushReplacementNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const Note(),
-                          ),
+                          '/note',
                         );
                       },
                     ),
