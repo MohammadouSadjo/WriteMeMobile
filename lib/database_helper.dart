@@ -86,6 +86,7 @@ class DatabaseHelper {
 
   static Future<List<Map<String, dynamic>>> getNotes() async {
     final db = await DatabaseHelper.db();
+    print(db.path);
     return db.query('notes', orderBy: "id_note");
   }
 

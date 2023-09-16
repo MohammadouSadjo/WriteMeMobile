@@ -117,9 +117,9 @@ class _MyParametersPageState extends State<MyParametersPage> {
                           ),
                         ),
                       ),
-                      content: Column(
+                      content: const Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
+                        children: [
                           Padding(
                             //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                             padding: EdgeInsets.only(
@@ -209,9 +209,9 @@ class _MyParametersPageState extends State<MyParametersPage> {
                           ),
                         ),
                       ),
-                      content: Column(
+                      content: const Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
+                        children: [
                           Padding(
                             //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                             padding: EdgeInsets.only(
@@ -301,10 +301,10 @@ class _MyParametersPageState extends State<MyParametersPage> {
                           ),
                         ),
                       ),
-                      content: SingleChildScrollView(
+                      content: const SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
-                          children: const [
+                          children: [
                             Padding(
                               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                               padding: EdgeInsets.only(

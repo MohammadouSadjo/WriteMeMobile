@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/folder_contain_empty.dart';
 import 'package:write_me/login.dart';
 import 'package:write_me/note.dart';
@@ -60,18 +62,42 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyListTile extends StatelessWidget {
-  const MyListTile({super.key});
+  final String dateCreation;
+  final String dateModification;
+  final String titre;
+  final String texte;
+
+  const MyListTile(
+      {super.key,
+      required this.dateCreation,
+      required this.dateModification,
+      required this.titre,
+      required this.texte});
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
+    final DateTime now = DateTime.now();
+    //DateTime dateInMarch = DateTime(now.year, DateTime.march, now.day);
+    String formattedDate = DateFormat("dd MMM", 'fr_FR').format(now);
+    String formattedDateYear = DateFormat("y", 'fr_FR').format(now);
+
+    String dateTime = formattedDate + "\n" + formattedDateYear;
+
+    String formattedTime = DateFormat('HH:mm', 'fr_FR').format(now);
+
+    String truncatedText = texte.substring(0, 60);
+    truncatedText += "...";
+
     return ListTile(
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            "20 mars \n2023",
+          Text(
+            //"20 mars \n2023",
+            dateTime,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 12,
               color: Color.fromRGBO(16, 43, 64, 0.5),
@@ -93,18 +119,19 @@ class MyListTile extends StatelessWidget {
           ),
         ],
       ),
-      title: const Column(
+      title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "23:27",
-            style: TextStyle(
+            //"23:27",
+            formattedTime,
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 10,
             ),
           ),
           Text(
-            "Paramètres du compte",
+            titre,
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 13,
@@ -112,8 +139,8 @@ class MyListTile extends StatelessWidget {
           ),
         ],
       ),
-      subtitle: const Text(
-        "Paramètres du compte parametres ...",
+      subtitle: Text(
+        truncatedText,
         style: TextStyle(
           fontWeight: FontWeight.w300,
           fontSize: 12,
@@ -425,6 +452,16 @@ class _MyHomePageState extends State<MyHomePage> {
                               return const CircularProgressIndicator();
                             } else if (snapshot.hasError) {
                               return Text('Erreur: ${snapshot.error}');
+                            } else if (typenotesSnapshot.hasData &&
+                                typenotesSnapshot.data!.isEmpty) {
+                              return const Column(
+                                children: [
+                                  SizedBox(height: 16.0),
+                                  Text("Aucun dossier"),
+                                  SizedBox(height: 16.0),
+                                  SizedBox(height: 16.0),
+                                ],
+                              );
                             } else {
                               return ListView.builder(
                                 scrollDirection: Axis
@@ -512,15 +549,24 @@ class _MyHomePageState extends State<MyHomePage> {
                               return const CircularProgressIndicator();
                             } else if (snapshot.hasError) {
                               return Text('Erreur: ${snapshot.error}');
+                            } else if (notesSnapshot.hasData &&
+                                notesSnapshot.data!.isEmpty) {
+                              return const Text("Aucune note");
                             } else {
                               return ListView.builder(
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (context, index) {
                                   final note = snapshot.data![index];
-                                  return const Column(
+                                  return Column(
                                     children: [
-                                      MyListTile(),
-                                      Divider(
+                                      MyListTile(
+                                        dateCreation: note["date_creation"],
+                                        dateModification:
+                                            note["date_modification"],
+                                        titre: note["titre"],
+                                        texte: note["texte"],
+                                      ),
+                                      const Divider(
                                         indent: 80,
                                         height: 15,
                                         thickness: 0.7,
@@ -589,6 +635,78 @@ class _MyHomePageState extends State<MyHomePage> {
                       onTap: () {
                         // Do something
                         Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Center(
+                                child: Text(
+                                  'Nouveau dossier',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20.0,
+                                    color: Color.fromRGBO(61, 110, 201, 1.0),
+                                  ),
+                                ),
+                              ),
+                              content: const Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Padding(
+                                    //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                                    padding: EdgeInsets.only(
+                                        left: 10, right: 10, bottom: 15),
+                                    child: TextField(
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(16, 43, 64, 1),
+                                      ),
+                                      decoration: InputDecoration(
+                                        /*icon: Icon(
+                                          Icons.person,
+                                          color: Color.fromRGBO(16, 43, 64, 1),
+                                        ),*/
+                                        //border: OutlineInputBorder(),
+                                        labelText: 'Nom du dossier',
+                                        labelStyle: TextStyle(
+                                          color: Color.fromRGBO(16, 43, 64, 1),
+                                        ),
+                                        hintText: 'Nommez le dossier',
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text(
+                                    'Annuler',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(61, 110, 201, 1.0),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text(
+                                    'Confirmer',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(61, 110, 201, 1.0),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                     ),
                   ],

@@ -91,9 +91,10 @@ class _NotePageState extends State<NotePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text('Date : 26/04/2023',
+            const Text('Jeu 26.04.2023 | 10:34',
                 //'Date: ${DateFormat('dd/MM/yyyy').format(_selectedDate)}',
                 style: TextStyle(
+                  fontFamily: 'Nova Round',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
                   color: Color.fromRGBO(16, 43, 64, 1),
@@ -226,6 +227,107 @@ class _NotePageState extends State<NotePage> {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Center(
+                                              child: Text(
+                                                'Nouveau dossier',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20.0,
+                                                  color: Color.fromRGBO(
+                                                      61, 110, 201, 1.0),
+                                                ),
+                                              ),
+                                            ),
+                                            content: const Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Padding(
+                                                  //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                                                  padding: EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                      bottom: 15),
+                                                  child: TextField(
+                                                    style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          16, 43, 64, 1),
+                                                    ),
+                                                    decoration: InputDecoration(
+                                                      /*icon: Icon(
+                                          Icons.person,
+                                          color: Color.fromRGBO(16, 43, 64, 1),
+                                        ),*/
+                                                      //border: OutlineInputBorder(),
+                                                      labelText:
+                                                          'Nom du dossier',
+                                                      labelStyle: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            16, 43, 64, 1),
+                                                      ),
+                                                      hintText:
+                                                          'Nommez le dossier',
+                                                      hintStyle: TextStyle(
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                child: const Text(
+                                                  'Annuler',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        61, 110, 201, 1.0),
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: const Text(
+                                                  'Confirmer',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        61, 110, 201, 1.0),
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
+                                                  Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (_) =>
+                                                          const MyApp(),
+                                                    ),
+                                                    (Route<dynamic> route) =>
+                                                        false,
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: const Text(
+                                      'Nouveau Dossier',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15.0,
+                                        color: Color.fromRGBO(16, 43, 64, 1),
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
                                       Navigator.of(context).pop();
                                     },
                                     child: const Text(
@@ -244,11 +346,12 @@ class _NotePageState extends State<NotePage> {
                                         print(
                                             'Élément sélectionné : $selectedItem');
                                       }
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute<void>(
-                                          builder: (BuildContext context) =>
-                                              const MyApp(),
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const MyApp(),
                                         ),
+                                        (Route<dynamic> route) => false,
                                       );
                                     },
                                     child: const Text(
