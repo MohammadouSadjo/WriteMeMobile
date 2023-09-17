@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:write_me/database_helper.dart';
 import 'package:write_me/home.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
@@ -77,6 +78,9 @@ class _NotePageState extends State<NotePage> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController titreController = TextEditingController();
+    TextEditingController texteController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -111,6 +115,7 @@ class _NotePageState extends State<NotePage> {
                 hintText: 'Titre de la note',
                 //border: OutlineInputBorder(),
               ),
+              controller: titreController,
               onChanged: (value) {
                 /*setState(() {
                   _title = value;
@@ -125,6 +130,7 @@ class _NotePageState extends State<NotePage> {
                   hintText: 'Contenu de la note',
                   border: InputBorder.none,
                 ),
+                controller: texteController,
                 onChanged: (value) {
                   /*setState(() {
                     _content = value;
@@ -170,8 +176,36 @@ class _NotePageState extends State<NotePage> {
                           color: Colors.redAccent,
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
+                      onPressed: () async {
+                        // Récupérez le titre et le contenu de la note depuis les champs de texte.
+                        final titre = titreController
+                            .text; // Remplacez par la valeur du champ de titre.
+                        final texte = texteController
+                            .text; // Remplacez par la valeur du champ de contenu.
+
+                        // Obtenez la date de création et de modification actuelle.
+                        final dateCreation = DateTime.now();
+                        final dateModification = DateTime.now();
+
+                        // Obtenez l'ID du type de note approprié.
+                        //final typenoteId =
+                        //1; // Remplacez par l'ID du type de note approprié.
+
+                        // Appelez la fonction d'insertion de note dans DatabaseHelper.
+                        final noteId = await DatabaseHelper.createNote(
+                            titre, texte, dateCreation, dateModification, 0);
+
+                        if (noteId != null) {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const MyApp(),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        } else {
+                          print('Erreur lors de l\'insertion de la note.');
+                        }
                       },
                     ),
                     TextButton(

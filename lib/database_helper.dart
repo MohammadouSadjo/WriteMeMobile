@@ -20,27 +20,32 @@ class DatabaseHelper {
         code_mot_de_passe_oublie TEXT
       )
       """);*/
+    await database.execute("DROP TABLE IF EXISTS notes");
+    await database.execute("DROP TABLE IF EXISTS typenotes");
 
     await database.execute("""CREATE TABLE notes (
         id_note INTEGER PRIMARY KEY,
         typenote_id INTEGER NOT NULL DEFAULT 0,
         titre TEXT NOT NULL,
         texte TEXT NOT NULL,
-        date_creation TEXT NOT NULL,
-        date_modification TEXT NOT NULL
+        date_creation INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
+        date_modification INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER))
       )
       """);
 
     await database.execute("""CREATE TABLE typenotes (
         id_typenote INTEGER PRIMARY KEY,
         intitule_type TEXT NOT NULL,
-        date_creation TEXT NOT NULL,
-        date_modification TEXT NOT NULL
+        date_creation INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
+        date_modification INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER))
       )
       """);
   }
 
   static Future<Database> db() async {
+    //databaseFactory.deleteDatabase(
+    //"/data/user/0/com.example.write_me/databases/write_me.db");
+
     return openDatabase(
       'write_me.db',
       version: 1,
@@ -53,16 +58,16 @@ class DatabaseHelper {
   static Future<int> createNote(
       String? titre,
       String? texte,
-      String? date_creation,
-      String? date_modification,
+      DateTime? date_creation,
+      DateTime? date_modification,
       int? typenote_id) async {
     final db = await DatabaseHelper.db();
 
     final data = {
       'titre': titre,
       'texte': texte,
-      'date_creation': date_creation,
-      'date_modification': date_modification,
+      'date_creation': date_creation?.millisecondsSinceEpoch,
+      'date_modification': date_modification?.millisecondsSinceEpoch,
       'typenote_id': typenote_id
     };
     final id = await db.insert('notes', data,
@@ -71,13 +76,13 @@ class DatabaseHelper {
   }
 
   static Future<int> createTypeNote(String? intitule_type,
-      String? date_creation, String? date_modification) async {
+      DateTime? date_creation, DateTime? date_modification) async {
     final db = await DatabaseHelper.db();
 
     final data = {
       'intitule_type': intitule_type,
-      'date_creation': date_creation,
-      'date_modification': date_modification
+      'date_creation': date_creation?.millisecondsSinceEpoch,
+      'date_modification': date_modification?.millisecondsSinceEpoch
     };
     final id = await db.insert('typenotes', data,
         conflictAlgorithm: ConflictAlgorithm.replace);
@@ -110,16 +115,16 @@ class DatabaseHelper {
       int id,
       String? titre,
       String? texte,
-      String? date_creation,
-      String? date_modification,
+      DateTime? date_creation,
+      DateTime? date_modification,
       int? typenote_id) async {
     final db = await DatabaseHelper.db();
 
     final data = {
       'titre': titre,
       'texte': texte,
-      'date_creation': date_creation,
-      'date_modification': date_modification,
+      'date_creation': date_creation?.millisecondsSinceEpoch,
+      'date_modification': date_modification?.millisecondsSinceEpoch,
       'typenote_id': typenote_id
     };
 
@@ -129,13 +134,13 @@ class DatabaseHelper {
   }
 
   static Future<int> updateTypeNote(int id, String? intitule_type,
-      String? date_creation, String? date_modification) async {
+      DateTime? date_creation, DateTime? date_modification) async {
     final db = await DatabaseHelper.db();
 
     final data = {
       'intitule_type': intitule_type,
-      'date_creation': date_creation,
-      'date_modification': date_modification
+      'date_creation': date_creation?.millisecondsSinceEpoch,
+      'date_modification': date_modification?.millisecondsSinceEpoch
     };
 
     final result = await db

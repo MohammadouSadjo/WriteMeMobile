@@ -62,8 +62,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyListTile extends StatelessWidget {
-  final String dateCreation;
-  final String dateModification;
+  final DateTime dateCreation;
+  final DateTime dateModification;
   final String titre;
   final String texte;
 
@@ -79,15 +79,20 @@ class MyListTile extends StatelessWidget {
     initializeDateFormatting();
     final DateTime now = DateTime.now();
     //DateTime dateInMarch = DateTime(now.year, DateTime.march, now.day);
-    String formattedDate = DateFormat("dd MMM", 'fr_FR').format(now);
-    String formattedDateYear = DateFormat("y", 'fr_FR').format(now);
+    String formattedDate =
+        DateFormat("dd MMM", 'fr_FR').format(dateModification);
+    String formattedDateYear =
+        DateFormat("y", 'fr_FR').format(dateModification);
 
     String dateTime = formattedDate + "\n" + formattedDateYear;
 
-    String formattedTime = DateFormat('HH:mm', 'fr_FR').format(now);
+    String formattedTime =
+        DateFormat('HH:mm', 'fr_FR').format(dateModification);
 
     String truncatedText = texte.substring(0, 60);
     truncatedText += "...";
+
+    //print(dateTime);
 
     return ListTile(
       leading: Row(
@@ -505,7 +510,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ),
                                               ),
                                               Text(
-                                                typenote['date_creation'],
+                                                typenote['date_creation']
+                                                    .toString(),
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.w400,
                                                   fontSize: 11,
@@ -560,9 +566,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                   return Column(
                                     children: [
                                       MyListTile(
-                                        dateCreation: note["date_creation"],
+                                        dateCreation:
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                note["date_creation"]),
                                         dateModification:
-                                            note["date_modification"],
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                note["date_modification"]),
                                         titre: note["titre"],
                                         texte: note["texte"],
                                       ),
