@@ -88,9 +88,14 @@ class MyListTile extends StatelessWidget {
 
     String formattedTime =
         DateFormat('HH:mm', 'fr_FR').format(dateModification);
-
-    String truncatedText = texte.substring(0, 60);
-    truncatedText += "...";
+    String truncatedText = "";
+    if (texte.length > 60) {
+      truncatedText = texte.substring(0, 60);
+      truncatedText += "...";
+      // Faites quelque chose avec truncatedText, par exemple, l'afficher ou le manipuler.
+    } else {
+      truncatedText = texte;
+    }
 
     //print(dateTime);
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:write_me/database_helper.dart';
 import 'package:write_me/home.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 
@@ -81,6 +83,28 @@ class _NotePageState extends State<NotePage> {
     TextEditingController titreController = TextEditingController();
     TextEditingController texteController = TextEditingController();
 
+    initializeDateFormatting();
+    final DateTime now = DateTime.now();
+    String formattedDate = DateFormat("dd MMM", 'fr_FR').format(now);
+    String formattedDateYear = DateFormat("y", 'fr_FR').format(now);
+
+    final formatter = DateFormat.E('fr');
+    String jourlettre = formatter.format(now);
+    String jourChiffre = DateFormat("dd", 'fr_FR').format(now);
+    String mois = DateFormat("MM", 'fr_FR').format(now);
+    String annee = DateFormat("y", 'fr_FR').format(now);
+
+    String heure = DateFormat('HH:mm', 'fr_FR').format(now);
+
+    String dateTime = jourlettre +
+        " " +
+        jourChiffre +
+        "." +
+        mois +
+        "." +
+        annee +
+        " | " +
+        heure;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -95,7 +119,8 @@ class _NotePageState extends State<NotePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text('Jeu 26.04.2023 | 10:34',
+            Text(dateTime,
+                //'Jeu 26.04.2023 | 10:34',
                 //'Date: ${DateFormat('dd/MM/yyyy').format(_selectedDate)}',
                 style: TextStyle(
                   fontFamily: 'Nova Round',
@@ -144,14 +169,17 @@ class _NotePageState extends State<NotePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
         onPressed: () {
-          showDialog(
-              barrierDismissible: false,
+          final titre = titreController
+              .text; // Remplacez par la valeur du champ de titre.
+          final texte = texteController.text;
+          if (titre == "" && texte == "") {
+            showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Center(
                     child: Text(
-                      'Note créée',
+                      'Erreur',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 20.0,
@@ -159,254 +187,316 @@ class _NotePageState extends State<NotePage> {
                       ),
                     ),
                   ),
-                  content: const Text(
-                    "Ajouter la note à un dossier?",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15.0,
-                    ),
+                  content: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                        padding:
+                            EdgeInsets.only(left: 10, right: 10, bottom: 15),
+                        child: Text(
+                          'Zone(s) de texte vides!',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15.0,
+                            color: Color.fromRGBO(61, 110, 201, 1.0),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   actions: [
                     TextButton(
                       child: const Text(
-                        'Non',
+                        'Fermer',
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15.0,
-                          color: Colors.redAccent,
-                        ),
-                      ),
-                      onPressed: () async {
-                        // Récupérez le titre et le contenu de la note depuis les champs de texte.
-                        final titre = titreController
-                            .text; // Remplacez par la valeur du champ de titre.
-                        final texte = texteController
-                            .text; // Remplacez par la valeur du champ de contenu.
-
-                        // Obtenez la date de création et de modification actuelle.
-                        final dateCreation = DateTime.now();
-                        final dateModification = DateTime.now();
-
-                        // Obtenez l'ID du type de note approprié.
-                        //final typenoteId =
-                        //1; // Remplacez par l'ID du type de note approprié.
-
-                        // Appelez la fonction d'insertion de note dans DatabaseHelper.
-                        final noteId = await DatabaseHelper.createNote(
-                            titre, texte, dateCreation, dateModification, 0);
-
-                        if (noteId != null) {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const MyApp(),
-                            ),
-                            (Route<dynamic> route) => false,
-                          );
-                        } else {
-                          print('Erreur lors de l\'insertion de la note.');
-                        }
-                      },
-                    ),
-                    TextButton(
-                      child: const Text(
-                        'Oui',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15.0,
-                          color: Colors.greenAccent,
+                          color: Color.fromRGBO(61, 110, 201, 1.0),
                         ),
                       ),
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return StatefulBuilder(
-                                builder: (context, setState) {
-                              return AlertDialog(
-                                title: const Text(
-                                  'Sélectionnez un élément',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(16, 43, 64, 1),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                content: Container(
-                                  width: 300, // Largeur fixe de la fenêtre
-                                  height: 300, // Hauteur fixe de la fenêtre
-                                  child: ListView.builder(
-                                    itemCount: items.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return ListTile(
-                                        title: Text(items[index]),
-                                        onTap: () {
-                                          setState(() {
-                                            selectedItem = items[index];
-                                          });
-                                        },
-                                        tileColor: selectedItem == items[index]
-                                            ? const Color.fromRGBO(16, 43, 64,
-                                                1) // Couleur de surbrillance
-                                            : null,
-                                        textColor: selectedItem == items[index]
-                                            ? Colors
-                                                .white // Couleur de surbrillance
-                                            : null,
-                                      );
-                                    },
-                                  ),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Center(
-                                              child: Text(
-                                                'Nouveau dossier',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 20.0,
-                                                  color: Color.fromRGBO(
-                                                      61, 110, 201, 1.0),
-                                                ),
-                                              ),
-                                            ),
-                                            content: const Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Padding(
-                                                  //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                                                  padding: EdgeInsets.only(
-                                                      left: 10,
-                                                      right: 10,
-                                                      bottom: 15),
-                                                  child: TextField(
-                                                    style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          16, 43, 64, 1),
-                                                    ),
-                                                    decoration: InputDecoration(
-                                                      /*icon: Icon(
-                                          Icons.person,
-                                          color: Color.fromRGBO(16, 43, 64, 1),
-                                        ),*/
-                                                      //border: OutlineInputBorder(),
-                                                      labelText:
-                                                          'Nom du dossier',
-                                                      labelStyle: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            16, 43, 64, 1),
-                                                      ),
-                                                      hintText:
-                                                          'Nommez le dossier',
-                                                      hintStyle: TextStyle(
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                child: const Text(
-                                                  'Annuler',
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        61, 110, 201, 1.0),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                              TextButton(
-                                                child: const Text(
-                                                  'Confirmer',
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        61, 110, 201, 1.0),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
-                                                  Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          const MyApp(),
-                                                    ),
-                                                    (Route<dynamic> route) =>
-                                                        false,
-                                                  );
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: const Text(
-                                      'Nouveau Dossier',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.0,
-                                        color: Color.fromRGBO(16, 43, 64, 1),
-                                      ),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text(
-                                      'Annuler',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.0,
-                                        color: Colors.redAccent,
-                                      ),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      // Faites quelque chose avec l'élément sélectionné (selectedItem)
-                                      if (selectedItem != null) {
-                                        print(
-                                            'Élément sélectionné : $selectedItem');
-                                      }
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => const MyApp(),
-                                        ),
-                                        (Route<dynamic> route) => false,
-                                      );
-                                    },
-                                    child: const Text(
-                                      'Valider',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.0,
-                                        color: Colors.greenAccent,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            });
-                          },
-                        );
+                        Navigator.of(context).pop();
                       },
                     ),
                   ],
                 );
-              });
+              },
+            );
+          } else {
+            showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Center(
+                      child: Text(
+                        'Note créée',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20.0,
+                          color: Color.fromRGBO(61, 110, 201, 1.0),
+                        ),
+                      ),
+                    ),
+                    content: const Text(
+                      "Ajouter la note à un dossier?",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        child: const Text(
+                          'Non',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15.0,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                        onPressed: () async {
+                          // Récupérez le titre et le contenu de la note depuis les champs de texte.
+                          final titre = titreController
+                              .text; // Remplacez par la valeur du champ de titre.
+                          final texte = texteController
+                              .text; // Remplacez par la valeur du champ de contenu.
+
+                          // Obtenez la date de création et de modification actuelle.
+                          final dateCreation = DateTime.now();
+                          final dateModification = DateTime.now();
+
+                          // Obtenez l'ID du type de note approprié.
+                          //final typenoteId =
+                          //1; // Remplacez par l'ID du type de note approprié.
+
+                          // Appelez la fonction d'insertion de note dans DatabaseHelper.
+                          if (titre != "" && texte != "") {
+                            final noteId = await DatabaseHelper.createNote(
+                                titre,
+                                texte,
+                                dateCreation,
+                                dateModification,
+                                0);
+                            if (noteId != null) {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const MyApp(),
+                                ),
+                                (Route<dynamic> route) => false,
+                              );
+                            } else {
+                              print('Erreur lors de l\'insertion de la note.');
+                            }
+                          } else {
+                            print("Erreur");
+                          }
+                        },
+                      ),
+                      TextButton(
+                        child: const Text(
+                          'Oui',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15.0,
+                            color: Colors.greenAccent,
+                          ),
+                        ),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return StatefulBuilder(
+                                  builder: (context, setState) {
+                                return AlertDialog(
+                                  title: const Text(
+                                    'Sélectionnez un élément',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(16, 43, 64, 1),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  content: Container(
+                                    width: 300, // Largeur fixe de la fenêtre
+                                    height: 300, // Hauteur fixe de la fenêtre
+                                    child: ListView.builder(
+                                      itemCount: items.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return ListTile(
+                                          title: Text(items[index]),
+                                          onTap: () {
+                                            setState(() {
+                                              selectedItem = items[index];
+                                            });
+                                          },
+                                          tileColor: selectedItem ==
+                                                  items[index]
+                                              ? const Color.fromRGBO(16, 43, 64,
+                                                  1) // Couleur de surbrillance
+                                              : null,
+                                          textColor: selectedItem ==
+                                                  items[index]
+                                              ? Colors
+                                                  .white // Couleur de surbrillance
+                                              : null,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Center(
+                                                child: Text(
+                                                  'Nouveau dossier',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 20.0,
+                                                    color: Color.fromRGBO(
+                                                        61, 110, 201, 1.0),
+                                                  ),
+                                                ),
+                                              ),
+                                              content: const Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Padding(
+                                                    //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                                                    padding: EdgeInsets.only(
+                                                        left: 10,
+                                                        right: 10,
+                                                        bottom: 15),
+                                                    child: TextField(
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            16, 43, 64, 1),
+                                                      ),
+                                                      decoration:
+                                                          InputDecoration(
+                                                        /*icon: Icon(
+                                          Icons.person,
+                                          color: Color.fromRGBO(16, 43, 64, 1),
+                                        ),*/
+                                                        //border: OutlineInputBorder(),
+                                                        labelText:
+                                                            'Nom du dossier',
+                                                        labelStyle: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              16, 43, 64, 1),
+                                                        ),
+                                                        hintText:
+                                                            'Nommez le dossier',
+                                                        hintStyle: TextStyle(
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  child: const Text(
+                                                    'Annuler',
+                                                    style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          61, 110, 201, 1.0),
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: const Text(
+                                                    'Confirmer',
+                                                    style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          61, 110, 201, 1.0),
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
+                                                    Navigator
+                                                        .pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            const MyApp(),
+                                                      ),
+                                                      (Route<dynamic> route) =>
+                                                          false,
+                                                    );
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Nouveau Dossier',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15.0,
+                                          color: Color.fromRGBO(16, 43, 64, 1),
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        'Annuler',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15.0,
+                                          color: Colors.redAccent,
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Faites quelque chose avec l'élément sélectionné (selectedItem)
+                                        if (selectedItem != null) {
+                                          print(
+                                              'Élément sélectionné : $selectedItem');
+                                        }
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => const MyApp(),
+                                          ),
+                                          (Route<dynamic> route) => false,
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Valider',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15.0,
+                                          color: Colors.greenAccent,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                });
+          }
         },
         tooltip: 'Enregistrer la note',
         child: const Icon(Icons.save),
