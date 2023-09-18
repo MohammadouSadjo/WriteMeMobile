@@ -105,6 +105,12 @@ class DatabaseHelper {
     return db.query('notes', where: "id_note = ?", whereArgs: [id], limit: 1);
   }
 
+  static Future<List<Map<String, dynamic>>> getNoteByType(int id) async {
+    final db = await DatabaseHelper.db();
+    return db.query('notes',
+        where: "typenote_id = ?", whereArgs: [id], limit: 1);
+  }
+
   static Future<List<Map<String, dynamic>>> getTypeNote(int id) async {
     final db = await DatabaseHelper.db();
     return db.query('typenotes',

@@ -5,11 +5,13 @@ import 'home.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
 void main() {
-  runApp(const FolderContainEmpty());
+  runApp(FolderContainEmpty(typenote));
 }
 
+int? typenote;
+
 class FolderContainEmpty extends StatelessWidget {
-  const FolderContainEmpty({super.key});
+  const FolderContainEmpty(typenote, {super.key});
 
   // This widget is the root of your application.
   @override
@@ -222,11 +224,9 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                       onTap: () {
                         // Do something
                         //Navigator.pop(context);
-                        Navigator.push(
+                        Navigator.pushReplacementNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const FolderContain(),
-                          ),
+                          '/folder_contain',
                         );
                       },
                     ),

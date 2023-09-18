@@ -363,12 +363,10 @@ class _MyFolderContainState extends State<MyFolderContain> {
                       onTap: () {
                         // Do something
                         //Navigator.pop(context);
-                        Navigator.push(
+                        /*Navigator.pushReplacementNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const FolderContainEmpty(),
-                          ),
-                        );
+                          '/folder_contain_empty',
+                        );*/
                       },
                     ),
                     ListTile(

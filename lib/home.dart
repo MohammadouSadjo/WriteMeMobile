@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:write_me/folder_contain.dart';
 import 'package:write_me/folder_contain_empty.dart';
 import 'package:write_me/login.dart';
+import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
 import 'package:write_me/parameters.dart';
 
@@ -22,7 +24,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/note': (context) => const Note(), // Deuxième page
+        '/note': (context) => const Note(),
+        '/folder_contain': (context) => const FolderContain(), // Deuxième page
+        // Deuxième page
       },
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -142,7 +146,7 @@ class MyListTile extends StatelessWidget {
           ),
           Text(
             titre,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 13,
             ),
@@ -151,7 +155,7 @@ class MyListTile extends StatelessWidget {
       ),
       subtitle: Text(
         truncatedText,
-        style: TextStyle(
+        style: const TextStyle(
           fontWeight: FontWeight.w300,
           fontSize: 12,
         ),
@@ -212,6 +216,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Colors.purple,
   ];
 
+  List<Type_Note> dossiers = [];
+
   late Future<List<Map<String, dynamic>>> _notes;
   late Future<List<Map<String, dynamic>>> _typenotes;
 
@@ -224,10 +230,23 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _loadNotes() async {
     _notes = DatabaseHelper.getNotes();
     _typenotes = DatabaseHelper.getTypeNotes();
+    //List<Type_Note> dossiers_list = _typenotes.map(dossier)
+    //DatabaseHelper.getTypeNotes() as List<Type_Note>;
+
+    /*setState(() {
+      dossiers = dossiers_list;
+    });*/
+  }
+
+  Future<List<Map<String, dynamic>>> getTypenotes() async {
+    // Appelez votre fonction dans DatabaseHelper qui renvoie les données
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    return await DatabaseHelper.getTypeNotes();
   }
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController intituletypeController = TextEditingController();
     FlutterStatusbarcolor.setStatusBarColor(
       const Color.fromRGBO(61, 110, 201, 1.0),
     );
@@ -432,6 +451,7 @@ class _MyHomePageState extends State<MyHomePage> {
               } else {
                 // Le reste du code pour afficher la liste des dossiers et des notes
                 // ...
+                initializeDateFormatting();
                 return Padding(
                   padding: const EdgeInsets.only(top: 20.0, left: 10.0),
                   child: Column(
@@ -452,8 +472,99 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
+                      FutureBuilder<List<Map<String, dynamic>>>(
+                        future: getTypenotes(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            // Pendant le chargement des données
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            // En cas d'erreur
+                            return Text(
+                                'Une erreur s\'est produite: ${snapshot.error}');
+                          } else {
+                            // Lorsque les données sont disponibles
+                            final typenotelist = snapshot.data;
+
+                            // Maintenant, vous pouvez utiliser folderDataList pour construire vos widgets
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: typenotelist!.map((typenote) {
+                                  return Column(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FolderContainEmpty(
+                                                      typenote["id_typenote"]),
+                                              //FolderDetailPage(folderData),
+                                            ),
+                                          );
+                                        },
+                                        child: Column(
+                                          children: [
+                                            const Icon(
+                                              Icons.folder_rounded,
+                                              color:
+                                                  Color.fromRGBO(16, 43, 64, 1),
+                                              size: 100,
+                                            ),
+                                            Container(
+                                              width: 120.0,
+                                              height: 30.0,
+                                              margin: const EdgeInsets.only(
+                                                  right: 10.0,
+                                                  top: 10.0,
+                                                  bottom: 35),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    typenote['intitule_type'],
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    DateFormat(
+                                                            "dd MMM", 'fr_FR')
+                                                        .format(DateTime
+                                                            .fromMillisecondsSinceEpoch(
+                                                                typenote[
+                                                                    'date_creation']))
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 11,
+                                                      color: Color.fromRGBO(
+                                                          16, 43, 64, 0.5),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      /*Expanded(
+                        //scrollDirection: Axis.horizontal,
                         child: FutureBuilder<List<Map<String, dynamic>>>(
                           future: _typenotes,
                           builder: (context, snapshot) {
@@ -479,6 +590,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (context, index) {
                                   final typenote = snapshot.data![index];
+                                  print(typenote);
                                   return InkWell(
                                     onTap: () {
                                       Navigator.push(
@@ -490,6 +602,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       );
                                     },
                                     child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
                                         const Icon(
                                           Icons.folder_rounded,
@@ -498,7 +611,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                         Container(
                                           width: 120.0,
-                                          height: 30.0,
+                                          height: 40.0,
                                           margin: const EdgeInsets.only(
                                               right: 10.0,
                                               top: 10.0,
@@ -514,8 +627,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   fontSize: 12,
                                                 ),
                                               ),
-                                              Text(
-                                                typenote['date_creation']
+                                              /*Text(
+                                                DateTime.fromMillisecondsSinceEpoch(
+                                                        typenote[
+                                                            'date_creation'])
                                                     .toString(),
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.w400,
@@ -523,7 +638,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   color: Color.fromRGBO(
                                                       16, 43, 64, 0.5),
                                                 ),
-                                              ),
+                                              ),*/
                                             ],
                                           ),
                                         ),
@@ -536,6 +651,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                         ),
                       ),
+                      */
                       const Row(
                         children: [
                           Icon(
@@ -663,7 +779,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                 ),
                               ),
-                              content: const Column(
+                              content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Padding(
@@ -671,6 +787,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     padding: EdgeInsets.only(
                                         left: 10, right: 10, bottom: 15),
                                     child: TextField(
+                                      controller: intituletypeController,
                                       style: TextStyle(
                                         color: Color.fromRGBO(16, 43, 64, 1),
                                       ),
@@ -712,9 +829,100 @@ class _MyHomePageState extends State<MyHomePage> {
                                       color: Color.fromRGBO(61, 110, 201, 1.0),
                                     ),
                                   ),
-                                  onPressed: () {
-                                    // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
-                                    Navigator.pop(context);
+                                  onPressed: () async {
+                                    // Récupérez le titre et le contenu de la note depuis les champs de texte.
+                                    final intitule_type =
+                                        intituletypeController.text;
+                                    // Remplacez par la valeur du champ de titre.
+                                    // Remplacez par la valeur du champ de contenu.
+
+                                    // Obtenez la date de création et de modification actuelle.
+                                    final dateCreation = DateTime.now();
+                                    final dateModification = DateTime.now();
+
+                                    // Obtenez l'ID du type de note approprié.
+                                    //final typenoteId =
+                                    //1; // Remplacez par l'ID du type de note approprié.
+
+                                    // Appelez la fonction d'insertion de note dans DatabaseHelper.
+                                    if (intitule_type == "") {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Center(
+                                              child: Text(
+                                                'Erreur',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20.0,
+                                                  color: Color.fromRGBO(
+                                                      61, 110, 201, 1.0),
+                                                ),
+                                              ),
+                                            ),
+                                            content: const Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Padding(
+                                                  //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                                                  padding: EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                      bottom: 15),
+                                                  child: Text(
+                                                    'Zone de texte vide!',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 15.0,
+                                                      color: Color.fromRGBO(
+                                                          61, 110, 201, 1.0),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                child: const Text(
+                                                  'Fermer',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        61, 110, 201, 1.0),
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      if (intitule_type != "") {
+                                        final typenoteId =
+                                            await DatabaseHelper.createTypeNote(
+                                                intitule_type,
+                                                dateCreation,
+                                                dateModification);
+                                        if (typenoteId != null) {
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => const MyApp(),
+                                            ),
+                                            (Route<dynamic> route) => false,
+                                          );
+                                        } else {
+                                          print(
+                                              'Erreur lors de l\'insertion de la note.');
+                                        }
+                                      } else {
+                                        print("Erreur");
+                                      }
+                                    }
                                   },
                                 ),
                               ],
