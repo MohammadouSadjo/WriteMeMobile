@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:write_me/database_helper.dart';
 import 'package:write_me/folder_contain.dart';
+import 'package:write_me/models/type_note.dart';
 
 import 'home.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
-void main() {
-  runApp(FolderContainEmpty(typenote));
-}
-
-int? typenote;
+/*void main() {
+  runApp(const FolderContainEmpty());
+}*/
 
 class FolderContainEmpty extends StatelessWidget {
-  const FolderContainEmpty(typenote, {super.key});
+  const FolderContainEmpty({
+    super.key,
+    required this.id,
+    required this.title,
+  });
+
+  final int id;
+  final String title;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MyFolderContainEmpty(title: "WriteMe");
+    return MyFolderContainEmpty(
+      id: id,
+      title: title,
+    );
     /*MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -39,7 +49,8 @@ class FolderContainEmpty extends StatelessWidget {
 }
 
 class MyFolderContainEmpty extends StatefulWidget {
-  const MyFolderContainEmpty({super.key, required this.title});
+  const MyFolderContainEmpty(
+      {super.key, required this.title, required this.id});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -51,12 +62,45 @@ class MyFolderContainEmpty extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final int id;
 
   @override
   State<MyFolderContainEmpty> createState() => _MyFolderContainEmptyState();
 }
 
 class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
+  late Future<List<Map<String, dynamic>>> type_note;
+
+  late Future<List<Map<String, dynamic>>> _notes;
+
+  @override
+  void initState() {
+    super.initState();
+    // Appelez votre fonction de récupération de données ici, par exemple :
+    fetchTypeNote();
+    _loadNotes();
+  }
+
+  Future<void> _loadNotes() async {
+    _notes = DatabaseHelper.getNotes();
+  }
+
+  Future<void> fetchTypeNote() async {
+    final id = widget.id;
+    final results = DatabaseHelper.getTypeNote(id);
+
+    // Maintenant, vous avez les résultats dans la variable "results".
+    // Vous pouvez les traiter comme vous le souhaitez.
+
+    type_note = results;
+
+    /*setState(() {
+        type_note = Type_Note.fromMap(
+            map); // Initialisez "type_note" à l'intérieur de setState.
+      });*/ // Remplacez "yourColumnName" par le nom de la colonne dans votre table.
+    // Faites quelque chose avec "typeNote".
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,15 +109,21 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("Dossier numéro "),
+        title: FutureBuilder<List<Map<String, dynamic>>>(
+          future: type_note,
+          builder: (context, snapshot) {
+            final typeNote = snapshot.data;
+            return Text(typeNote?[0]["intitule_type"]);
+          },
+        ),
         actions: [
           PopupMenuButton<String>(
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'edit',
                   child: Row(
-                    children: const <Widget>[
+                    children: <Widget>[
                       Icon(
                         Icons.edit,
                         color: Color.fromRGBO(16, 43, 64, 1),
@@ -87,10 +137,10 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                     ],
                   ),
                 ),
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'delete',
                   child: Row(
-                    children: const <Widget>[
+                    children: <Widget>[
                       Icon(
                         Icons.delete,
                         color: Colors.red,

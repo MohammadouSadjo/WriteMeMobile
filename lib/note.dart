@@ -172,7 +172,7 @@ class _NotePageState extends State<NotePage> {
           final titre = titreController
               .text; // Remplacez par la valeur du champ de titre.
           final texte = texteController.text;
-          if (titre == "" && texte == "") {
+          if (titre == "" || texte == "") {
             showDialog(
               context: context,
               builder: (BuildContext context) {

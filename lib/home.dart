@@ -483,6 +483,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             // En cas d'erreur
                             return Text(
                                 'Une erreur s\'est produite: ${snapshot.error}');
+                          } else if (snapshot.hasData &&
+                              snapshot.data!.isEmpty) {
+                            return const Column(
+                              children: [
+                                SizedBox(height: 16.0),
+                                Text("Aucun dossier"),
+                                SizedBox(height: 16.0),
+                                SizedBox(height: 16.0),
+                              ],
+                            );
                           } else {
                             // Lorsque les données sont disponibles
                             final typenotelist = snapshot.data;
@@ -492,6 +502,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: typenotelist!.map((typenote) {
+                                  int id = typenote["id_typenote"];
                                   return Column(
                                     children: [
                                       InkWell(
@@ -501,7 +512,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   FolderContainEmpty(
-                                                      typenote["id_typenote"]),
+                                                title: 'WriteMe',
+                                                id: id,
+                                              ),
                                               //FolderDetailPage(folderData),
                                             ),
                                           );
@@ -665,6 +678,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontSize: 13,
                             ),
                           ),
+                          SizedBox(
+                            height: 50,
+                          ),
                         ],
                       ),
                       Expanded(
@@ -784,14 +800,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 children: [
                                   Padding(
                                     //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         left: 10, right: 10, bottom: 15),
                                     child: TextField(
                                       controller: intituletypeController,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Color.fromRGBO(16, 43, 64, 1),
                                       ),
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         /*icon: Icon(
                                           Icons.person,
                                           color: Color.fromRGBO(16, 43, 64, 1),
