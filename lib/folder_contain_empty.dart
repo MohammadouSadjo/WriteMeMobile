@@ -252,7 +252,13 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const MyApp(),
+            ),
+            (Route<dynamic> route) => false,
+          ),
         ),
         title: FutureBuilder<List<Map<String, dynamic>>>(
           future: type_note,
@@ -359,129 +365,145 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
           ],
         ),
       ),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _notes,
-        builder: (context, notesSnapshot) {
-          if ((notesSnapshot.connectionState == ConnectionState.waiting) ||
-              (notesSnapshot.hasError)) {
-            return const Center(child: CircularProgressIndicator());
-          } else if ((notesSnapshot.hasData && notesSnapshot.data!.isEmpty)) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    'lib/images/logov2.png',
-                    width: 200.0,
-                    height: 200.0,
-                  ),
-                  const Text(
-                    "Ajouter une note",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17.0,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0, vertical: 15.0),
-                    child: const Center(
-                      child: Text(
-                        "Aucune note n'a encore été créée! Cliquez sur le bouton en bas à droite pour commencer.",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.0,
-                          color: Colors.grey,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            // Le reste du code pour afficher la liste des dossiers et des notes
-            // ...
-            initializeDateFormatting();
-            return Padding(
-              padding: const EdgeInsets.only(top: 20.0, left: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Row(
-                    children: [
-                      Icon(
-                        Icons.description,
-                        color: Color.fromRGBO(16, 43, 64, 1),
-                      ),
-                      Text(
-                        " Notes",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: FutureBuilder<List<Map<String, dynamic>>>(
-                      future: _notes,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Erreur: ${snapshot.error}');
-                        } else if (notesSnapshot.hasData &&
-                            notesSnapshot.data!.isEmpty) {
-                          return const Text("Aucune note");
-                        } else {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              final note = snapshot.data![index];
-                              return Column(
-                                children: [
-                                  MyListTile(
-                                    dateCreation:
-                                        DateTime.fromMillisecondsSinceEpoch(
-                                            note["date_creation"]),
-                                    dateModification:
-                                        DateTime.fromMillisecondsSinceEpoch(
-                                            note["date_modification"]),
-                                    titre: note["titre"],
-                                    texte: note["texte"],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  const Divider(
-                                    indent: 80,
-                                    height: 15,
-                                    thickness: 0.7,
-                                    color: Color.fromRGBO(16, 43, 64, 0.4),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
+      body: WillPopScope(
+        onWillPop: () async {
+          // Mettez ici la logique pour contrôler où l'utilisateur sera dirigé
+          // lorsque le bouton retour est pressé.
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const MyApp(),
+            ),
+            (Route<dynamic> route) => false,
+          );
+          // Si vous voulez empêcher le retour, retournez false.
+          // Sinon, retournez true pour permettre le retour par défaut.
+          return true; // ou false selon votre logique
         },
+        child: FutureBuilder<List<Map<String, dynamic>>>(
+          future: _notes,
+          builder: (context, notesSnapshot) {
+            if ((notesSnapshot.connectionState == ConnectionState.waiting) ||
+                (notesSnapshot.hasError)) {
+              return const Center(child: CircularProgressIndicator());
+            } else if ((notesSnapshot.hasData && notesSnapshot.data!.isEmpty)) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      'lib/images/logov2.png',
+                      width: 200.0,
+                      height: 200.0,
+                    ),
+                    const Text(
+                      "Ajouter une note",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 15.0),
+                      child: const Center(
+                        child: Text(
+                          "Aucune note n'a encore été créée! Cliquez sur le bouton en bas à droite pour commencer.",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12.0,
+                            color: Colors.grey,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              // Le reste du code pour afficher la liste des dossiers et des notes
+              // ...
+              initializeDateFormatting();
+              return Padding(
+                padding: const EdgeInsets.only(top: 20.0, left: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      children: [
+                        Icon(
+                          Icons.description,
+                          color: Color.fromRGBO(16, 43, 64, 1),
+                        ),
+                        Text(
+                          " Notes",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 13,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: FutureBuilder<List<Map<String, dynamic>>>(
+                        future: _notes,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Erreur: ${snapshot.error}');
+                          } else if (notesSnapshot.hasData &&
+                              notesSnapshot.data!.isEmpty) {
+                            return const Text("Aucune note");
+                          } else {
+                            return ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final note = snapshot.data![index];
+                                return Column(
+                                  children: [
+                                    MyListTile(
+                                      dateCreation:
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                              note["date_creation"]),
+                                      dateModification:
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                              note["date_modification"]),
+                                      titre: note["titre"],
+                                      texte: note["texte"],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Divider(
+                                      indent: 80,
+                                      height: 15,
+                                      thickness: 0.7,
+                                      color: Color.fromRGBO(16, 43, 64, 0.4),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
+        ),
       ),
 
       floatingActionButton: FloatingActionButton(

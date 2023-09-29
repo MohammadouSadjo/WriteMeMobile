@@ -254,7 +254,7 @@ class _NotePageState extends State<NoteFolderPage> {
                   titre, texte, dateCreation, dateModification, id);
               if (noteId != null) {
                 print("redirection");
-                Navigator.pushAndRemoveUntil(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (_) => FolderContainEmpty(
@@ -262,7 +262,7 @@ class _NotePageState extends State<NoteFolderPage> {
                       id: id,
                     ),
                   ),
-                  (Route<dynamic> route) => false,
+                  //(Route<dynamic> route) => false,
                 );
               } else {
                 print('Erreur lors de l\'insertion de la note.');
