@@ -92,7 +92,7 @@ class DatabaseHelper {
   static Future<List<Map<String, dynamic>>> getNotes() async {
     final db = await DatabaseHelper.db();
     print(db.path);
-    return db.query('notes', orderBy: "id_note");
+    return db.query('notes', orderBy: "id_note", where: "typenote_id = 0");
   }
 
   static Future<List<Map<String, dynamic>>> getTypeNotes() async {
@@ -107,8 +107,7 @@ class DatabaseHelper {
 
   static Future<List<Map<String, dynamic>>> getNoteByType(int id) async {
     final db = await DatabaseHelper.db();
-    return db.query('notes',
-        where: "typenote_id = ?", whereArgs: [id], limit: 1);
+    return db.query('notes', where: "typenote_id = ?", whereArgs: [id]);
   }
 
   static Future<List<Map<String, dynamic>>> getTypeNote(int id) async {

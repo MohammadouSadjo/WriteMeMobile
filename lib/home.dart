@@ -7,6 +7,7 @@ import 'package:write_me/folder_contain_empty.dart';
 import 'package:write_me/login.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
+import 'package:write_me/note_folder.dart';
 import 'package:write_me/parameters.dart';
 
 import 'database_helper.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/note': (context) => const Note(),
+        '/notefolder': (context) => const NoteFolder(),
         '/folder_contain': (context) => const FolderContain(), // Deuxième page
         // Deuxième page
       },
@@ -522,7 +524,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: Column(
                                           children: [
                                             const Icon(
-                                              Icons.folder_rounded,
+                                              Icons.rectangle_rounded,
                                               color:
                                                   Color.fromRGBO(16, 43, 64, 1),
                                               size: 100,
@@ -712,11 +714,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                         titre: note["titre"],
                                         texte: note["texte"],
                                       ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
                                       const Divider(
                                         indent: 80,
                                         height: 15,
                                         thickness: 0.7,
                                         color: Color.fromRGBO(16, 43, 64, 0.4),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
                                       ),
                                     ],
                                   );
