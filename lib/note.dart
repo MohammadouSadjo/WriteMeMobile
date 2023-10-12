@@ -78,10 +78,29 @@ class _NotePageState extends State<NotePage> {
     'Élément 12',
   ];
 
+  late Future<List<Map<String, dynamic>>> _typenotes;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTypeNotes();
+  }
+
+  Future<void> _loadTypeNotes() async {
+    _typenotes = DatabaseHelper.getTypeNotes();
+    //List<Type_Note> dossiers_list = _typenotes.map(dossier)
+    //DatabaseHelper.getTypeNotes() as List<Type_Note>;
+
+    /*setState(() {
+      dossiers = dossiers_list;
+    });*/
+  }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController titreController = TextEditingController();
     TextEditingController texteController = TextEditingController();
+    TextEditingController intituledossierController = TextEditingController();
 
     initializeDateFormatting();
     final DateTime now = DateTime.now();
@@ -122,7 +141,7 @@ class _NotePageState extends State<NotePage> {
             Text(dateTime,
                 //'Jeu 26.04.2023 | 10:34',
                 //'Date: ${DateFormat('dd/MM/yyyy').format(_selectedDate)}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Nova Round',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
@@ -222,6 +241,8 @@ class _NotePageState extends State<NotePage> {
               },
             );
           } else {
+            int id_typenote = 0;
+
             showDialog(
                 barrierDismissible: false,
                 context: context,
@@ -318,8 +339,67 @@ class _NotePageState extends State<NotePage> {
                                     ),
                                   ),
                                   content: Container(
-                                    width: 300, // Largeur fixe de la fenêtre
-                                    height: 300, // Hauteur fixe de la fenêtre
+                                    width: 300,
+                                    height: 300,
+                                    child: FutureBuilder<
+                                        List<Map<String, dynamic>>>(
+                                      future: _typenotes,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const CircularProgressIndicator();
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              'Erreur: ${snapshot.error}');
+                                        } else if (snapshot.hasData &&
+                                            snapshot.data!.isEmpty) {
+                                          return const Text("Aucune note");
+                                        } else {
+                                          return ListView.builder(
+                                            itemCount: snapshot.data!.length,
+                                            itemBuilder: (context, index) {
+                                              final typenote =
+                                                  snapshot.data![index];
+                                              return ListTile(
+                                                title: Text(
+                                                    typenote["intitule_type"]),
+                                                onTap: () {
+                                                  id_typenote =
+                                                      typenote["id_typenote"];
+                                                  print(id_typenote);
+                                                  setState(() {
+                                                    selectedItem = typenote[
+                                                            "intitule_type"]
+                                                        as String?;
+                                                  });
+                                                },
+                                                tileColor: selectedItem ==
+                                                        typenote[
+                                                                "intitule_type"]
+                                                            as String?
+                                                    ? const Color.fromRGBO(
+                                                        16,
+                                                        43,
+                                                        64,
+                                                        1) // Couleur de surbrillance
+                                                    : null,
+                                                textColor: selectedItem ==
+                                                        typenote[
+                                                                "intitule_type"]
+                                                            as String?
+                                                    ? Colors
+                                                        .white // Couleur de surbrillance
+                                                    : null,
+                                              );
+                                            },
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  /*Container(
+                                    width: 300, 
+                                    height: 300, 
                                     child: ListView.builder(
                                       itemCount: items.length,
                                       itemBuilder:
@@ -344,7 +424,7 @@ class _NotePageState extends State<NotePage> {
                                         );
                                       },
                                     ),
-                                  ),
+                                  ),*/
                                   actions: [
                                     TextButton(
                                       onPressed: () {
@@ -363,22 +443,25 @@ class _NotePageState extends State<NotePage> {
                                                   ),
                                                 ),
                                               ),
-                                              content: const Column(
+                                              content: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Padding(
                                                     //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                                                    padding: EdgeInsets.only(
-                                                        left: 10,
-                                                        right: 10,
-                                                        bottom: 15),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10,
+                                                            right: 10,
+                                                            bottom: 15),
                                                     child: TextField(
-                                                      style: TextStyle(
+                                                      controller:
+                                                          intituledossierController,
+                                                      style: const TextStyle(
                                                         color: Color.fromRGBO(
                                                             16, 43, 64, 1),
                                                       ),
                                                       decoration:
-                                                          InputDecoration(
+                                                          const InputDecoration(
                                                         /*icon: Icon(
                                           Icons.person,
                                           color: Color.fromRGBO(16, 43, 64, 1),
@@ -421,18 +504,174 @@ class _NotePageState extends State<NotePage> {
                                                           61, 110, 201, 1.0),
                                                     ),
                                                   ),
-                                                  onPressed: () {
+                                                  onPressed: () async {
+                                                    final intitule_type =
+                                                        intituledossierController
+                                                            .text;
+                                                    // Remplacez par la valeur du champ de titre.
+                                                    // Remplacez par la valeur du champ de contenu.
+
+                                                    // Obtenez la date de création et de modification actuelle.
+                                                    final dateCreation =
+                                                        DateTime.now();
+                                                    final dateModification =
+                                                        DateTime.now();
+
+                                                    // Obtenez l'ID du type de note approprié.
+                                                    //final typenoteId =
+                                                    //1; // Remplacez par l'ID du type de note approprié.
+
+                                                    // Appelez la fonction d'insertion de note dans DatabaseHelper.
+                                                    if (intitule_type == "") {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return AlertDialog(
+                                                            title: const Center(
+                                                              child: Text(
+                                                                'Erreur',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize:
+                                                                      20.0,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          61,
+                                                                          110,
+                                                                          201,
+                                                                          1.0),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            content:
+                                                                const Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Padding(
+                                                                  //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10,
+                                                                          right:
+                                                                              10,
+                                                                          bottom:
+                                                                              15),
+                                                                  child: Text(
+                                                                    'Zone de texte vide!',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize:
+                                                                          15.0,
+                                                                      color: Color.fromRGBO(
+                                                                          61,
+                                                                          110,
+                                                                          201,
+                                                                          1.0),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            actions: [
+                                                              TextButton(
+                                                                child:
+                                                                    const Text(
+                                                                  'Fermer',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            61,
+                                                                            110,
+                                                                            201,
+                                                                            1.0),
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                },
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+                                                    } else {
+                                                      if (intitule_type != "") {
+                                                        final typenoteId =
+                                                            await DatabaseHelper
+                                                                .createTypeNote(
+                                                                    intitule_type,
+                                                                    dateCreation,
+                                                                    dateModification);
+                                                        if (typenoteId !=
+                                                            null) {
+                                                          final titre =
+                                                              titreController
+                                                                  .text; // Remplacez par la valeur du champ de titre.
+                                                          final texte =
+                                                              texteController
+                                                                  .text; // Remplacez par la valeur du champ de contenu.
+
+                                                          // Obtenez la date de création et de modification actuelle.
+                                                          final dateCreation =
+                                                              DateTime.now();
+                                                          final dateModification =
+                                                              DateTime.now();
+                                                          // Faites quelque chose avec l'élément sélectionné (selectedItem)
+
+                                                          if (titre != "" &&
+                                                              texte != "") {
+                                                            print("Insertion");
+                                                            final noteId = await DatabaseHelper
+                                                                .createNote(
+                                                                    titre,
+                                                                    texte,
+                                                                    dateCreation,
+                                                                    dateModification,
+                                                                    typenoteId);
+                                                            if (noteId !=
+                                                                null) {
+                                                              print(
+                                                                  "redirection");
+                                                              Navigator
+                                                                  .pushAndRemoveUntil(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (_) =>
+                                                                      const MyApp(),
+                                                                ),
+                                                                (Route<dynamic>
+                                                                        route) =>
+                                                                    false,
+                                                              );
+                                                            } else {
+                                                              print(
+                                                                  'Erreur lors de l\'insertion de la note.');
+                                                            }
+                                                          } else {
+                                                            print("Erreur");
+                                                          }
+                                                        } else {
+                                                          print(
+                                                              'Erreur lors de l\'insertion de la note.');
+                                                        }
+                                                      } else {
+                                                        print("Erreur");
+                                                      }
+                                                    }
                                                     // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
-                                                    Navigator
-                                                        .pushAndRemoveUntil(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (_) =>
-                                                            const MyApp(),
-                                                      ),
-                                                      (Route<dynamic> route) =>
-                                                          false,
-                                                    );
                                                   },
                                                 ),
                                               ],
@@ -463,19 +702,46 @@ class _NotePageState extends State<NotePage> {
                                       ),
                                     ),
                                     TextButton(
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        final titre = titreController
+                                            .text; // Remplacez par la valeur du champ de titre.
+                                        final texte = texteController
+                                            .text; // Remplacez par la valeur du champ de contenu.
+
+                                        // Obtenez la date de création et de modification actuelle.
+                                        final dateCreation = DateTime.now();
+                                        final dateModification = DateTime.now();
                                         // Faites quelque chose avec l'élément sélectionné (selectedItem)
                                         if (selectedItem != null) {
+                                          if (titre != "" && texte != "") {
+                                            print("Insertion");
+                                            final noteId =
+                                                await DatabaseHelper.createNote(
+                                                    titre,
+                                                    texte,
+                                                    dateCreation,
+                                                    dateModification,
+                                                    id_typenote);
+                                            if (noteId != null) {
+                                              print("redirection");
+                                              Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) => const MyApp(),
+                                                ),
+                                                (Route<dynamic> route) => false,
+                                              );
+                                            } else {
+                                              print(
+                                                  'Erreur lors de l\'insertion de la note.');
+                                            }
+                                          } else {
+                                            print("Erreur");
+                                          }
+
                                           print(
                                               'Élément sélectionné : $selectedItem');
                                         }
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => const MyApp(),
-                                          ),
-                                          (Route<dynamic> route) => false,
-                                        );
                                       },
                                       child: const Text(
                                         'Valider',
