@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:write_me/database_helper.dart';
 import 'package:write_me/folder_contain.dart';
+import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
 
 import 'package:intl/intl.dart';
@@ -218,6 +219,10 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
 
   late Future<List<Map<String, dynamic>>> _notes;
 
+  late Future<List<Map<String, dynamic>>> _listallnotes;
+
+  String? selectedItem;
+
   @override
   void initState() {
     super.initState();
@@ -228,6 +233,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
 
   Future<void> _loadNotes() async {
     _notes = DatabaseHelper.getNoteByType(widget.id);
+    _listallnotes = DatabaseHelper.getNotes();
   }
 
   Future<void> fetchTypeNote() async {
@@ -508,6 +514,8 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          int id_note = 0;
+
           showModalBottomSheet(
             context: context,
             builder: (BuildContext context) {
@@ -549,6 +557,146 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                         ),
                       ),
                       onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(
+                                builder: (context, setState) {
+                              return AlertDialog(
+                                  title: const Text(
+                                    'Sélectionnez un élément',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(16, 43, 64, 1),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  content: Container(
+                                    width: 300,
+                                    height: 300,
+                                    child: FutureBuilder<
+                                        List<Map<String, dynamic>>>(
+                                      future: _listallnotes,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const CircularProgressIndicator();
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              'Erreur: ${snapshot.error}');
+                                        } else if (snapshot.hasData &&
+                                            snapshot.data!.isEmpty) {
+                                          return const Text("Aucune note");
+                                        } else {
+                                          return ListView.builder(
+                                            itemCount: snapshot.data!.length,
+                                            itemBuilder: (context, index) {
+                                              final note =
+                                                  snapshot.data![index];
+                                              return ListTile(
+                                                title: Text(note["titre"]),
+                                                onTap: () {
+                                                  id_note = note["id_note"];
+                                                  print(id_note);
+                                                  setState(() {
+                                                    selectedItem = note["titre"]
+                                                        as String?;
+                                                  });
+                                                },
+                                                tileColor: selectedItem ==
+                                                        note["titre"] as String?
+                                                    ? const Color.fromRGBO(
+                                                        16,
+                                                        43,
+                                                        64,
+                                                        1) // Couleur de surbrillance
+                                                    : null,
+                                                textColor: selectedItem ==
+                                                        note["titre"] as String?
+                                                    ? Colors
+                                                        .white // Couleur de surbrillance
+                                                    : null,
+                                              );
+                                            },
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text(
+                                        'Annuler',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(61, 110, 201, 1.0),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: const Text(
+                                        'Confirmer',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(61, 110, 201, 1.0),
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        if (id_note != null) {
+                                          List<Map<String, dynamic>> notes =
+                                              await DatabaseHelper.getNote(
+                                                  id_note);
+
+                                          if (notes.isNotEmpty) {
+                                            Map<String, dynamic> noteData =
+                                                notes.first;
+                                            // Maintenant, vous avez les données de la note en tant que Map
+
+                                            // Vous pouvez créer une instance de Note à partir de la Map
+                                            Note finalNote =
+                                                Note.fromMap(noteData);
+                                            print(finalNote.titre);
+                                            initializeDateFormatting();
+
+                                            int updateNote =
+                                                await DatabaseHelper.updateNote(
+                                                    finalNote.id_note,
+                                                    finalNote.titre,
+                                                    finalNote.texte,
+                                                    DateTime
+                                                        .fromMillisecondsSinceEpoch(
+                                                            finalNote
+                                                                .date_creation),
+                                                    DateTime.now(),
+                                                    widget.id);
+
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    FolderContainEmpty(
+                                                  title: 'WriteMe',
+                                                  id: widget.id,
+                                                ),
+                                              ),
+                                              //(Route<dynamic> route) => false,
+                                            );
+
+                                            // Faites ce que vous avez à faire avec finalNote ici
+                                          } else {
+                                            // La liste est vide, il n'y a pas de données pour cet ID
+                                          }
+                                        }
+                                      },
+                                    ),
+                                  ]);
+                            });
+                          },
+                        );
+
                         // Do something
                         Navigator.pop(context);
                       },

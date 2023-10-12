@@ -523,12 +523,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                         },
                                         child: Column(
                                           children: [
-                                            const Icon(
+                                            SizedBox(
+                                              height: 15,
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: Color.fromRGBO(
+                                                      16, 43, 64, 1),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10))),
+                                              width: 110,
+                                              height: 110,
+
+                                              /*child: ColoredBox(
+                                                  color: Colors.blue),*/
+                                            ),
+                                            /*const Icon(
                                               Icons.rectangle_rounded,
                                               color:
                                                   Color.fromRGBO(16, 43, 64, 1),
                                               size: 100,
-                                            ),
+                                            ),*/
                                             Container(
                                               width: 120.0,
                                               height: 30.0,
@@ -578,7 +594,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           }
                         },
                       ),
-                      
                       const Row(
                         children: [
                           Icon(

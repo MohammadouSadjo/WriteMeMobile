@@ -2,13 +2,28 @@
 
 class Note {
   final int id_note;
-  final int compte_id;
-  final int type_note_id;
+  final int? type_note_id;
   final String titre;
   final String texte;
-  final String date_creation;
-  final String date_modification;
+  final int date_creation;
+  final int date_modification;
 
-  Note(this.date_creation, this.date_modification, this.id_note, this.compte_id,
-      this.type_note_id, this.titre, this.texte);
+  Note(
+      {required this.id_note,
+      required this.type_note_id,
+      required this.titre,
+      required this.texte,
+      required this.date_creation,
+      required this.date_modification});
+
+  factory Note.fromMap(Map<String, dynamic> map) {
+    return Note(
+      id_note: map['id_note'],
+      type_note_id: map['type_note_id'],
+      titre: map['titre'],
+      texte: map['texte'],
+      date_creation: map['date_creation'],
+      date_modification: map['date_modification'],
+    );
+  }
 }
