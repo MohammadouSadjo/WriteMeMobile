@@ -523,15 +523,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                         },
                                         child: Column(
                                           children: [
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 15,
                                             ),
                                             Container(
                                               decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      16, 43, 64, 1),
+                                                  image: const DecorationImage(
+                                                    image: AssetImage(
+                                                        'lib/images/logov2.png'), // Remplacez par le chemin de votre image
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  border: Border.all(
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              61,
+                                                              110,
+                                                              201,
+                                                              1.0),
+                                                      width: 2.0),
+                                                  //color: const Color.fromRGBO(
+                                                  //  16, 43, 64, 1),
                                                   borderRadius:
-                                                      BorderRadius.all(
+                                                      const BorderRadius.all(
                                                           Radius.circular(10))),
                                               width: 110,
                                               height: 110,

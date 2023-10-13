@@ -142,7 +142,7 @@ class _NotePageState extends State<NotePage> {
                 //'Jeu 26.04.2023 | 10:34',
                 //'Date: ${DateFormat('dd/MM/yyyy').format(_selectedDate)}',
                 style: const TextStyle(
-                  fontFamily: 'Nova Round',
+                  fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
                   color: Color.fromRGBO(16, 43, 64, 1),

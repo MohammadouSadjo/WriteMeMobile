@@ -104,6 +104,17 @@ flutter:
         - asset: lib/fonts/RobotoSerif-SemiBoldItalic.ttf
         - asset: lib/fonts/RobotoSerif-Thin.ttf
         - asset: lib/fonts/RobotoSerif-ThinItalic.ttf
+    - family: RobotoSlab
+      fonts:
+        - asset: lib/fonts/RobotoSlab-Black.ttf
+        - asset: lib/fonts/RobotoSlab-Bold.ttf
+        - asset: lib/fonts/RobotoSlab-ExtraBold.ttf
+        - asset: lib/fonts/RobotoSlab-ExtraLight.ttf
+        - asset: lib/fonts/RobotoSlab-Light.ttf
+        - asset: lib/fonts/RobotoSlab-Medium.ttf
+        - asset: lib/fonts/RobotoSlab-Regular.ttf
+        - asset: lib/fonts/RobotoSlab-SemiBold.ttf
+        - asset: lib/fonts/RobotoSlab-Thin.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

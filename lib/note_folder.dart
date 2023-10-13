@@ -131,8 +131,8 @@ class _NotePageState extends State<NoteFolderPage> {
             Text(dateTime,
                 //'Jeu 26.04.2023 | 10:34',
                 //'Date: ${DateFormat('dd/MM/yyyy').format(_selectedDate)}',
-                style: TextStyle(
-                  fontFamily: 'Nova Round',
+                style: const TextStyle(
+                  fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
                   color: Color.fromRGBO(16, 43, 64, 1),
