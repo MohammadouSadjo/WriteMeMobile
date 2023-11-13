@@ -8,6 +8,7 @@ import 'package:write_me/login.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
 import 'package:write_me/note_folder.dart';
+import 'package:write_me/note_update.dart';
 import 'package:write_me/parameters.dart';
 
 import 'database_helper.dart';
@@ -68,6 +69,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyListTile extends StatelessWidget {
+  final int id;
   final DateTime dateCreation;
   final DateTime dateModification;
   final String titre;
@@ -75,6 +77,7 @@ class MyListTile extends StatelessWidget {
 
   const MyListTile(
       {super.key,
+      required this.id,
       required this.dateCreation,
       required this.dateModification,
       required this.titre,
@@ -163,6 +166,19 @@ class MyListTile extends StatelessWidget {
         ),
       ),
       onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NoteUpdate(
+              id: id,
+              dateCreation: dateCreation,
+              dateModification: dateModification,
+              titre: titre,
+              texte: texte,
+            ),
+            //FolderDetailPage(folderData),
+          ),
+        );
         // Ajoutez le code pour traiter l'option 1 ici.
       },
       trailing: PopupMenuButton<String>(
@@ -645,6 +661,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   return Column(
                                     children: [
                                       MyListTile(
+                                        id: note["id_note"],
                                         dateCreation:
                                             DateTime.fromMillisecondsSinceEpoch(
                                                 note["date_creation"]),
