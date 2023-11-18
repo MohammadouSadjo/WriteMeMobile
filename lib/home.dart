@@ -8,6 +8,7 @@ import 'package:write_me/login.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
 import 'package:write_me/note_folder.dart';
+import 'package:write_me/note_print.dart';
 import 'package:write_me/note_update.dart';
 import 'package:write_me/parameters.dart';
 
@@ -169,7 +170,7 @@ class MyListTile extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => NoteUpdate(
+            builder: (context) => NotePrint(
               id: id,
               dateCreation: dateCreation,
               dateModification: dateModification,
@@ -184,7 +185,7 @@ class MyListTile extends StatelessWidget {
       trailing: PopupMenuButton<String>(
         itemBuilder: (BuildContext context) {
           return <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
+            PopupMenuItem<String>(
               value: 'edit',
               child: Row(
                 children: <Widget>[
@@ -200,6 +201,21 @@ class MyListTile extends StatelessWidget {
                   ),
                 ],
               ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotePrint(
+                      id: id,
+                      dateCreation: dateCreation,
+                      dateModification: dateModification,
+                      titre: titre,
+                      texte: texte,
+                    ),
+                    //FolderDetailPage(folderData),
+                  ),
+                );
+              },
             ),
             const PopupMenuItem<String>(
               value: 'delete',

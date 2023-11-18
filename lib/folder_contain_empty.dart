@@ -6,6 +6,8 @@ import 'package:write_me/models/type_note.dart';
 
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:write_me/note_print_folder.dart';
+import 'package:write_me/note_update_folder.dart';
 
 import 'home.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -73,17 +75,21 @@ class MyFolderContainEmpty extends StatefulWidget {
 }
 
 class MyListTile extends StatelessWidget {
+  final int id;
   final DateTime dateCreation;
   final DateTime dateModification;
   final String titre;
   final String texte;
+  final int typeNoteId;
 
   const MyListTile(
       {super.key,
+      required this.id,
       required this.dateCreation,
       required this.dateModification,
       required this.titre,
-      required this.texte});
+      required this.texte,
+      required this.typeNoteId});
 
   @override
   Widget build(BuildContext context) {
@@ -168,12 +174,25 @@ class MyListTile extends StatelessWidget {
         ),
       ),
       onTap: () {
-        // Ajoutez le code pour traiter l'option 1 ici.
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NotePrintFolder(
+              id: id,
+              dateCreation: dateCreation,
+              dateModification: dateModification,
+              titre: titre,
+              texte: texte,
+              typeNoteId: typeNoteId,
+            ),
+            //FolderDetailPage(folderData),
+          ),
+        );
       },
       trailing: PopupMenuButton<String>(
         itemBuilder: (BuildContext context) {
           return <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
+            PopupMenuItem<String>(
               value: 'edit',
               child: Row(
                 children: <Widget>[
@@ -189,6 +208,22 @@ class MyListTile extends StatelessWidget {
                   ),
                 ],
               ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NoteUpdateFolder(
+                      id: id,
+                      dateCreation: dateCreation,
+                      dateModification: dateModification,
+                      titre: titre,
+                      texte: texte,
+                      typeNoteId: typeNoteId,
+                    ),
+                    //FolderDetailPage(folderData),
+                  ),
+                );
+              },
             ),
             const PopupMenuItem<String>(
               value: 'delete',
@@ -475,6 +510,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                 return Column(
                                   children: [
                                     MyListTile(
+                                      id: note["id_note"],
                                       dateCreation:
                                           DateTime.fromMillisecondsSinceEpoch(
                                               note["date_creation"]),
@@ -483,6 +519,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                               note["date_modification"]),
                                       titre: note["titre"],
                                       texte: note["texte"],
+                                      typeNoteId: widget.id,
                                     ),
                                     const SizedBox(
                                       height: 10,
