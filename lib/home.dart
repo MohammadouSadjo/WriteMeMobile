@@ -205,7 +205,7 @@ class MyListTile extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => NotePrint(
+                    builder: (context) => NoteUpdate(
                       id: id,
                       dateCreation: dateCreation,
                       dateModification: dateModification,

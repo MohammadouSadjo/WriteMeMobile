@@ -289,6 +289,9 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
+    TextEditingController intituletypeController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -312,7 +315,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
           PopupMenuButton<String>(
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
+                PopupMenuItem<String>(
                   value: 'edit',
                   child: Row(
                     children: <Widget>[
@@ -328,6 +331,188 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                       ),
                     ],
                   ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Center(
+                            child: Text(
+                              'Renommer le dossier',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20.0,
+                                color: Color.fromRGBO(61, 110, 201, 1.0),
+                              ),
+                            ),
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 15),
+                                child: TextField(
+                                  controller: intituletypeController,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(16, 43, 64, 1),
+                                  ),
+                                  decoration: const InputDecoration(
+                                    /*icon: Icon(
+                                          Icons.person,
+                                          color: Color.fromRGBO(16, 43, 64, 1),
+                                        ),*/
+                                    //border: OutlineInputBorder(),
+                                    labelText: 'Nom du dossier',
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(16, 43, 64, 1),
+                                    ),
+                                    hintText: 'Renommez le dossier',
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              child: const Text(
+                                'Annuler',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(61, 110, 201, 1.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: const Text(
+                                'Confirmer',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(61, 110, 201, 1.0),
+                                ),
+                              ),
+                              onPressed: () async {
+                                // Récupérez le titre et le contenu de la note depuis les champs de texte.
+                                final intitule_type =
+                                    intituletypeController.text;
+                                // Remplacez par la valeur du champ de titre.
+                                // Remplacez par la valeur du champ de contenu.
+
+                                // Obtenez la date de création et de modification actuelle.
+                                int dateCreationInt = 0;
+                                FutureBuilder<List<Map<String, dynamic>>>(
+                                    future: type_note,
+                                    builder: (context, snapshot) {
+                                      final typeNote = snapshot.data;
+                                      dateCreationInt =
+                                          typeNote?[0]["date_creation"];
+                                      return Text(
+                                          typeNote?[0]["date_creation"]);
+                                    });
+
+                                final dateCreation =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                        dateCreationInt);
+                                final dateModification = DateTime.now();
+
+                                // Obtenez l'ID du type de note approprié.
+                                //final typenoteId =
+                                //1; // Remplacez par l'ID du type de note approprié.
+
+                                // Appelez la fonction d'insertion de note dans DatabaseHelper.
+                                if (intitule_type == "") {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Center(
+                                          child: Text(
+                                            'Erreur',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 20.0,
+                                              color: Color.fromRGBO(
+                                                  61, 110, 201, 1.0),
+                                            ),
+                                          ),
+                                        ),
+                                        content: const Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                                              padding: EdgeInsets.only(
+                                                  left: 10,
+                                                  right: 10,
+                                                  bottom: 15),
+                                              child: Text(
+                                                'Zone de texte vide!',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 15.0,
+                                                  color: Color.fromRGBO(
+                                                      61, 110, 201, 1.0),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            child: const Text(
+                                              'Fermer',
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    61, 110, 201, 1.0),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  if (intitule_type != "") {
+                                    final typenoteId =
+                                        await DatabaseHelper.updateTypeNote(
+                                            widget.id,
+                                            intitule_type,
+                                            dateCreation,
+                                            dateModification);
+                                    if (typenoteId != null) {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => FolderContainEmpty(
+                                            id: widget.id,
+                                            title: '',
+                                          ),
+                                        ),
+                                        (Route<dynamic> route) => false,
+                                      );
+                                    } else {
+                                      print(
+                                          'Erreur lors de l\'insertion de la note.');
+                                    }
+                                  } else {
+                                    print("Erreur");
+                                  }
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                 ),
                 const PopupMenuItem<String>(
                   value: 'delete',
