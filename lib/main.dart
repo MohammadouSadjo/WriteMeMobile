@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:splash_view/splash_view.dart';
+import 'package:write_me/home.dart';
 import 'package:write_me/login.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MyAppMain());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyAppMain extends StatelessWidget {
+  const MyAppMain({super.key});
 
   // This widget is the root of your application.
   @override
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
             loadingIndicator: const CircularProgressIndicator(
               color: Color.fromRGBO(61, 110, 201, 1.0),
             ),
-            done: Done(const Login()),
+            done: Done(const MyApp()),
             backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
             bottomLoading: false,
             showStatusBar: true,

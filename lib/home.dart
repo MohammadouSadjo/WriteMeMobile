@@ -455,7 +455,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            ListTile(
+            /*ListTile(
               leading: const Icon(
                 Icons.settings,
                 color: Color.fromRGBO(16, 43, 64, 1),
@@ -473,16 +473,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (context) => const MyParameters(),
                   ),
                 );
-                // Ajoutez le code pour traiter l'option 1 ici.
               },
-            ),
+            ),*/
             ListTile(
               leading: const Icon(
                 Icons.logout,
                 color: Color.fromRGBO(16, 43, 64, 1),
               ),
               title: const Text(
-                'Se déconnecter',
+                "Fermer l'application",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
