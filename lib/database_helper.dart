@@ -165,7 +165,7 @@ class DatabaseHelper {
   static Future<void> deleteTypeNote(int id) async {
     final db = await DatabaseHelper.db();
     try {
-      await db.delete("typenotes", where: "id_note = ?", whereArgs: [id]);
+      await db.delete("typenotes", where: "id_typenote = ?", whereArgs: [id]);
     } catch (err) {
       debugPrint("Something went wrong when deleting an item: $err");
     }

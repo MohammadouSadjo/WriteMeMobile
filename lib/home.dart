@@ -187,7 +187,7 @@ class MyListTile extends StatelessWidget {
           return <PopupMenuEntry<String>>[
             PopupMenuItem<String>(
               value: 'edit',
-              child: Row(
+              child: const Row(
                 children: <Widget>[
                   Icon(
                     Icons.edit,
@@ -217,9 +217,9 @@ class MyListTile extends StatelessWidget {
                 );
               },
             ),
-            const PopupMenuItem<String>(
+            PopupMenuItem<String>(
               value: 'delete',
-              child: Row(
+              child: const Row(
                 children: <Widget>[
                   Icon(
                     Icons.delete,
@@ -233,6 +233,76 @@ class MyListTile extends StatelessWidget {
                   ),
                 ],
               ),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Center(
+                        child: Text(
+                          'Suppression',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20.0,
+                            color: Color.fromRGBO(61, 110, 201, 1.0),
+                          ),
+                        ),
+                      ),
+                      content: const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 15),
+                            child: Text(
+                              "Etes-vous sûr de vouloir supprimer cette note?",
+                              style: TextStyle(
+                                color: Color.fromRGBO(16, 43, 64, 1),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          child: const Text(
+                            'Annuler',
+                            style: TextStyle(
+                              color: Color.fromRGBO(61, 110, 201, 1.0),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                            child: const Text(
+                              'Confirmer',
+                              style: TextStyle(
+                                color: Color.fromRGBO(61, 110, 201, 1.0),
+                              ),
+                            ),
+                            onPressed: () async {
+                              // Récupérez le titre et le contenu de la note depuis les champs de texte.
+
+                              // Appelez la fonction d'insertion de note dans DatabaseHelper.
+
+                              final noteid =
+                                  await DatabaseHelper.deleteNote(id);
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const MyApp(),
+                                ),
+                                (Route<dynamic> route) => false,
+                              );
+                            }),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ];
         },
