@@ -95,9 +95,38 @@ class DatabaseHelper {
     return db.query('notes', orderBy: "id_note", where: "typenote_id = 0");
   }
 
+  static Future<List<Map<String, dynamic>>> getNotesByResearch(
+      String searchQuery) async {
+    final db = await DatabaseHelper.db();
+    print(db.path);
+
+    String whereClause = "typenote_id = 0";
+
+    if (searchQuery != null && searchQuery.isNotEmpty) {
+      whereClause +=
+          " AND (titre LIKE '%$searchQuery%' OR texte LIKE '%$searchQuery%')";
+    }
+
+    return db.query('notes', orderBy: "id_note", where: whereClause);
+  }
+
   static Future<List<Map<String, dynamic>>> getTypeNotes() async {
     final db = await DatabaseHelper.db();
     return db.query('typenotes', orderBy: "id_typenote");
+  }
+
+  static Future<List<Map<String, dynamic>>> getTypeNotesByResearch(
+      String searchQuery) async {
+    final db = await DatabaseHelper.db();
+    print(db.path);
+
+    String whereClause = "intitule_type LIKE '%$searchQuery%'";
+
+    /*if (searchQuery != null && searchQuery.isNotEmpty) {
+    whereClause += "titre LIKE '%$searchQuery%' OR texte LIKE '%$searchQuery%'";
+  }*/
+
+    return db.query('typenotes', orderBy: "id_typenote", where: whereClause);
   }
 
   static Future<List<Map<String, dynamic>>> getNote(int id) async {

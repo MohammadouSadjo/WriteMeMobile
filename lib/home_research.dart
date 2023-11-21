@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/folder_contain.dart';
 import 'package:write_me/folder_contain_empty.dart';
-import 'package:write_me/home_research.dart';
+import 'package:write_me/home.dart';
 import 'package:write_me/login.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
@@ -17,44 +17,25 @@ import 'package:write_me/parameters.dart';
 import 'database_helper.dart';
 import 'home_empty.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+class MyAppResearch extends StatelessWidget {
+  const MyAppResearch(
+      {super.key, required this.research, required String title});
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String research;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        '/note': (context) => const Note(),
-        '/notefolder': (context) => const NoteFolder(),
-        '/folder_contain': (context) => const FolderContain(), // Deuxième page
-        // Deuxième page
-      },
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        fontFamily: 'RobotoSerif',
-        primaryColor: const Color.fromRGBO(61, 110, 201, 1.0),
-      ),
-      home: const MyHomePage(title: 'WriteMe'),
+    return MyHomePageResearch(
+      title: 'Research',
+      research: research,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class MyHomePageResearch extends StatefulWidget {
+  const MyHomePageResearch(
+      {super.key, required this.title, required this.research});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -66,9 +47,10 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final String research;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePageResearch> createState() => _MyHomePageResearchState();
 }
 
 class MyListTile extends StatelessWidget {
@@ -313,7 +295,7 @@ class MyListTile extends StatelessWidget {
   }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageResearchState extends State<MyHomePageResearch> {
   List<Color> colors = [
     Colors.red,
     Colors.blue,
@@ -334,8 +316,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _loadNotes() async {
-    _notes = DatabaseHelper.getNotes();
-    _typenotes = DatabaseHelper.getTypeNotes();
+    _notes = DatabaseHelper.getNotesByResearch(widget.research);
+    _typenotes = DatabaseHelper.getTypeNotesByResearch(widget.research);
     //List<Type_Note> dossiers_list = _typenotes.map(dossier)
     //DatabaseHelper.getTypeNotes() as List<Type_Note>;
 
@@ -353,7 +335,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController intituletypeController = TextEditingController();
-    TextEditingController researchController = TextEditingController();
     FlutterStatusbarcolor.setStatusBarColor(
       const Color.fromRGBO(61, 110, 201, 1.0),
     );
@@ -365,144 +346,23 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: const Icon(Icons.menu),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Scaffold.of(context).openDrawer();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const MyApp(),
+                  ),
+                  (Route<dynamic> route) => false,
+                );
               },
             );
           },
         ),
         title: Text(widget.title),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // afficher une boîte de dialogue avec un TextField
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Center(
-                      child: Text(
-                        'Recherche',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 25.0,
-                          color: Color.fromRGBO(61, 110, 201, 1.0),
-                        ),
-                      ),
-                    ),
-                    content: TextField(
-                      controller: researchController,
-                      decoration: InputDecoration(
-                        hintText: 'Rechercher...',
-                      ),
-                    ),
-                    actions: [
-                      TextButton(
-                        child: const Text(
-                          'Annuler',
-                          style: TextStyle(
-                            color: Color.fromRGBO(61, 110, 201, 1.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: const Text(
-                          'Rechercher',
-                          style: TextStyle(
-                            color: Color.fromRGBO(61, 110, 201, 1.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          if (researchController.text == "") {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Center(
-                                    child: Text(
-                                      'Erreur',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20.0,
-                                        color:
-                                            Color.fromRGBO(61, 110, 201, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                  content: const Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                        //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                                        padding: EdgeInsets.only(
-                                            left: 10, right: 10, bottom: 15),
-                                        child: Text(
-                                          'Zone de texte vide!',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15.0,
-                                            color: Color.fromRGBO(
-                                                61, 110, 201, 1.0),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      child: const Text(
-                                        'Fermer',
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(61, 110, 201, 1.0),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MyAppResearch(
-                                  title: 'WriteMe',
-                                  research: researchController.text,
-                                ),
-                                //FolderDetailPage(folderData),
-                              ),
-                            );
-                          }
-
-                          // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
-                          /*Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const MyAppEmpty(),
-                            ),
-                            (Route<dynamic> route) => false,
-                          );*/
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-        ],
+        actions: [],
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
       ),
-
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -523,42 +383,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-            ),
-            /*ListTile(
-              leading: const Icon(
-                Icons.settings,
-                color: Color.fromRGBO(16, 43, 64, 1),
-              ),
-              title: const Text(
-                'Paramètres du compte',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MyParameters(),
-                  ),
-                );
-              },
-            ),*/
-            ListTile(
-              leading: const Icon(
-                Icons.logout,
-                color: Color.fromRGBO(16, 43, 64, 1),
-              ),
-              title: const Text(
-                "Fermer l'application",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onTap: () {
-                SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                // Ajoutez le code pour traiter l'option 1 ici.
-              },
             ),
             // Ajoutez autant d'options que nécessaire...
           ],
@@ -589,19 +413,19 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 200.0,
                       ),
                       const Text(
-                        "Ajouter une note",
+                        "Aucun résultat",
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17.0,
                           color: Colors.grey,
                         ),
                       ),
-                      Container(
+                      /*Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 30.0, vertical: 15.0),
                         child: const Center(
                           child: Text(
-                            "Aucune note n'a encore été créée! Cliquez sur le bouton en bas à droite pour commencer.",
+                            "Aucun résultat",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 12.0,
@@ -610,7 +434,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                 );
@@ -847,230 +671,6 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         },
       ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                height: 150.0,
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: const Icon(
-                        Icons.description,
-                        color: Color.fromRGBO(16, 43, 64, 1),
-                      ),
-                      title: const Text(
-                        'Ajouter une note',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(16, 43, 64, 1),
-                        ),
-                      ),
-                      onTap: () {
-                        // Do something
-                        Navigator.pushReplacementNamed(
-                          context,
-                          '/note',
-                        );
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(
-                        Icons.folder,
-                        color: Color.fromRGBO(16, 43, 64, 1),
-                      ),
-                      title: const Text(
-                        'Ajouter un dossier',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(16, 43, 64, 1),
-                        ),
-                      ),
-                      onTap: () {
-                        // Do something
-                        Navigator.pop(context);
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Center(
-                                child: Text(
-                                  'Nouveau dossier',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20.0,
-                                    color: Color.fromRGBO(61, 110, 201, 1.0),
-                                  ),
-                                ),
-                              ),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10, bottom: 15),
-                                    child: TextField(
-                                      controller: intituletypeController,
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(16, 43, 64, 1),
-                                      ),
-                                      decoration: const InputDecoration(
-                                        /*icon: Icon(
-                                          Icons.person,
-                                          color: Color.fromRGBO(16, 43, 64, 1),
-                                        ),*/
-                                        //border: OutlineInputBorder(),
-                                        labelText: 'Nom du dossier',
-                                        labelStyle: TextStyle(
-                                          color: Color.fromRGBO(16, 43, 64, 1),
-                                        ),
-                                        hintText: 'Nommez le dossier',
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text(
-                                    'Annuler',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(61, 110, 201, 1.0),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text(
-                                    'Confirmer',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(61, 110, 201, 1.0),
-                                    ),
-                                  ),
-                                  onPressed: () async {
-                                    // Récupérez le titre et le contenu de la note depuis les champs de texte.
-                                    final intitule_type =
-                                        intituletypeController.text;
-                                    // Remplacez par la valeur du champ de titre.
-                                    // Remplacez par la valeur du champ de contenu.
-
-                                    // Obtenez la date de création et de modification actuelle.
-                                    final dateCreation = DateTime.now();
-                                    final dateModification = DateTime.now();
-
-                                    // Obtenez l'ID du type de note approprié.
-                                    //final typenoteId =
-                                    //1; // Remplacez par l'ID du type de note approprié.
-
-                                    // Appelez la fonction d'insertion de note dans DatabaseHelper.
-                                    if (intitule_type == "") {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Center(
-                                              child: Text(
-                                                'Erreur',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 20.0,
-                                                  color: Color.fromRGBO(
-                                                      61, 110, 201, 1.0),
-                                                ),
-                                              ),
-                                            ),
-                                            content: const Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Padding(
-                                                  //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                                                  padding: EdgeInsets.only(
-                                                      left: 10,
-                                                      right: 10,
-                                                      bottom: 15),
-                                                  child: Text(
-                                                    'Zone de texte vide!',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 15.0,
-                                                      color: Color.fromRGBO(
-                                                          61, 110, 201, 1.0),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                child: const Text(
-                                                  'Fermer',
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        61, 110, 201, 1.0),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    } else {
-                                      if (intitule_type != "") {
-                                        final typenoteId =
-                                            await DatabaseHelper.createTypeNote(
-                                                intitule_type,
-                                                dateCreation,
-                                                dateModification);
-                                        if (typenoteId != null) {
-                                          Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) => const MyApp(),
-                                            ),
-                                            (Route<dynamic> route) => false,
-                                          );
-                                        } else {
-                                          print(
-                                              'Erreur lors de l\'insertion de la note.');
-                                        }
-                                      } else {
-                                        print("Erreur");
-                                      }
-                                    }
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-        tooltip: "Ajout d'une note",
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
-        child: const Icon(Icons.edit),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
