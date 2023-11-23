@@ -3,19 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:write_me/folder_contain.dart';
 import 'package:write_me/folder_contain_empty.dart';
 import 'package:write_me/home.dart';
-import 'package:write_me/login.dart';
 import 'package:write_me/models/type_note.dart';
-import 'package:write_me/note.dart';
-import 'package:write_me/note_folder.dart';
 import 'package:write_me/note_print.dart';
 import 'package:write_me/note_update.dart';
-import 'package:write_me/parameters.dart';
 
 import 'database_helper.dart';
-import 'home_empty.dart';
 
 class MyAppResearch extends StatelessWidget {
   const MyAppResearch(
@@ -36,15 +30,6 @@ class MyAppResearch extends StatelessWidget {
 class MyHomePageResearch extends StatefulWidget {
   const MyHomePageResearch(
       {super.key, required this.title, required this.research});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
   final String research;
@@ -71,8 +56,6 @@ class MyListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting();
-    final DateTime now = DateTime.now();
-    //DateTime dateInMarch = DateTime(now.year, DateTime.march, now.day);
     String formattedDate =
         DateFormat("dd MMM", 'fr_FR').format(dateModification);
     String formattedDateYear =
@@ -86,12 +69,9 @@ class MyListTile extends StatelessWidget {
     if (texte.length > 60) {
       truncatedText = texte.substring(0, 60);
       truncatedText += "...";
-      // Faites quelque chose avec truncatedText, par exemple, l'afficher ou le manipuler.
     } else {
       truncatedText = texte;
     }
-
-    //print(dateTime);
 
     return ListTile(
       leading: Row(
@@ -161,10 +141,8 @@ class MyListTile extends StatelessWidget {
               titre: titre,
               texte: texte,
             ),
-            //FolderDetailPage(folderData),
           ),
         );
-        // Ajoutez le code pour traiter l'option 1 ici.
       },
       trailing: PopupMenuButton<String>(
         itemBuilder: (BuildContext context) {
@@ -196,7 +174,6 @@ class MyListTile extends StatelessWidget {
                       titre: titre,
                       texte: texte,
                     ),
-                    //FolderDetailPage(folderData),
                   ),
                 );
               },
@@ -236,7 +213,6 @@ class MyListTile extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Padding(
-                            //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                             padding: EdgeInsets.only(
                                 left: 10, right: 10, bottom: 15),
                             child: Text(
@@ -268,12 +244,7 @@ class MyListTile extends StatelessWidget {
                               ),
                             ),
                             onPressed: () async {
-                              // Récupérez le titre et le contenu de la note depuis les champs de texte.
-
-                              // Appelez la fonction d'insertion de note dans DatabaseHelper.
-
-                              final noteid =
-                                  await DatabaseHelper.deleteNote(id);
+                              await DatabaseHelper.deleteNote(id);
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -318,28 +289,18 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
   Future<void> _loadNotes() async {
     _notes = DatabaseHelper.getNotesByResearch(widget.research);
     _typenotes = DatabaseHelper.getTypeNotesByResearch(widget.research);
-    //List<Type_Note> dossiers_list = _typenotes.map(dossier)
-    //DatabaseHelper.getTypeNotes() as List<Type_Note>;
-
-    /*setState(() {
-      dossiers = dossiers_list;
-    });*/
   }
 
   Future<List<Map<String, dynamic>>> getTypenotes() async {
-    // Appelez votre fonction dans DatabaseHelper qui renvoie les données
-    DatabaseHelper databaseHelper = DatabaseHelper();
     return await DatabaseHelper.getTypeNotes();
   }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController intituletypeController = TextEditingController();
     FlutterStatusbarcolor.setStatusBarColor(
       const Color.fromRGBO(61, 110, 201, 1.0),
     );
 
-    // Définissez la couleur des icônes de la barre de statut en blanc (clair)
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     return Scaffold(
       appBar: AppBar(
@@ -384,7 +345,6 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                 ),
               ),
             ),
-            // Ajoutez autant d'options que nécessaire...
           ],
         ),
       ),
@@ -420,27 +380,10 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                           color: Colors.grey,
                         ),
                       ),
-                      /*Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30.0, vertical: 15.0),
-                        child: const Center(
-                          child: Text(
-                            "Aucun résultat",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12.0,
-                              color: Colors.grey,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),*/
                     ],
                   ),
                 );
               } else {
-                // Le reste du code pour afficher la liste des dossiers et des notes
-                // ...
                 initializeDateFormatting();
                 return Padding(
                   padding: const EdgeInsets.only(top: 20.0, left: 10.0),
@@ -467,7 +410,6 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            // Pendant le chargement des données
                             return const CircularProgressIndicator();
                           } else if (snapshot.hasError) {
                             // En cas d'erreur
@@ -484,10 +426,8 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                               ],
                             );
                           } else {
-                            // Lorsque les données sont disponibles
                             final typenotelist = snapshot.data;
 
-                            // Maintenant, vous pouvez utiliser folderDataList pour construire vos widgets
                             return SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
@@ -505,7 +445,6 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                                                 title: 'WriteMe',
                                                 id: id,
                                               ),
-                                              //FolderDetailPage(folderData),
                                             ),
                                           );
                                         },
@@ -518,7 +457,7 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                                               decoration: BoxDecoration(
                                                   image: const DecorationImage(
                                                     image: AssetImage(
-                                                        'lib/images/logov2.png'), // Remplacez par le chemin de votre image
+                                                        'lib/images/logov2.png'),
                                                     fit: BoxFit.cover,
                                                   ),
                                                   border: Border.all(
@@ -529,23 +468,12 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                                                               201,
                                                               1.0),
                                                       width: 2.0),
-                                                  //color: const Color.fromRGBO(
-                                                  //  16, 43, 64, 1),
                                                   borderRadius:
                                                       const BorderRadius.all(
                                                           Radius.circular(10))),
                                               width: 110,
                                               height: 110,
-
-                                              /*child: ColoredBox(
-                                                  color: Colors.blue),*/
                                             ),
-                                            /*const Icon(
-                                              Icons.rectangle_rounded,
-                                              color:
-                                                  Color.fromRGBO(16, 43, 64, 1),
-                                              size: 100,
-                                            ),*/
                                             Container(
                                               width: 120.0,
                                               height: 30.0,

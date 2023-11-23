@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:write_me/database_helper.dart';
 import 'package:write_me/folder_contain_empty.dart';
-import 'package:write_me/home.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
 
 class NoteUpdateFolder extends StatelessWidget {
   const NoteUpdateFolder(
@@ -24,7 +21,6 @@ class NoteUpdateFolder extends StatelessWidget {
   final String texte;
   final int typeNoteId;
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return NoteUpdateFolderPage(
@@ -35,24 +31,6 @@ class NoteUpdateFolder extends StatelessWidget {
         dateModification: dateModification,
         texte: texte,
         typeNoteId: typeNoteId);
-    /*return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          fontFamily: 'RobotoSerif',
-          primaryColor: const Color.fromRGBO(61, 110, 201, 1.0),
-        ),
-        home: const MyParametersPage(
-          title: "Paramètres",
-        ));*/
   }
 }
 
@@ -67,15 +45,6 @@ class NoteUpdateFolderPage extends StatefulWidget {
       required this.texte,
       required this.typeNoteId});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
   final int id;
   final DateTime dateCreation;
@@ -89,10 +58,6 @@ class NoteUpdateFolderPage extends StatefulWidget {
 }
 
 class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
-  //String _title;
-  //String _content;
-  DateTime _selectedDate = DateTime.now();
-
   String? selectedItem;
 
   List<String> items = [
@@ -110,22 +75,9 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
     'Élément 12',
   ];
 
-  late Future<List<Map<String, dynamic>>> _typenotes;
-
   @override
   void initState() {
     super.initState();
-    _loadTypeNotes();
-  }
-
-  Future<void> _loadTypeNotes() async {
-    _typenotes = DatabaseHelper.getTypeNotes();
-    //List<Type_Note> dossiers_list = _typenotes.map(dossier)
-    //DatabaseHelper.getTypeNotes() as List<Type_Note>;
-
-    /*setState(() {
-      dossiers = dossiers_list;
-    });*/
   }
 
   @override
@@ -134,12 +86,8 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
     titreController.text = widget.titre;
     TextEditingController texteController = TextEditingController();
     texteController.text = widget.texte;
-    TextEditingController intituledossierController = TextEditingController();
 
     initializeDateFormatting();
-    final DateTime now = DateTime.now();
-    String formattedDate = DateFormat("dd MMM", 'fr_FR').format(now);
-    String formattedDateYear = DateFormat("y", 'fr_FR').format(now);
 
     final formatter = DateFormat.E('fr');
     String jourlettre = formatter.format(widget.dateModification);
@@ -174,8 +122,6 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(dateTime,
-                //'Jeu 26.04.2023 | 10:34',
-                //'Date: ${DateFormat('dd/MM/yyyy').format(_selectedDate)}',
                 style: const TextStyle(
                   fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.w600,
@@ -190,16 +136,9 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
                 color: Color.fromRGBO(16, 43, 64, 1),
               ),
               cursorColor: const Color.fromRGBO(16, 43, 64, 1),
-              decoration: const InputDecoration(
-                hintText: 'Titre de la note',
-                //border: OutlineInputBorder(),
-              ),
+              decoration: const InputDecoration(hintText: 'Titre de la note'),
               controller: titreController,
-              onChanged: (value) {
-                /*setState(() {
-                  _title = value;
-                });*/
-              },
+              onChanged: (value) {},
             ),
             const SizedBox(height: 16.0),
             Expanded(
@@ -210,11 +149,7 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
                   border: InputBorder.none,
                 ),
                 controller: texteController,
-                onChanged: (value) {
-                  /*setState(() {
-                    _content = value;
-                  });*/
-                },
+                onChanged: (value) {},
               ),
             ),
           ],
@@ -223,8 +158,7 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
         onPressed: () async {
-          final titre = titreController
-              .text; // Remplacez par la valeur du champ de titre.
+          final titre = titreController.text;
           final texte = texteController.text;
           if (titre == "" || texte == "") {
             showDialog(
@@ -276,27 +210,18 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
               },
             );
           } else {
-            // Récupérez le titre et le contenu de la note depuis les champs de texte.
-            final titre = titreController
-                .text; // Remplacez par la valeur du champ de titre.
-            final texte = texteController
-                .text; // Remplacez par la valeur du champ de contenu.
+            final titre = titreController.text;
+            final texte = texteController.text;
 
-            // Obtenez la date de création et de modification actuelle.
             final dateCreation = widget.dateCreation;
             final dateModification = DateTime.now();
             final typeNoteId = widget.typeNoteId;
 
-            // Obtenez l'ID du type de note approprié.
-            //final typenoteId =
-            //1; // Remplacez par l'ID du type de note approprié.
-
-            // Appelez la fonction d'insertion de note dans DatabaseHelper.
             if (titre != "" && texte != "") {
               print("Insertion");
               final noteId = await DatabaseHelper.updateNote(widget.id, titre,
                   texte, dateCreation, dateModification, typeNoteId);
-              if (noteId != null) {
+              if (noteId != 0) {
                 print("redirection");
                 Navigator.pushReplacement(
                   context,
@@ -306,7 +231,6 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
                       id: typeNoteId,
                     ),
                   ),
-                  //(Route<dynamic> route) => false,
                 );
               } else {
                 print('Erreur lors de l\'insertion de la note.');
@@ -316,7 +240,7 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
             }
           }
         },
-        tooltip: 'Modifier la note',
+        tooltip: 'Modifier vklhgdfite la note',
         child: const Icon(Icons.save),
       ),
     );

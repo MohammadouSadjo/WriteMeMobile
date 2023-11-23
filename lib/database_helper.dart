@@ -102,7 +102,7 @@ class DatabaseHelper {
 
     String whereClause = "typenote_id = 0";
 
-    if (searchQuery != null && searchQuery.isNotEmpty) {
+    if (searchQuery != "" && searchQuery.isNotEmpty) {
       whereClause +=
           " AND (titre LIKE '%$searchQuery%' OR texte LIKE '%$searchQuery%')";
     }

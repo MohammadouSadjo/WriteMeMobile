@@ -4,8 +4,6 @@ import 'package:write_me/home.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-// ignore: import_of_legacy_library_into_null_safe
-
 void main() {
   runApp(const Note());
 }
@@ -13,42 +11,14 @@ void main() {
 class Note extends StatelessWidget {
   const Note({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return const NotePage(title: "Paramètres");
-    /*return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          fontFamily: 'RobotoSerif',
-          primaryColor: const Color.fromRGBO(61, 110, 201, 1.0),
-        ),
-        home: const MyParametersPage(
-          title: "Paramètres",
-        ));*/
   }
 }
 
 class NotePage extends StatefulWidget {
   const NotePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -57,10 +27,6 @@ class NotePage extends StatefulWidget {
 }
 
 class _NotePageState extends State<NotePage> {
-  //String _title;
-  //String _content;
-  DateTime _selectedDate = DateTime.now();
-
   String? selectedItem;
 
   List<String> items = [
@@ -88,12 +54,6 @@ class _NotePageState extends State<NotePage> {
 
   Future<void> _loadTypeNotes() async {
     _typenotes = DatabaseHelper.getTypeNotes();
-    //List<Type_Note> dossiers_list = _typenotes.map(dossier)
-    //DatabaseHelper.getTypeNotes() as List<Type_Note>;
-
-    /*setState(() {
-      dossiers = dossiers_list;
-    });*/
   }
 
   @override
@@ -104,8 +64,6 @@ class _NotePageState extends State<NotePage> {
 
     initializeDateFormatting();
     final DateTime now = DateTime.now();
-    String formattedDate = DateFormat("dd MMM", 'fr_FR').format(now);
-    String formattedDateYear = DateFormat("y", 'fr_FR').format(now);
 
     final formatter = DateFormat.E('fr');
     String jourlettre = formatter.format(now);
@@ -139,8 +97,6 @@ class _NotePageState extends State<NotePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(dateTime,
-                //'Jeu 26.04.2023 | 10:34',
-                //'Date: ${DateFormat('dd/MM/yyyy').format(_selectedDate)}',
                 style: const TextStyle(
                   fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.w600,
@@ -157,14 +113,9 @@ class _NotePageState extends State<NotePage> {
               cursorColor: const Color.fromRGBO(16, 43, 64, 1),
               decoration: const InputDecoration(
                 hintText: 'Titre de la note',
-                //border: OutlineInputBorder(),
               ),
               controller: titreController,
-              onChanged: (value) {
-                /*setState(() {
-                  _title = value;
-                });*/
-              },
+              onChanged: (value) {},
             ),
             const SizedBox(height: 16.0),
             Expanded(
@@ -175,11 +126,7 @@ class _NotePageState extends State<NotePage> {
                   border: InputBorder.none,
                 ),
                 controller: texteController,
-                onChanged: (value) {
-                  /*setState(() {
-                    _content = value;
-                  });*/
-                },
+                onChanged: (value) {},
               ),
             ),
           ],
@@ -188,8 +135,7 @@ class _NotePageState extends State<NotePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
         onPressed: () {
-          final titre = titreController
-              .text; // Remplacez par la valeur du champ de titre.
+          final titre = titreController.text;
           final texte = texteController.text;
           if (titre == "" || texte == "") {
             showDialog(
@@ -210,7 +156,6 @@ class _NotePageState extends State<NotePage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
-                        //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                         padding:
                             EdgeInsets.only(left: 10, right: 10, bottom: 15),
                         child: Text(
@@ -276,21 +221,12 @@ class _NotePageState extends State<NotePage> {
                           ),
                         ),
                         onPressed: () async {
-                          // Récupérez le titre et le contenu de la note depuis les champs de texte.
-                          final titre = titreController
-                              .text; // Remplacez par la valeur du champ de titre.
-                          final texte = texteController
-                              .text; // Remplacez par la valeur du champ de contenu.
+                          final titre = titreController.text;
+                          final texte = texteController.text;
 
-                          // Obtenez la date de création et de modification actuelle.
                           final dateCreation = DateTime.now();
                           final dateModification = DateTime.now();
 
-                          // Obtenez l'ID du type de note approprié.
-                          //final typenoteId =
-                          //1; // Remplacez par l'ID du type de note approprié.
-
-                          // Appelez la fonction d'insertion de note dans DatabaseHelper.
                           if (titre != "" && texte != "") {
                             final noteId = await DatabaseHelper.createNote(
                                 titre,
@@ -298,7 +234,7 @@ class _NotePageState extends State<NotePage> {
                                 dateCreation,
                                 dateModification,
                                 0);
-                            if (noteId != null) {
+                            if (noteId != 0) {
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -338,7 +274,7 @@ class _NotePageState extends State<NotePage> {
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  content: Container(
+                                  content: SizedBox(
                                     width: 300,
                                     height: 300,
                                     child: FutureBuilder<
@@ -378,17 +314,13 @@ class _NotePageState extends State<NotePage> {
                                                                 "intitule_type"]
                                                             as String?
                                                     ? const Color.fromRGBO(
-                                                        16,
-                                                        43,
-                                                        64,
-                                                        1) // Couleur de surbrillance
+                                                        16, 43, 64, 1)
                                                     : null,
                                                 textColor: selectedItem ==
                                                         typenote[
                                                                 "intitule_type"]
                                                             as String?
-                                                    ? Colors
-                                                        .white // Couleur de surbrillance
+                                                    ? Colors.white //
                                                     : null,
                                               );
                                             },
@@ -397,34 +329,6 @@ class _NotePageState extends State<NotePage> {
                                       },
                                     ),
                                   ),
-                                  /*Container(
-                                    width: 300, 
-                                    height: 300, 
-                                    child: ListView.builder(
-                                      itemCount: items.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return ListTile(
-                                          title: Text(items[index]),
-                                          onTap: () {
-                                            setState(() {
-                                              selectedItem = items[index];
-                                            });
-                                          },
-                                          tileColor: selectedItem ==
-                                                  items[index]
-                                              ? const Color.fromRGBO(16, 43, 64,
-                                                  1) // Couleur de surbrillance
-                                              : null,
-                                          textColor: selectedItem ==
-                                                  items[index]
-                                              ? Colors
-                                                  .white // Couleur de surbrillance
-                                              : null,
-                                        );
-                                      },
-                                    ),
-                                  ),*/
                                   actions: [
                                     TextButton(
                                       onPressed: () {
@@ -447,7 +351,6 @@ class _NotePageState extends State<NotePage> {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Padding(
-                                                    //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                                                     padding:
                                                         const EdgeInsets.only(
                                                             left: 10,
@@ -462,11 +365,6 @@ class _NotePageState extends State<NotePage> {
                                                       ),
                                                       decoration:
                                                           const InputDecoration(
-                                                        /*icon: Icon(
-                                          Icons.person,
-                                          color: Color.fromRGBO(16, 43, 64, 1),
-                                        ),*/
-                                                        //border: OutlineInputBorder(),
                                                         labelText:
                                                             'Nom du dossier',
                                                         labelStyle: TextStyle(
@@ -508,20 +406,11 @@ class _NotePageState extends State<NotePage> {
                                                     final intitule_type =
                                                         intituledossierController
                                                             .text;
-                                                    // Remplacez par la valeur du champ de titre.
-                                                    // Remplacez par la valeur du champ de contenu.
-
-                                                    // Obtenez la date de création et de modification actuelle.
                                                     final dateCreation =
                                                         DateTime.now();
                                                     final dateModification =
                                                         DateTime.now();
 
-                                                    // Obtenez l'ID du type de note approprié.
-                                                    //final typenoteId =
-                                                    //1; // Remplacez par l'ID du type de note approprié.
-
-                                                    // Appelez la fonction d'insertion de note dans DatabaseHelper.
                                                     if (intitule_type == "") {
                                                       showDialog(
                                                         context: context,
@@ -554,7 +443,6 @@ class _NotePageState extends State<NotePage> {
                                                                       .min,
                                                               children: [
                                                                 Padding(
-                                                                  //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                                                                   padding: EdgeInsets
                                                                       .only(
                                                                           left:
@@ -615,21 +503,17 @@ class _NotePageState extends State<NotePage> {
                                                                     intitule_type,
                                                                     dateCreation,
                                                                     dateModification);
-                                                        if (typenoteId !=
-                                                            null) {
+                                                        if (typenoteId != 0) {
                                                           final titre =
                                                               titreController
-                                                                  .text; // Remplacez par la valeur du champ de titre.
+                                                                  .text;
                                                           final texte =
                                                               texteController
-                                                                  .text; // Remplacez par la valeur du champ de contenu.
-
-                                                          // Obtenez la date de création et de modification actuelle.
+                                                                  .text;
                                                           final dateCreation =
                                                               DateTime.now();
                                                           final dateModification =
                                                               DateTime.now();
-                                                          // Faites quelque chose avec l'élément sélectionné (selectedItem)
 
                                                           if (titre != "" &&
                                                               texte != "") {
@@ -641,10 +525,7 @@ class _NotePageState extends State<NotePage> {
                                                                     dateCreation,
                                                                     dateModification,
                                                                     typenoteId);
-                                                            if (noteId !=
-                                                                null) {
-                                                              print(
-                                                                  "redirection");
+                                                            if (noteId != 0) {
                                                               Navigator
                                                                   .pushAndRemoveUntil(
                                                                 context,
@@ -671,7 +552,6 @@ class _NotePageState extends State<NotePage> {
                                                         print("Erreur");
                                                       }
                                                     }
-                                                    // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
                                                   },
                                                 ),
                                               ],
@@ -703,15 +583,11 @@ class _NotePageState extends State<NotePage> {
                                     ),
                                     TextButton(
                                       onPressed: () async {
-                                        final titre = titreController
-                                            .text; // Remplacez par la valeur du champ de titre.
-                                        final texte = texteController
-                                            .text; // Remplacez par la valeur du champ de contenu.
+                                        final titre = titreController.text;
+                                        final texte = texteController.text;
 
-                                        // Obtenez la date de création et de modification actuelle.
                                         final dateCreation = DateTime.now();
                                         final dateModification = DateTime.now();
-                                        // Faites quelque chose avec l'élément sélectionné (selectedItem)
                                         if (selectedItem != null) {
                                           if (titre != "" && texte != "") {
                                             print("Insertion");
@@ -722,7 +598,7 @@ class _NotePageState extends State<NotePage> {
                                                     dateCreation,
                                                     dateModification,
                                                     id_typenote);
-                                            if (noteId != null) {
+                                            if (noteId != 0) {
                                               print("redirection");
                                               Navigator.pushAndRemoveUntil(
                                                 context,

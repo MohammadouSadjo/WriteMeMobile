@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:write_me/database_helper.dart';
-import 'package:write_me/folder_contain.dart';
 import 'package:write_me/models/notes.dart';
-import 'package:write_me/models/type_note.dart';
 
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -10,11 +8,6 @@ import 'package:write_me/note_print_folder.dart';
 import 'package:write_me/note_update_folder.dart';
 
 import 'home.dart';
-// ignore: import_of_legacy_library_into_null_safe
-
-/*void main() {
-  runApp(const FolderContainEmpty());
-}*/
 
 class FolderContainEmpty extends StatelessWidget {
   const FolderContainEmpty({
@@ -33,39 +26,12 @@ class FolderContainEmpty extends StatelessWidget {
       id: id,
       title: title,
     );
-    /*MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          fontFamily: 'RobotoSerif',
-          primaryColor: const Color.fromRGBO(61, 110, 201, 1.0),
-        ),
-        home: const MyFolderContain(
-          title: "WriteMe",
-        ));*/
   }
 }
 
 class MyFolderContainEmpty extends StatefulWidget {
   const MyFolderContainEmpty(
       {super.key, required this.title, required this.id});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
   final int id;
@@ -94,8 +60,7 @@ class MyListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting();
-    final DateTime now = DateTime.now();
-    //DateTime dateInMarch = DateTime(now.year, DateTime.march, now.day);
+
     String formattedDate =
         DateFormat("dd MMM", 'fr_FR').format(dateModification);
     String formattedDateYear =
@@ -109,19 +74,15 @@ class MyListTile extends StatelessWidget {
     if (texte.length > 60) {
       truncatedText = texte.substring(0, 60);
       truncatedText += "...";
-      // Faites quelque chose avec truncatedText, par exemple, l'afficher ou le manipuler.
     } else {
       truncatedText = texte;
     }
-
-    //print(dateTime);
 
     return ListTile(
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            //"20 mars \n2023",
             dateTime,
             textAlign: TextAlign.center,
             style: const TextStyle(
@@ -150,7 +111,6 @@ class MyListTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            //"23:27",
             formattedTime,
             style: const TextStyle(
               fontWeight: FontWeight.w300,
@@ -185,7 +145,6 @@ class MyListTile extends StatelessWidget {
               texte: texte,
               typeNoteId: typeNoteId,
             ),
-            //FolderDetailPage(folderData),
           ),
         );
       },
@@ -220,7 +179,6 @@ class MyListTile extends StatelessWidget {
                       texte: texte,
                       typeNoteId: typeNoteId,
                     ),
-                    //FolderDetailPage(folderData),
                   ),
                 );
               },
@@ -260,7 +218,6 @@ class MyListTile extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Padding(
-                            //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                             padding: EdgeInsets.only(
                                 left: 10, right: 10, bottom: 15),
                             child: Text(
@@ -292,12 +249,7 @@ class MyListTile extends StatelessWidget {
                               ),
                             ),
                             onPressed: () async {
-                              // Récupérez le titre et le contenu de la note depuis les champs de texte.
-
-                              // Appelez la fonction d'insertion de note dans DatabaseHelper.
-
-                              final noteid =
-                                  await DatabaseHelper.deleteNote(id);
+                              await DatabaseHelper.deleteNote(id);
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -334,7 +286,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
   @override
   void initState() {
     super.initState();
-    // Appelez votre fonction de récupération de données ici, par exemple :
     fetchTypeNote();
     _loadNotes();
   }
@@ -348,16 +299,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
     final id = widget.id;
     final results = DatabaseHelper.getTypeNote(id);
 
-    // Maintenant, vous avez les résultats dans la variable "results".
-    // Vous pouvez les traiter comme vous le souhaitez.
-
     type_note = results;
-
-    /*setState(() {
-        type_note = Type_Note.fromMap(
-            map); // Initialisez "type_note" à l'intérieur de setState.
-      });*/ // Remplacez "yourColumnName" par le nom de la colonne dans votre table.
-    // Faites quelque chose avec "typeNote".
   }
 
   @override
@@ -423,7 +365,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Padding(
-                                //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                                 padding: const EdgeInsets.only(
                                     left: 10, right: 10, bottom: 15),
                                 child: TextField(
@@ -432,11 +373,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                     color: Color.fromRGBO(16, 43, 64, 1),
                                   ),
                                   decoration: const InputDecoration(
-                                    /*icon: Icon(
-                                          Icons.person,
-                                          color: Color.fromRGBO(16, 43, 64, 1),
-                                        ),*/
-                                    //border: OutlineInputBorder(),
                                     labelText: 'Nom du dossier',
                                     labelStyle: TextStyle(
                                       color: Color.fromRGBO(16, 43, 64, 1),
@@ -470,13 +406,8 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                 ),
                               ),
                               onPressed: () async {
-                                // Récupérez le titre et le contenu de la note depuis les champs de texte.
                                 final intitule_type =
                                     intituletypeController.text;
-                                // Remplacez par la valeur du champ de titre.
-                                // Remplacez par la valeur du champ de contenu.
-
-                                // Obtenez la date de création et de modification actuelle.
                                 int dateCreationInt = 0;
                                 FutureBuilder<List<Map<String, dynamic>>>(
                                     future: type_note,
@@ -493,11 +424,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                         dateCreationInt);
                                 final dateModification = DateTime.now();
 
-                                // Obtenez l'ID du type de note approprié.
-                                //final typenoteId =
-                                //1; // Remplacez par l'ID du type de note approprié.
-
-                                // Appelez la fonction d'insertion de note dans DatabaseHelper.
                                 if (intitule_type == "") {
                                   showDialog(
                                     context: context,
@@ -518,7 +444,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Padding(
-                                              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                                               padding: EdgeInsets.only(
                                                   left: 10,
                                                   right: 10,
@@ -560,7 +485,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                             intitule_type,
                                             dateCreation,
                                             dateModification);
-                                    if (typenoteId != null) {
+                                    if (typenoteId != 0) {
                                       Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
@@ -622,7 +547,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Padding(
-                                //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                                 padding: EdgeInsets.only(
                                     left: 10, right: 10, bottom: 15),
                                 child: Text(
@@ -667,9 +591,8 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                         return const Text("");
                                       });
 
-                                  final typenoteid =
-                                      await DatabaseHelper.deleteTypeNote(
-                                          widget.id);
+                                  await DatabaseHelper.deleteTypeNote(
+                                      widget.id);
                                   Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
@@ -730,24 +653,13 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                   ),
                   (Route<dynamic> route) => false,
                 );
-                // Ajoutez le code pour traiter l'option 1 ici.
               },
             ),
-            /*ListTile(
-              leading: const Icon(Icons.menu),
-              title: const Text('Option 2'),
-              onTap: () {
-                // Ajoutez le code pour traiter l'option 2 ici.
-              },
-            ),*/
-            // Ajoutez autant d'options que nécessaire...
           ],
         ),
       ),
       body: WillPopScope(
         onWillPop: () async {
-          // Mettez ici la logique pour contrôler où l'utilisateur sera dirigé
-          // lorsque le bouton retour est pressé.
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -755,9 +667,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
             ),
             (Route<dynamic> route) => false,
           );
-          // Si vous voulez empêcher le retour, retournez false.
-          // Sinon, retournez true pour permettre le retour par défaut.
-          return true; // ou false selon votre logique
+          return true;
         },
         child: FutureBuilder<List<Map<String, dynamic>>>(
           future: _notes,
@@ -802,7 +712,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                 ),
               );
             } else {
-              // Le reste du code pour afficher la liste des dossiers et des notes
               // ...
               initializeDateFormatting();
               return Padding(
@@ -886,7 +795,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
           },
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           int id_note = 0;
@@ -912,8 +820,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                         ),
                       ),
                       onTap: () {
-                        // Do something
-                        //Navigator.pop(context);
                         Navigator.pushReplacementNamed(context, '/notefolder',
                             arguments: {'id': widget.id});
                       },
@@ -981,15 +887,11 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                                 tileColor: selectedItem ==
                                                         note["titre"] as String?
                                                     ? const Color.fromRGBO(
-                                                        16,
-                                                        43,
-                                                        64,
-                                                        1) // Couleur de surbrillance
+                                                        16, 43, 64, 1)
                                                     : null,
                                                 textColor: selectedItem ==
                                                         note["titre"] as String?
-                                                    ? Colors
-                                                        .white // Couleur de surbrillance
+                                                    ? Colors.white
                                                     : null,
                                               );
                                             },
@@ -1020,7 +922,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                         ),
                                       ),
                                       onPressed: () async {
-                                        if (id_note != null) {
+                                        if (id_note != 0) {
                                           List<Map<String, dynamic>> notes =
                                               await DatabaseHelper.getNote(
                                                   id_note);
@@ -1028,12 +930,8 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                           if (notes.isNotEmpty) {
                                             Map<String, dynamic> noteData =
                                                 notes.first;
-                                            // Maintenant, vous avez les données de la note en tant que Map
-
-                                            // Vous pouvez créer une instance de Note à partir de la Map
                                             Note finalNote =
                                                 Note.fromMap(noteData);
-                                            print(finalNote.titre);
                                             initializeDateFormatting();
 
                                             int updateNote =
@@ -1047,22 +945,20 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                                                 .date_creation),
                                                     DateTime.now(),
                                                     widget.id);
-
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (_) =>
-                                                    FolderContainEmpty(
-                                                  title: 'WriteMe',
-                                                  id: widget.id,
+                                            if (updateNote != 0) {
+                                              Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      FolderContainEmpty(
+                                                    title: 'WriteMe',
+                                                    id: widget.id,
+                                                  ),
                                                 ),
-                                              ),
-                                              //(Route<dynamic> route) => false,
-                                            );
-
-                                            // Faites ce que vous avez à faire avec finalNote ici
+                                              );
+                                            }
                                           } else {
-                                            // La liste est vide, il n'y a pas de données pour cet ID
+                                            print('Erreur ');
                                           }
                                         }
                                       },
@@ -1072,7 +968,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                           },
                         );
 
-                        // Do something
                         Navigator.pop(context);
                       },
                     ),
@@ -1085,7 +980,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
         tooltip: "Ajout d'une note",
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }

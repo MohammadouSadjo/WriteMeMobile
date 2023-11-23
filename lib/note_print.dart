@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:write_me/database_helper.dart';
-import 'package:write_me/home.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/note_update.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
 
 class NotePrint extends StatelessWidget {
   const NotePrint(
@@ -22,7 +18,6 @@ class NotePrint extends StatelessWidget {
   final String titre;
   final String texte;
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return NotePrintPage(
@@ -32,24 +27,6 @@ class NotePrint extends StatelessWidget {
         dateCreation: dateCreation,
         dateModification: dateModification,
         texte: texte);
-    /*return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          fontFamily: 'RobotoSerif',
-          primaryColor: const Color.fromRGBO(61, 110, 201, 1.0),
-        ),
-        home: const MyParametersPage(
-          title: "Paramètres",
-        ));*/
   }
 }
 
@@ -63,15 +40,6 @@ class NotePrintPage extends StatefulWidget {
       required this.dateModification,
       required this.texte});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
   final int id;
   final DateTime dateCreation;
@@ -84,10 +52,6 @@ class NotePrintPage extends StatefulWidget {
 }
 
 class _NotePrintPageState extends State<NotePrintPage> {
-  //String _title;
-  //String _content;
-  DateTime _selectedDate = DateTime.now();
-
   String? selectedItem;
 
   List<String> items = [
@@ -105,22 +69,9 @@ class _NotePrintPageState extends State<NotePrintPage> {
     'Élément 12',
   ];
 
-  late Future<List<Map<String, dynamic>>> _typenotes;
-
   @override
   void initState() {
     super.initState();
-    _loadTypeNotes();
-  }
-
-  Future<void> _loadTypeNotes() async {
-    _typenotes = DatabaseHelper.getTypeNotes();
-    //List<Type_Note> dossiers_list = _typenotes.map(dossier)
-    //DatabaseHelper.getTypeNotes() as List<Type_Note>;
-
-    /*setState(() {
-      dossiers = dossiers_list;
-    });*/
   }
 
   @override
@@ -129,12 +80,8 @@ class _NotePrintPageState extends State<NotePrintPage> {
     titreController.text = widget.titre;
     TextEditingController texteController = TextEditingController();
     texteController.text = widget.texte;
-    TextEditingController intituledossierController = TextEditingController();
 
     initializeDateFormatting();
-    final DateTime now = DateTime.now();
-    String formattedDate = DateFormat("dd MMM", 'fr_FR').format(now);
-    String formattedDateYear = DateFormat("y", 'fr_FR').format(now);
 
     final formatter = DateFormat.E('fr');
     String jourlettre = formatter.format(widget.dateModification);
@@ -169,8 +116,6 @@ class _NotePrintPageState extends State<NotePrintPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(dateTime,
-                //'Jeu 26.04.2023 | 10:34',
-                //'Date: ${DateFormat('dd/MM/yyyy').format(_selectedDate)}',
                 style: const TextStyle(
                   fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.w600,
@@ -209,7 +154,6 @@ class _NotePrintPageState extends State<NotePrintPage> {
                 titre: widget.titre,
                 texte: widget.texte,
               ),
-              //FolderDetailPage(folderData),
             ),
           );
         },

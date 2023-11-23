@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:splash_view/splash_view.dart';
 import 'package:write_me/home.dart';
-import 'package:write_me/login.dart';
 
 void main() {
   runApp(const MyAppMain());
@@ -42,15 +41,6 @@ class MyAppMain extends StatelessWidget {
             backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
             bottomLoading: false,
             showStatusBar: true,
-            /*seconds: 8,
-            navigateAfterSeconds: const Login(),            
-            image: Image.asset(
-              'lib/images/logov2.png',
-            ),
-            photoSize: 200,
-            
-            loaderColor: const Color.fromRGBO(61, 110, 201, 1.0),
-            loadingText: const Text('Loading'),*/
           ),
         ));
   }

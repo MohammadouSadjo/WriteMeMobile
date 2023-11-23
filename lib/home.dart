@@ -3,19 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:write_me/folder_contain.dart';
 import 'package:write_me/folder_contain_empty.dart';
 import 'package:write_me/home_research.dart';
-import 'package:write_me/login.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
 import 'package:write_me/note_folder.dart';
 import 'package:write_me/note_print.dart';
 import 'package:write_me/note_update.dart';
-import 'package:write_me/parameters.dart';
 
 import 'database_helper.dart';
-import 'home_empty.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,27 +20,15 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
         '/note': (context) => const Note(),
         '/notefolder': (context) => const NoteFolder(),
-        '/folder_contain': (context) => const FolderContain(), // Deuxième page
-        // Deuxième page
       },
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         fontFamily: 'RobotoSerif',
         primaryColor: const Color.fromRGBO(61, 110, 201, 1.0),
       ),
@@ -55,15 +39,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -89,8 +64,7 @@ class MyListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting();
-    final DateTime now = DateTime.now();
-    //DateTime dateInMarch = DateTime(now.year, DateTime.march, now.day);
+
     String formattedDate =
         DateFormat("dd MMM", 'fr_FR').format(dateModification);
     String formattedDateYear =
@@ -104,19 +78,15 @@ class MyListTile extends StatelessWidget {
     if (texte.length > 60) {
       truncatedText = texte.substring(0, 60);
       truncatedText += "...";
-      // Faites quelque chose avec truncatedText, par exemple, l'afficher ou le manipuler.
     } else {
       truncatedText = texte;
     }
-
-    //print(dateTime);
 
     return ListTile(
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            //"20 mars \n2023",
             dateTime,
             textAlign: TextAlign.center,
             style: const TextStyle(
@@ -145,7 +115,6 @@ class MyListTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            //"23:27",
             formattedTime,
             style: const TextStyle(
               fontWeight: FontWeight.w300,
@@ -179,10 +148,8 @@ class MyListTile extends StatelessWidget {
               titre: titre,
               texte: texte,
             ),
-            //FolderDetailPage(folderData),
           ),
         );
-        // Ajoutez le code pour traiter l'option 1 ici.
       },
       trailing: PopupMenuButton<String>(
         itemBuilder: (BuildContext context) {
@@ -214,7 +181,6 @@ class MyListTile extends StatelessWidget {
                       titre: titre,
                       texte: texte,
                     ),
-                    //FolderDetailPage(folderData),
                   ),
                 );
               },
@@ -254,7 +220,6 @@ class MyListTile extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Padding(
-                            //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                             padding: EdgeInsets.only(
                                 left: 10, right: 10, bottom: 15),
                             child: Text(
@@ -286,12 +251,7 @@ class MyListTile extends StatelessWidget {
                               ),
                             ),
                             onPressed: () async {
-                              // Récupérez le titre et le contenu de la note depuis les champs de texte.
-
-                              // Appelez la fonction d'insertion de note dans DatabaseHelper.
-
-                              final noteid =
-                                  await DatabaseHelper.deleteNote(id);
+                              await DatabaseHelper.deleteNote(id);
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -336,17 +296,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _loadNotes() async {
     _notes = DatabaseHelper.getNotes();
     _typenotes = DatabaseHelper.getTypeNotes();
-    //List<Type_Note> dossiers_list = _typenotes.map(dossier)
-    //DatabaseHelper.getTypeNotes() as List<Type_Note>;
-
-    /*setState(() {
-      dossiers = dossiers_list;
-    });*/
   }
 
   Future<List<Map<String, dynamic>>> getTypenotes() async {
-    // Appelez votre fonction dans DatabaseHelper qui renvoie les données
-    DatabaseHelper databaseHelper = DatabaseHelper();
     return await DatabaseHelper.getTypeNotes();
   }
 
@@ -358,7 +310,6 @@ class _MyHomePageState extends State<MyHomePage> {
       const Color.fromRGBO(61, 110, 201, 1.0),
     );
 
-    // Définissez la couleur des icônes de la barre de statut en blanc (clair)
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     return Scaffold(
       appBar: AppBar(
@@ -377,7 +328,6 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              // afficher une boîte de dialogue avec un TextField
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -394,7 +344,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     content: TextField(
                       controller: researchController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Rechercher...',
                       ),
                     ),
@@ -438,7 +388,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Padding(
-                                        //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                                         padding: EdgeInsets.only(
                                             left: 10, right: 10, bottom: 15),
                                         child: Text(
@@ -478,19 +427,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   title: 'WriteMe',
                                   research: researchController.text,
                                 ),
-                                //FolderDetailPage(folderData),
                               ),
                             );
                           }
-
-                          // code à exécuter lorsque l'utilisateur clique sur le bouton Rechercher
-                          /*Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const MyAppEmpty(),
-                            ),
-                            (Route<dynamic> route) => false,
-                          );*/
                         },
                       ),
                     ],
@@ -502,7 +441,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
       ),
-
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -510,11 +448,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               color: const Color.fromRGBO(16, 43, 64, 1),
               height: 100.0,
-              child: Align(
+              child: const Align(
                 alignment: Alignment.bottomLeft,
-                child: Container(
+                child: SizedBox(
                   height: 50,
-                  child: const Center(
+                  child: Center(
                     child: Text("Menu",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -524,26 +462,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            /*ListTile(
-              leading: const Icon(
-                Icons.settings,
-                color: Color.fromRGBO(16, 43, 64, 1),
-              ),
-              title: const Text(
-                'Paramètres du compte',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MyParameters(),
-                  ),
-                );
-              },
-            ),*/
             ListTile(
               leading: const Icon(
                 Icons.logout,
@@ -557,10 +475,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               onTap: () {
                 SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                // Ajoutez le code pour traiter l'option 1 ici.
               },
             ),
-            // Ajoutez autant d'options que nécessaire...
           ],
         ),
       ),
@@ -615,8 +531,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 );
               } else {
-                // Le reste du code pour afficher la liste des dossiers et des notes
-                // ...
                 initializeDateFormatting();
                 return Padding(
                   padding: const EdgeInsets.only(top: 20.0, left: 10.0),
@@ -643,10 +557,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            // Pendant le chargement des données
                             return const CircularProgressIndicator();
                           } else if (snapshot.hasError) {
-                            // En cas d'erreur
                             return Text(
                                 'Une erreur s\'est produite: ${snapshot.error}');
                           } else if (snapshot.hasData &&
@@ -660,10 +572,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             );
                           } else {
-                            // Lorsque les données sont disponibles
                             final typenotelist = snapshot.data;
 
-                            // Maintenant, vous pouvez utiliser folderDataList pour construire vos widgets
                             return SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
@@ -681,7 +591,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 title: 'WriteMe',
                                                 id: id,
                                               ),
-                                              //FolderDetailPage(folderData),
                                             ),
                                           );
                                         },
@@ -694,7 +603,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               decoration: BoxDecoration(
                                                   image: const DecorationImage(
                                                     image: AssetImage(
-                                                        'lib/images/logov2.png'), // Remplacez par le chemin de votre image
+                                                        'lib/images/logov2.png'),
                                                     fit: BoxFit.cover,
                                                   ),
                                                   border: Border.all(
@@ -705,23 +614,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               201,
                                                               1.0),
                                                       width: 2.0),
-                                                  //color: const Color.fromRGBO(
-                                                  //  16, 43, 64, 1),
                                                   borderRadius:
                                                       const BorderRadius.all(
                                                           Radius.circular(10))),
                                               width: 110,
                                               height: 110,
-
-                                              /*child: ColoredBox(
-                                                  color: Colors.blue),*/
                                             ),
-                                            /*const Icon(
-                                              Icons.rectangle_rounded,
-                                              color:
-                                                  Color.fromRGBO(16, 43, 64, 1),
-                                              size: 100,
-                                            ),*/
                                             Container(
                                               width: 120.0,
                                               height: 30.0,
@@ -847,13 +745,12 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         },
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
             context: context,
             builder: (BuildContext context) {
-              return Container(
+              return SizedBox(
                 height: 150.0,
                 child: Column(
                   children: [
@@ -871,7 +768,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       onTap: () {
-                        // Do something
                         Navigator.pushReplacementNamed(
                           context,
                           '/note',
@@ -892,7 +788,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       onTap: () {
-                        // Do something
                         Navigator.pop(context);
                         showDialog(
                           context: context,
@@ -912,7 +807,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Padding(
-                                    //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                                     padding: const EdgeInsets.only(
                                         left: 10, right: 10, bottom: 15),
                                     child: TextField(
@@ -921,11 +815,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                         color: Color.fromRGBO(16, 43, 64, 1),
                                       ),
                                       decoration: const InputDecoration(
-                                        /*icon: Icon(
-                                          Icons.person,
-                                          color: Color.fromRGBO(16, 43, 64, 1),
-                                        ),*/
-                                        //border: OutlineInputBorder(),
                                         labelText: 'Nom du dossier',
                                         labelStyle: TextStyle(
                                           color: Color.fromRGBO(16, 43, 64, 1),
@@ -959,21 +848,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    // Récupérez le titre et le contenu de la note depuis les champs de texte.
                                     final intitule_type =
                                         intituletypeController.text;
-                                    // Remplacez par la valeur du champ de titre.
-                                    // Remplacez par la valeur du champ de contenu.
 
-                                    // Obtenez la date de création et de modification actuelle.
                                     final dateCreation = DateTime.now();
                                     final dateModification = DateTime.now();
 
-                                    // Obtenez l'ID du type de note approprié.
-                                    //final typenoteId =
-                                    //1; // Remplacez par l'ID du type de note approprié.
-
-                                    // Appelez la fonction d'insertion de note dans DatabaseHelper.
                                     if (intitule_type == "") {
                                       showDialog(
                                         context: context,
@@ -994,7 +874,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Padding(
-                                                  //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                                                   padding: EdgeInsets.only(
                                                       left: 10,
                                                       right: 10,
@@ -1036,7 +915,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 intitule_type,
                                                 dateCreation,
                                                 dateModification);
-                                        if (typenoteId != null) {
+                                        if (typenoteId != 0) {
                                           Navigator.pushAndRemoveUntil(
                                             context,
                                             MaterialPageRoute(
@@ -1069,7 +948,7 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: "Ajout d'une note",
         backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
         child: const Icon(Icons.edit),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
