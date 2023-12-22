@@ -3,6 +3,7 @@ import 'package:write_me/database_helper.dart';
 import 'package:write_me/folder_contain_empty.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:write_me/models/dto/notesRequest.dart';
 
 void main() {
   runApp(const NoteFolder());
@@ -187,9 +188,13 @@ class _NotePageState extends State<NoteFolderPage> {
             final dateModification = DateTime.now();
 
             if (titre != "" && texte != "") {
-              print("Insertion");
-              final noteId = await DatabaseHelper.createNote(
-                  titre, texte, dateCreation, dateModification, id);
+              var note = NoteUserRequest(
+                  type_note_id: id,
+                  titre: titre,
+                  texte: texte,
+                  date_creation: dateCreation,
+                  date_modification: dateModification);
+              final noteId = await DatabaseHelper.createNote(note);
               if (noteId != 0) {
                 print("redirection");
                 Navigator.pushReplacement(

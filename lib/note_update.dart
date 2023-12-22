@@ -3,6 +3,9 @@ import 'package:write_me/database_helper.dart';
 import 'package:write_me/home.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:write_me/models/dto/type_noteRequest.dart';
+import 'package:write_me/models/notes.dart';
+import 'package:write_me/models/type_note.dart';
 
 class NoteUpdate extends StatelessWidget {
   const NoteUpdate(
@@ -70,7 +73,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
     'Élément 12',
   ];
 
-  late Future<List<Map<String, dynamic>>> _typenotes;
+  late Future<List<Type_Note>> _typenotes;
 
   @override
   void initState() {
@@ -249,8 +252,6 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                           ),
                         ),
                         onPressed: () async {
-                          final id = widget.id;
-
                           final titre = titreController.text;
                           final texte = texteController.text;
 
@@ -258,13 +259,15 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                           final dateModification = DateTime.now();
 
                           if (titre != "" && texte != "") {
-                            final noteId = await DatabaseHelper.updateNote(
-                                id,
-                                titre,
-                                texte,
-                                dateCreation,
-                                dateModification,
-                                0);
+                            var noteUpdate = NoteUser(
+                                id_note: widget.id,
+                                type_note_id: 0,
+                                titre: titre,
+                                texte: texte,
+                                date_creation: dateCreation,
+                                date_modification: dateModification);
+                            final noteId =
+                                await DatabaseHelper.updateNote(noteUpdate);
                             if (noteId != 0) {
                               Navigator.pushAndRemoveUntil(
                                 context,
@@ -308,8 +311,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                   content: SizedBox(
                                     width: 300,
                                     height: 300,
-                                    child: FutureBuilder<
-                                        List<Map<String, dynamic>>>(
+                                    child: FutureBuilder<List<Type_Note>>(
                                       future: _typenotes,
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
@@ -329,27 +331,22 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                                   snapshot.data![index];
                                               return ListTile(
                                                 title: Text(
-                                                    typenote["intitule_type"]),
+                                                    typenote.intitule_type),
                                                 onTap: () {
                                                   id_typenote =
-                                                      typenote["id_typenote"];
+                                                      typenote.id_type_note;
                                                   setState(() {
-                                                    selectedItem = typenote[
-                                                            "intitule_type"]
-                                                        as String?;
+                                                    selectedItem =
+                                                        typenote.intitule_type;
                                                   });
                                                 },
                                                 tileColor: selectedItem ==
-                                                        typenote[
-                                                                "intitule_type"]
-                                                            as String?
+                                                        typenote.intitule_type
                                                     ? const Color.fromRGBO(
                                                         16, 43, 64, 1)
                                                     : null,
                                                 textColor: selectedItem ==
-                                                        typenote[
-                                                                "intitule_type"]
-                                                            as String?
+                                                        typenote.intitule_type
                                                     ? Colors.white
                                                     : null,
                                               );
@@ -528,12 +525,17 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                                       );
                                                     } else {
                                                       if (intitule_type != "") {
+                                                        var type_note = Type_NoteRequest(
+                                                            intitule_type:
+                                                                intitule_type,
+                                                            date_creation:
+                                                                dateCreation,
+                                                            date_modification:
+                                                                dateModification);
                                                         final typenoteId =
                                                             await DatabaseHelper
                                                                 .createTypeNote(
-                                                                    intitule_type,
-                                                                    dateCreation,
-                                                                    dateModification);
+                                                                    type_note);
                                                         if (typenoteId != 0) {
                                                           final id = widget.id;
                                                           final titre =
@@ -550,15 +552,20 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
 
                                                           if (titre != "" &&
                                                               texte != "") {
-                                                            print("Insertion");
-                                                            final noteId = await DatabaseHelper
-                                                                .updateNote(
-                                                                    id,
-                                                                    titre,
-                                                                    texte,
+                                                            var noteUpdate = NoteUser(
+                                                                id_note: id,
+                                                                type_note_id:
+                                                                    typenoteId,
+                                                                titre: titre,
+                                                                texte: texte,
+                                                                date_creation:
                                                                     dateCreation,
-                                                                    dateModification,
-                                                                    typenoteId);
+                                                                date_modification:
+                                                                    dateModification);
+                                                            final noteId =
+                                                                await DatabaseHelper
+                                                                    .updateNote(
+                                                                        noteUpdate);
                                                             if (noteId != 0) {
                                                               print(
                                                                   "redirection");
@@ -629,15 +636,17 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
 
                                         if (selectedItem != null) {
                                           if (titre != "" && texte != "") {
-                                            print("Insertion");
+                                            var noteUpdate = NoteUser(
+                                                id_note: id,
+                                                type_note_id: id_typenote,
+                                                titre: titre,
+                                                texte: texte,
+                                                date_creation: dateCreation,
+                                                date_modification:
+                                                    dateModification);
                                             final noteId =
                                                 await DatabaseHelper.updateNote(
-                                                    id,
-                                                    titre,
-                                                    texte,
-                                                    dateCreation,
-                                                    dateModification,
-                                                    id_typenote);
+                                                    noteUpdate);
                                             if (noteId != 0) {
                                               print("redirection");
                                               Navigator.pushAndRemoveUntil(

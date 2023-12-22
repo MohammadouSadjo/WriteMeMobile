@@ -3,6 +3,7 @@ import 'package:write_me/database_helper.dart';
 import 'package:write_me/folder_contain_empty.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:write_me/models/notes.dart';
 
 class NoteUpdateFolder extends StatelessWidget {
   const NoteUpdateFolder(
@@ -218,9 +219,14 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
             final typeNoteId = widget.typeNoteId;
 
             if (titre != "" && texte != "") {
-              print("Insertion");
-              final noteId = await DatabaseHelper.updateNote(widget.id, titre,
-                  texte, dateCreation, dateModification, typeNoteId);
+              var noteUpdate = NoteUser(
+                  id_note: widget.id,
+                  type_note_id: typeNoteId,
+                  titre: titre,
+                  texte: texte,
+                  date_creation: dateCreation,
+                  date_modification: dateModification);
+              final noteId = await DatabaseHelper.updateNote(noteUpdate);
               if (noteId != 0) {
                 print("redirection");
                 Navigator.pushReplacement(

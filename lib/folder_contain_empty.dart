@@ -4,6 +4,7 @@ import 'package:write_me/models/notes.dart';
 
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note_print_folder.dart';
 import 'package:write_me/note_update_folder.dart';
 
@@ -275,11 +276,11 @@ class MyListTile extends StatelessWidget {
 }
 
 class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
-  late Future<List<Map<String, dynamic>>> type_note;
+  late Future<Type_Note?> type_note;
 
-  late Future<List<Map<String, dynamic>>> _notes;
+  late Future<List<NoteUser>> _notes;
 
-  late Future<List<Map<String, dynamic>>> _listallnotes;
+  late Future<List<NoteUser>> _listallnotes;
 
   String? selectedItem;
 
@@ -297,9 +298,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
 
   Future<void> fetchTypeNote() async {
     final id = widget.id;
-    final results = DatabaseHelper.getTypeNote(id);
-
-    type_note = results;
+    type_note = DatabaseHelper.getTypeNote(id);
   }
 
   @override
@@ -319,11 +318,11 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
             (Route<dynamic> route) => false,
           ),
         ),
-        title: FutureBuilder<List<Map<String, dynamic>>>(
+        title: FutureBuilder<Type_Note?>(
           future: type_note,
           builder: (context, snapshot) {
             final typeNote = snapshot.data;
-            return Text(typeNote?[0]["intitule_type"]);
+            return Text(typeNote!.intitule_type);
           },
         ),
         actions: [
@@ -408,20 +407,18 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                               onPressed: () async {
                                 final intitule_type =
                                     intituletypeController.text;
-                                int dateCreationInt = 0;
-                                FutureBuilder<List<Map<String, dynamic>>>(
+                                DateTime dateCreationInit = DateTime.now();
+                                FutureBuilder<Type_Note?>(
                                     future: type_note,
                                     builder: (context, snapshot) {
                                       final typeNote = snapshot.data;
-                                      dateCreationInt =
-                                          typeNote?[0]["date_creation"];
+                                      dateCreationInit =
+                                          typeNote!.date_creation;
                                       return Text(
-                                          typeNote?[0]["date_creation"]);
+                                          typeNote.date_creation as String);
                                     });
 
-                                final dateCreation =
-                                    DateTime.fromMillisecondsSinceEpoch(
-                                        dateCreationInt);
+                                final dateCreation = dateCreationInit;
                                 final dateModification = DateTime.now();
 
                                 if (intitule_type == "") {
@@ -479,12 +476,14 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                   );
                                 } else {
                                   if (intitule_type != "") {
+                                    var typenoteUpdate = Type_Note(
+                                        id_type_note: widget.id,
+                                        intitule_type: intitule_type,
+                                        date_creation: dateCreation,
+                                        date_modification: dateModification);
                                     final typenoteId =
                                         await DatabaseHelper.updateTypeNote(
-                                            widget.id,
-                                            intitule_type,
-                                            dateCreation,
-                                            dateModification);
+                                            typenoteUpdate);
                                     if (typenoteId != 0) {
                                       Navigator.pushAndRemoveUntil(
                                         context,
@@ -578,13 +577,13 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  FutureBuilder<List<Map<String, dynamic>>>(
+                                  FutureBuilder<List<NoteUser>>(
                                       future: _notes,
                                       builder: (context, snapshot) {
                                         final notes = snapshot.data;
 
                                         notes!.map((note) async {
-                                          int id_note = note["id_note"];
+                                          int id_note = note.id_note;
                                           await DatabaseHelper.deleteNote(
                                               id_note);
                                         });
@@ -669,7 +668,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
           );
           return true;
         },
-        child: FutureBuilder<List<Map<String, dynamic>>>(
+        child: FutureBuilder<List<NoteUser>>(
           future: _notes,
           builder: (context, notesSnapshot) {
             if ((notesSnapshot.connectionState == ConnectionState.waiting) ||
@@ -738,7 +737,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                       ],
                     ),
                     Expanded(
-                      child: FutureBuilder<List<Map<String, dynamic>>>(
+                      child: FutureBuilder<List<NoteUser>>(
                         future: _notes,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
@@ -757,15 +756,11 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                 return Column(
                                   children: [
                                     MyListTile(
-                                      id: note["id_note"],
-                                      dateCreation:
-                                          DateTime.fromMillisecondsSinceEpoch(
-                                              note["date_creation"]),
-                                      dateModification:
-                                          DateTime.fromMillisecondsSinceEpoch(
-                                              note["date_modification"]),
-                                      titre: note["titre"],
-                                      texte: note["texte"],
+                                      id: note.id_note,
+                                      dateCreation: note.date_creation,
+                                      dateModification: note.date_modification,
+                                      titre: note.titre,
+                                      texte: note.texte,
                                       typeNoteId: widget.id,
                                     ),
                                     const SizedBox(
@@ -855,8 +850,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                   content: Container(
                                     width: 300,
                                     height: 300,
-                                    child: FutureBuilder<
-                                        List<Map<String, dynamic>>>(
+                                    child: FutureBuilder<List<NoteUser>>(
                                       future: _listallnotes,
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
@@ -875,24 +869,23 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                               final note =
                                                   snapshot.data![index];
                                               return ListTile(
-                                                title: Text(note["titre"]),
+                                                title: Text(note.titre),
                                                 onTap: () {
-                                                  id_note = note["id_note"];
+                                                  id_note = note.id_note;
                                                   print(id_note);
                                                   setState(() {
-                                                    selectedItem = note["titre"]
-                                                        as String?;
+                                                    selectedItem = note.titre;
                                                   });
                                                 },
-                                                tileColor: selectedItem ==
-                                                        note["titre"] as String?
-                                                    ? const Color.fromRGBO(
-                                                        16, 43, 64, 1)
-                                                    : null,
-                                                textColor: selectedItem ==
-                                                        note["titre"] as String?
-                                                    ? Colors.white
-                                                    : null,
+                                                tileColor:
+                                                    selectedItem == note.titre
+                                                        ? const Color.fromRGBO(
+                                                            16, 43, 64, 1)
+                                                        : null,
+                                                textColor:
+                                                    selectedItem == note.titre
+                                                        ? Colors.white
+                                                        : null,
                                               );
                                             },
                                           );
@@ -923,28 +916,19 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                       ),
                                       onPressed: () async {
                                         if (id_note != 0) {
-                                          List<Map<String, dynamic>> notes =
+                                          NoteUser? finalNote =
                                               await DatabaseHelper.getNote(
                                                   id_note);
 
-                                          if (notes.isNotEmpty) {
-                                            Map<String, dynamic> noteData =
-                                                notes.first;
-                                            Note finalNote =
-                                                Note.fromMap(noteData);
+                                          if (finalNote != null) {
                                             initializeDateFormatting();
 
+                                            finalNote.type_note_id = widget.id;
+                                            finalNote.date_modification =
+                                                DateTime.now();
                                             int updateNote =
                                                 await DatabaseHelper.updateNote(
-                                                    finalNote.id_note,
-                                                    finalNote.titre,
-                                                    finalNote.texte,
-                                                    DateTime
-                                                        .fromMillisecondsSinceEpoch(
-                                                            finalNote
-                                                                .date_creation),
-                                                    DateTime.now(),
-                                                    widget.id);
+                                                    finalNote);
                                             if (updateNote != 0) {
                                               Navigator.pushReplacement(
                                                 context,

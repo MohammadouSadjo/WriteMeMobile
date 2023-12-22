@@ -1,16 +1,14 @@
 // ignore_for_file: non_constant_identifier_names
 
-class NoteUser {
-  int id_note;
+class NoteUserRequest {
   int? type_note_id;
   String titre;
   String texte;
   DateTime date_creation;
   DateTime date_modification;
 
-  NoteUser(
-      {required this.id_note,
-      required this.type_note_id,
+  NoteUserRequest(
+      {required this.type_note_id,
       required this.titre,
       required this.texte,
       required this.date_creation,
@@ -18,7 +16,6 @@ class NoteUser {
 
   Map<String, dynamic> toMap() {
     return {
-      'id_note': id_note,
       'typenote_id': type_note_id,
       'titre': titre,
       'texte': texte,
@@ -27,9 +24,8 @@ class NoteUser {
     };
   }
 
-  factory NoteUser.fromMap(Map<String, dynamic> map) {
-    return NoteUser(
-      id_note: map['id_note'],
+  factory NoteUserRequest.fromMap(Map<String, dynamic> map) {
+    return NoteUserRequest(
       type_note_id: map['type_note_id'],
       titre: map['titre'],
       texte: map['texte'],

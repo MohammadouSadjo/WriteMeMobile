@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/folder_contain_empty.dart';
 import 'package:write_me/home.dart';
+import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note_print.dart';
 import 'package:write_me/note_update.dart';
@@ -277,8 +278,8 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
 
   List<Type_Note> dossiers = [];
 
-  late Future<List<Map<String, dynamic>>> _notes;
-  late Future<List<Map<String, dynamic>>> _typenotes;
+  late Future<List<NoteUser>> _notes;
+  late Future<List<Type_Note>> _typenotes;
 
   @override
   void initState() {
@@ -289,10 +290,6 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
   Future<void> _loadNotes() async {
     _notes = DatabaseHelper.getNotesByResearch(widget.research);
     _typenotes = DatabaseHelper.getTypeNotesByResearch(widget.research);
-  }
-
-  Future<List<Map<String, dynamic>>> getTypenotes() async {
-    return await DatabaseHelper.getTypeNotes();
   }
 
   @override
@@ -348,10 +345,10 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
           ],
         ),
       ),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
+      body: FutureBuilder<List<Type_Note>>(
         future: _typenotes,
         builder: (context, typenotesSnapshot) {
-          return FutureBuilder<List<Map<String, dynamic>>>(
+          return FutureBuilder<List<NoteUser>>(
             future: _notes,
             builder: (context, notesSnapshot) {
               if ((typenotesSnapshot.connectionState ==
@@ -405,8 +402,8 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                           ),
                         ],
                       ),
-                      FutureBuilder<List<Map<String, dynamic>>>(
-                        future: getTypenotes(),
+                      FutureBuilder<List<Type_Note>>(
+                        future: _typenotes,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -432,7 +429,7 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: typenotelist!.map((typenote) {
-                                  int id = typenote["id_typenote"];
+                                  int id = typenote.id_type_note;
                                   return Column(
                                     children: [
                                       InkWell(
@@ -485,7 +482,7 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Text(
-                                                    typenote['intitule_type'],
+                                                    typenote.intitule_type,
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                       fontWeight:
@@ -496,10 +493,8 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                                                   Text(
                                                     DateFormat(
                                                             "dd MMM", 'fr_FR')
-                                                        .format(DateTime
-                                                            .fromMillisecondsSinceEpoch(
-                                                                typenote[
-                                                                    'date_creation']))
+                                                        .format(typenote
+                                                            .date_creation)
                                                         .toString(),
                                                     style: const TextStyle(
                                                       fontWeight:
@@ -542,7 +537,7 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                         ],
                       ),
                       Expanded(
-                        child: FutureBuilder<List<Map<String, dynamic>>>(
+                        child: FutureBuilder<List<NoteUser>>(
                           future: _notes,
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
@@ -561,15 +556,12 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                                   return Column(
                                     children: [
                                       MyListTile(
-                                        id: note["id_note"],
-                                        dateCreation:
-                                            DateTime.fromMillisecondsSinceEpoch(
-                                                note["date_creation"]),
+                                        id: note.id_note,
+                                        dateCreation: note.date_creation,
                                         dateModification:
-                                            DateTime.fromMillisecondsSinceEpoch(
-                                                note["date_modification"]),
-                                        titre: note["titre"],
-                                        texte: note["texte"],
+                                            note.date_modification,
+                                        titre: note.titre,
+                                        texte: note.texte,
                                       ),
                                       const SizedBox(
                                         height: 10,
