@@ -7,8 +7,10 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note_print_folder.dart';
 import 'package:write_me/note_update_folder.dart';
+import 'package:write_me/utils/customWidgets/myListTileFolder.dart';
 
 import 'home.dart';
+import 'utils/colors.dart';
 
 class FolderContainEmpty extends StatelessWidget {
   const FolderContainEmpty({
@@ -39,240 +41,6 @@ class MyFolderContainEmpty extends StatefulWidget {
 
   @override
   State<MyFolderContainEmpty> createState() => _MyFolderContainEmptyState();
-}
-
-class MyListTile extends StatelessWidget {
-  final int id;
-  final DateTime dateCreation;
-  final DateTime dateModification;
-  final String titre;
-  final String texte;
-  final int typeNoteId;
-
-  const MyListTile(
-      {super.key,
-      required this.id,
-      required this.dateCreation,
-      required this.dateModification,
-      required this.titre,
-      required this.texte,
-      required this.typeNoteId});
-
-  @override
-  Widget build(BuildContext context) {
-    initializeDateFormatting();
-
-    String formattedDate =
-        DateFormat("dd MMM", 'fr_FR').format(dateModification);
-    String formattedDateYear =
-        DateFormat("y", 'fr_FR').format(dateModification);
-
-    String dateTime = formattedDate + "\n" + formattedDateYear;
-
-    String formattedTime =
-        DateFormat('HH:mm', 'fr_FR').format(dateModification);
-    String truncatedText = "";
-    if (texte.length > 60) {
-      truncatedText = texte.substring(0, 60);
-      truncatedText += "...";
-    } else {
-      truncatedText = texte;
-    }
-
-    return ListTile(
-      leading: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            dateTime,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              color: Color.fromRGBO(16, 43, 64, 0.5),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 5),
-            height: double.infinity,
-            width: 3,
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(16, 43, 64, 0.4),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              ),
-            ),
-          ),
-        ],
-      ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            formattedTime,
-            style: const TextStyle(
-              fontWeight: FontWeight.w300,
-              fontSize: 10,
-            ),
-          ),
-          Text(
-            titre,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 13,
-            ),
-          ),
-        ],
-      ),
-      subtitle: Text(
-        truncatedText,
-        style: const TextStyle(
-          fontWeight: FontWeight.w300,
-          fontSize: 12,
-        ),
-      ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NotePrintFolder(
-              id: id,
-              dateCreation: dateCreation,
-              dateModification: dateModification,
-              titre: titre,
-              texte: texte,
-              typeNoteId: typeNoteId,
-            ),
-          ),
-        );
-      },
-      trailing: PopupMenuButton<String>(
-        itemBuilder: (BuildContext context) {
-          return <PopupMenuEntry<String>>[
-            PopupMenuItem<String>(
-              value: 'edit',
-              child: const Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.edit,
-                    color: Color.fromRGBO(16, 43, 64, 1),
-                  ),
-                  Text(
-                    '  Modifier',
-                    style: TextStyle(
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NoteUpdateFolder(
-                      id: id,
-                      dateCreation: dateCreation,
-                      dateModification: dateModification,
-                      titre: titre,
-                      texte: texte,
-                      typeNoteId: typeNoteId,
-                    ),
-                  ),
-                );
-              },
-            ),
-            PopupMenuItem<String>(
-              value: 'delete',
-              child: const Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                  Text(
-                    '  Supprimer',
-                    style: TextStyle(
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Center(
-                        child: Text(
-                          'Suppression',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.0,
-                            color: Color.fromRGBO(61, 110, 201, 1.0),
-                          ),
-                        ),
-                      ),
-                      content: const Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 15),
-                            child: Text(
-                              "Etes-vous sûr de vouloir supprimer cette note?",
-                              style: TextStyle(
-                                color: Color.fromRGBO(16, 43, 64, 1),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          child: const Text(
-                            'Annuler',
-                            style: TextStyle(
-                              color: Color.fromRGBO(61, 110, 201, 1.0),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        TextButton(
-                            child: const Text(
-                              'Confirmer',
-                              style: TextStyle(
-                                color: Color.fromRGBO(61, 110, 201, 1.0),
-                              ),
-                            ),
-                            onPressed: () async {
-                              await DatabaseHelper.deleteNote(id);
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => FolderContainEmpty(
-                                    id: typeNoteId,
-                                    title: '',
-                                  ),
-                                ),
-                                (Route<dynamic> route) => false,
-                              );
-                            }),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-          ];
-        },
-      ),
-    );
-  }
 }
 
 class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
@@ -335,7 +103,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                     children: <Widget>[
                       Icon(
                         Icons.edit,
-                        color: Color.fromRGBO(16, 43, 64, 1),
+                        color: Utils.secondaryColor,
                       ),
                       Text(
                         '  Renommer',
@@ -356,7 +124,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20.0,
-                                color: Color.fromRGBO(61, 110, 201, 1.0),
+                                color: Utils.mainColor,
                               ),
                             ),
                           ),
@@ -369,12 +137,12 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                 child: TextField(
                                   controller: intituletypeController,
                                   style: const TextStyle(
-                                    color: Color.fromRGBO(16, 43, 64, 1),
+                                    color: Utils.secondaryColor,
                                   ),
                                   decoration: const InputDecoration(
                                     labelText: 'Nom du dossier',
                                     labelStyle: TextStyle(
-                                      color: Color.fromRGBO(16, 43, 64, 1),
+                                      color: Utils.secondaryColor,
                                     ),
                                     hintText: 'Renommez le dossier',
                                     hintStyle: TextStyle(
@@ -390,7 +158,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                               child: const Text(
                                 'Annuler',
                                 style: TextStyle(
-                                  color: Color.fromRGBO(61, 110, 201, 1.0),
+                                  color: Utils.mainColor,
                                 ),
                               ),
                               onPressed: () {
@@ -401,7 +169,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                               child: const Text(
                                 'Confirmer',
                                 style: TextStyle(
-                                  color: Color.fromRGBO(61, 110, 201, 1.0),
+                                  color: Utils.mainColor,
                                 ),
                               ),
                               onPressed: () async {
@@ -538,7 +306,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20.0,
-                                color: Color.fromRGBO(61, 110, 201, 1.0),
+                                color: Utils.mainColor,
                               ),
                             ),
                           ),
@@ -551,7 +319,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                 child: Text(
                                   "Etes-vous sûr de vouloir supprimer ce dossier et toutes ses notes?",
                                   style: TextStyle(
-                                    color: Color.fromRGBO(16, 43, 64, 1),
+                                    color: Utils.secondaryColor,
                                   ),
                                 ),
                               ),
@@ -562,7 +330,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                               child: const Text(
                                 'Annuler',
                                 style: TextStyle(
-                                  color: Color.fromRGBO(61, 110, 201, 1.0),
+                                  color: Utils.mainColor,
                                 ),
                               ),
                               onPressed: () {
@@ -573,7 +341,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                 child: const Text(
                                   'Confirmer',
                                   style: TextStyle(
-                                    color: Color.fromRGBO(61, 110, 201, 1.0),
+                                    color: Utils.mainColor,
                                   ),
                                 ),
                                 onPressed: () async {
@@ -610,14 +378,14 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
             },
           ),
         ],
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
-              color: const Color.fromRGBO(16, 43, 64, 1),
+              color: Utils.secondaryColor,
               height: 100.0,
               child: Align(
                 alignment: Alignment.bottomLeft,
@@ -636,7 +404,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
             ListTile(
               leading: const Icon(
                 Icons.settings,
-                color: Color.fromRGBO(16, 43, 64, 1),
+                color: Utils.secondaryColor,
               ),
               title: const Text(
                 'Paramètres du compte',
@@ -722,7 +490,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                       children: [
                         Icon(
                           Icons.description,
-                          color: Color.fromRGBO(16, 43, 64, 1),
+                          color: Utils.secondaryColor,
                         ),
                         Text(
                           " Notes",
@@ -755,7 +523,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                 final note = snapshot.data![index];
                                 return Column(
                                   children: [
-                                    MyListTile(
+                                    MyListTileFolder(
                                       id: note.id_note,
                                       dateCreation: note.date_creation,
                                       dateModification: note.date_modification,
@@ -804,14 +572,14 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                     ListTile(
                       leading: const Icon(
                         Icons.description,
-                        color: Color.fromRGBO(16, 43, 64, 1),
+                        color: Utils.secondaryColor,
                       ),
                       title: const Text(
                         'Ajouter une nouvelle note',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 12.0,
-                          color: Color.fromRGBO(16, 43, 64, 1),
+                          color: Utils.secondaryColor,
                         ),
                       ),
                       onTap: () {
@@ -822,14 +590,14 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                     ListTile(
                       leading: const Icon(
                         Icons.file_upload,
-                        color: Color.fromRGBO(16, 43, 64, 1),
+                        color: Utils.secondaryColor,
                       ),
                       title: const Text(
                         'Ajouter une note existante',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 12.0,
-                          color: Color.fromRGBO(16, 43, 64, 1),
+                          color: Utils.secondaryColor,
                         ),
                       ),
                       onTap: () {
@@ -842,7 +610,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                   title: const Text(
                                     'Sélectionnez un élément',
                                     style: TextStyle(
-                                      color: Color.fromRGBO(16, 43, 64, 1),
+                                      color: Utils.secondaryColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -898,8 +666,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                       child: const Text(
                                         'Annuler',
                                         style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(61, 110, 201, 1.0),
+                                          color: Utils.mainColor,
                                         ),
                                       ),
                                       onPressed: () {
@@ -910,8 +677,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                       child: const Text(
                                         'Confirmer',
                                         style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(61, 110, 201, 1.0),
+                                          color: Utils.mainColor,
                                         ),
                                       ),
                                       onPressed: () async {
@@ -962,7 +728,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
           );
         },
         tooltip: "Ajout d'une note",
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/note_update.dart';
 
+import 'utils/colors.dart';
+
 class NotePrint extends StatelessWidget {
   const NotePrint(
       {super.key,
@@ -108,7 +110,7 @@ class _NotePrintPageState extends State<NotePrintPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(widget.titre),
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -142,7 +144,7 @@ class _NotePrintPageState extends State<NotePrintPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
         onPressed: () {
           Navigator.push(
             context,

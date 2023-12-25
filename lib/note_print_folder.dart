@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/note_update_folder.dart';
 
+import 'utils/colors.dart';
+
 class NotePrintFolder extends StatelessWidget {
   const NotePrintFolder(
       {super.key,
@@ -113,7 +115,7 @@ class _NotePrintFolderPageState extends State<NotePrintFolderPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(widget.titre),
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -125,7 +127,7 @@ class _NotePrintFolderPageState extends State<NotePrintFolderPage> {
                   fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
-                  color: Color.fromRGBO(16, 43, 64, 1),
+                  color: Utils.secondaryColor,
                 )),
             const SizedBox(height: 16.0),
             Text(
@@ -133,7 +135,7 @@ class _NotePrintFolderPageState extends State<NotePrintFolderPage> {
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 17.0,
-                color: Color.fromRGBO(16, 43, 64, 1),
+                color: Utils.secondaryColor,
               ),
             ),
             const SizedBox(height: 16.0),
@@ -147,7 +149,7 @@ class _NotePrintFolderPageState extends State<NotePrintFolderPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
         onPressed: () {
           Navigator.push(
             context,

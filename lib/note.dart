@@ -7,6 +7,8 @@ import 'package:write_me/models/dto/notesRequest.dart';
 import 'package:write_me/models/dto/type_noteRequest.dart';
 import 'package:write_me/models/type_note.dart';
 
+import 'utils/colors.dart';
+
 void main() {
   runApp(const Note());
 }
@@ -104,16 +106,16 @@ class _NotePageState extends State<NotePage> {
                   fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
-                  color: Color.fromRGBO(16, 43, 64, 1),
+                  color: Utils.secondaryColor,
                 )),
             const SizedBox(height: 16.0),
             TextField(
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 17.0,
-                color: Color.fromRGBO(16, 43, 64, 1),
+                color: Utils.secondaryColor,
               ),
-              cursorColor: const Color.fromRGBO(16, 43, 64, 1),
+              cursorColor: Utils.secondaryColor,
               decoration: const InputDecoration(
                 hintText: 'Titre de la note',
               ),
@@ -275,7 +277,7 @@ class _NotePageState extends State<NotePage> {
                                   title: const Text(
                                     'Sélectionnez un élément',
                                     style: TextStyle(
-                                      color: Color.fromRGBO(16, 43, 64, 1),
+                                      color: Utils.secondaryColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -574,7 +576,7 @@ class _NotePageState extends State<NotePage> {
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 15.0,
-                                          color: Color.fromRGBO(16, 43, 64, 1),
+                                          color: Utils.secondaryColor,
                                         ),
                                       ),
                                     ),

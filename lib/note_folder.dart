@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/dto/notesRequest.dart';
 
+import 'utils/colors.dart';
+
 void main() {
   runApp(const NoteFolder());
 }
@@ -33,21 +35,6 @@ class NoteFolderPage extends StatefulWidget {
 
 class _NotePageState extends State<NoteFolderPage> {
   String? selectedItem;
-
-  List<String> items = [
-    'Élément 1',
-    'Élément 2',
-    'Élément 3',
-    'Élément 4',
-    'Élément 5',
-    'Élément 6',
-    'Élément 7',
-    'Élément 8',
-    'Élément 9',
-    'Élément 10',
-    'Élément 11',
-    'Élément 12',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +72,7 @@ class _NotePageState extends State<NoteFolderPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text('Ajouter une note'),
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -97,16 +84,16 @@ class _NotePageState extends State<NoteFolderPage> {
                   fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
-                  color: Color.fromRGBO(16, 43, 64, 1),
+                  color: Utils.secondaryColor,
                 )),
             const SizedBox(height: 16.0),
             TextField(
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 17.0,
-                color: Color.fromRGBO(16, 43, 64, 1),
+                color: Utils.secondaryColor,
               ),
-              cursorColor: const Color.fromRGBO(16, 43, 64, 1),
+              cursorColor: Utils.secondaryColor,
               decoration: const InputDecoration(
                 hintText: 'Titre de la note',
               ),
@@ -129,7 +116,7 @@ class _NotePageState extends State<NoteFolderPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
         onPressed: () async {
           final titre = titreController.text;
           final texte = texteController.text;
@@ -144,7 +131,7 @@ class _NotePageState extends State<NoteFolderPage> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 20.0,
-                        color: Color.fromRGBO(61, 110, 201, 1.0),
+                        color: Utils.mainColor,
                       ),
                     ),
                   ),
@@ -159,7 +146,7 @@ class _NotePageState extends State<NoteFolderPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 15.0,
-                            color: Color.fromRGBO(61, 110, 201, 1.0),
+                            color: Utils.mainColor,
                           ),
                         ),
                       ),
@@ -170,7 +157,7 @@ class _NotePageState extends State<NoteFolderPage> {
                       child: const Text(
                         'Fermer',
                         style: TextStyle(
-                          color: Color.fromRGBO(61, 110, 201, 1.0),
+                          color: Utils.mainColor,
                         ),
                       ),
                       onPressed: () {

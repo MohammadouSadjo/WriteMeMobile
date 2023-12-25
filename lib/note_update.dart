@@ -7,6 +7,8 @@ import 'package:write_me/models/dto/type_noteRequest.dart';
 import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
 
+import 'utils/colors.dart';
+
 class NoteUpdate extends StatelessWidget {
   const NoteUpdate(
       {super.key,
@@ -120,7 +122,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(widget.titre),
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -132,16 +134,16 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                   fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
-                  color: Color.fromRGBO(16, 43, 64, 1),
+                  color: Utils.secondaryColor,
                 )),
             const SizedBox(height: 16.0),
             TextField(
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 17.0,
-                color: Color.fromRGBO(16, 43, 64, 1),
+                color: Utils.secondaryColor,
               ),
-              cursorColor: const Color.fromRGBO(16, 43, 64, 1),
+              cursorColor: Utils.secondaryColor,
               decoration: const InputDecoration(
                 hintText: 'Titre de la note',
               ),
@@ -164,7 +166,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
         onPressed: () {
           final titre = titreController.text;
           final texte = texteController.text;
@@ -179,7 +181,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 20.0,
-                        color: Color.fromRGBO(61, 110, 201, 1.0),
+                        color: Utils.mainColor,
                       ),
                     ),
                   ),
@@ -194,7 +196,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 15.0,
-                            color: Color.fromRGBO(61, 110, 201, 1.0),
+                            color: Utils.mainColor,
                           ),
                         ),
                       ),
@@ -205,7 +207,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                       child: const Text(
                         'Fermer',
                         style: TextStyle(
-                          color: Color.fromRGBO(61, 110, 201, 1.0),
+                          color: Utils.mainColor,
                         ),
                       ),
                       onPressed: () {
@@ -230,7 +232,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 20.0,
-                          color: Color.fromRGBO(61, 110, 201, 1.0),
+                          color: Utils.mainColor,
                         ),
                       ),
                     ),
@@ -303,7 +305,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                   title: const Text(
                                     'Sélectionnez un élément',
                                     style: TextStyle(
-                                      color: Color.fromRGBO(16, 43, 64, 1),
+                                      color: Utils.secondaryColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -607,7 +609,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 15.0,
-                                          color: Color.fromRGBO(16, 43, 64, 1),
+                                          color: Utils.secondaryColor,
                                         ),
                                       ),
                                     ),

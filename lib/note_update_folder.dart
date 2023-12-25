@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/notes.dart';
 
+import 'utils/colors.dart';
+
 class NoteUpdateFolder extends StatelessWidget {
   const NoteUpdateFolder(
       {super.key,
@@ -127,16 +129,16 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
                   fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
-                  color: Color.fromRGBO(16, 43, 64, 1),
+                  color: Utils.secondaryColor,
                 )),
             const SizedBox(height: 16.0),
             TextField(
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 17.0,
-                color: Color.fromRGBO(16, 43, 64, 1),
+                color: Utils.secondaryColor,
               ),
-              cursorColor: const Color.fromRGBO(16, 43, 64, 1),
+              cursorColor: Utils.secondaryColor,
               decoration: const InputDecoration(hintText: 'Titre de la note'),
               controller: titreController,
               onChanged: (value) {},

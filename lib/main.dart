@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:splash_view/splash_view.dart';
 import 'package:write_me/home.dart';
+import 'package:write_me/utils/colors.dart';
 
 void main() {
   runApp(const MyAppMain());
@@ -26,7 +27,7 @@ class MyAppMain extends StatelessWidget {
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
           fontFamily: 'RobotoSerif',
-          primaryColor: const Color.fromRGBO(61, 110, 201, 1.0),
+          primaryColor: Utils.mainColor,
         ),
         home: Center(
           child: SplashView(
@@ -35,10 +36,10 @@ class MyAppMain extends StatelessWidget {
               'lib/images/logov2.png',
             ),
             loadingIndicator: const CircularProgressIndicator(
-              color: Color.fromRGBO(61, 110, 201, 1.0),
+              color: Utils.mainColor,
             ),
             done: Done(const MyApp()),
-            backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
+            backgroundColor: Utils.bgColorSplashScreen,
             bottomLoading: false,
             showStatusBar: true,
           ),

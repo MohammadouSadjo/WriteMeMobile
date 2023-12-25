@@ -11,6 +11,8 @@ import 'package:write_me/note_print.dart';
 import 'package:write_me/note_update.dart';
 
 import 'database_helper.dart';
+import 'utils/CustomWidgets/myListTile.dart';
+import 'utils/colors.dart';
 
 class MyAppResearch extends StatelessWidget {
   const MyAppResearch(
@@ -39,243 +41,7 @@ class MyHomePageResearch extends StatefulWidget {
   State<MyHomePageResearch> createState() => _MyHomePageResearchState();
 }
 
-class MyListTile extends StatelessWidget {
-  final int id;
-  final DateTime dateCreation;
-  final DateTime dateModification;
-  final String titre;
-  final String texte;
-
-  const MyListTile(
-      {super.key,
-      required this.id,
-      required this.dateCreation,
-      required this.dateModification,
-      required this.titre,
-      required this.texte});
-
-  @override
-  Widget build(BuildContext context) {
-    initializeDateFormatting();
-    String formattedDate =
-        DateFormat("dd MMM", 'fr_FR').format(dateModification);
-    String formattedDateYear =
-        DateFormat("y", 'fr_FR').format(dateModification);
-
-    String dateTime = formattedDate + "\n" + formattedDateYear;
-
-    String formattedTime =
-        DateFormat('HH:mm', 'fr_FR').format(dateModification);
-    String truncatedText = "";
-    if (texte.length > 60) {
-      truncatedText = texte.substring(0, 60);
-      truncatedText += "...";
-    } else {
-      truncatedText = texte;
-    }
-
-    return ListTile(
-      leading: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            //"20 mars \n2023",
-            dateTime,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              color: Color.fromRGBO(16, 43, 64, 0.5),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 5),
-            height: double.infinity,
-            width: 3,
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(16, 43, 64, 0.4),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              ),
-            ),
-          ),
-        ],
-      ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            //"23:27",
-            formattedTime,
-            style: const TextStyle(
-              fontWeight: FontWeight.w300,
-              fontSize: 10,
-            ),
-          ),
-          Text(
-            titre,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 13,
-            ),
-          ),
-        ],
-      ),
-      subtitle: Text(
-        truncatedText,
-        style: const TextStyle(
-          fontWeight: FontWeight.w300,
-          fontSize: 12,
-        ),
-      ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NotePrint(
-              id: id,
-              dateCreation: dateCreation,
-              dateModification: dateModification,
-              titre: titre,
-              texte: texte,
-            ),
-          ),
-        );
-      },
-      trailing: PopupMenuButton<String>(
-        itemBuilder: (BuildContext context) {
-          return <PopupMenuEntry<String>>[
-            PopupMenuItem<String>(
-              value: 'edit',
-              child: const Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.edit,
-                    color: Color.fromRGBO(16, 43, 64, 1),
-                  ),
-                  Text(
-                    '  Modifier',
-                    style: TextStyle(
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NoteUpdate(
-                      id: id,
-                      dateCreation: dateCreation,
-                      dateModification: dateModification,
-                      titre: titre,
-                      texte: texte,
-                    ),
-                  ),
-                );
-              },
-            ),
-            PopupMenuItem<String>(
-              value: 'delete',
-              child: const Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                  Text(
-                    '  Supprimer',
-                    style: TextStyle(
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Center(
-                        child: Text(
-                          'Suppression',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.0,
-                            color: Color.fromRGBO(61, 110, 201, 1.0),
-                          ),
-                        ),
-                      ),
-                      content: const Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 15),
-                            child: Text(
-                              "Etes-vous sûr de vouloir supprimer cette note?",
-                              style: TextStyle(
-                                color: Color.fromRGBO(16, 43, 64, 1),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          child: const Text(
-                            'Annuler',
-                            style: TextStyle(
-                              color: Color.fromRGBO(61, 110, 201, 1.0),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        TextButton(
-                            child: const Text(
-                              'Confirmer',
-                              style: TextStyle(
-                                color: Color.fromRGBO(61, 110, 201, 1.0),
-                              ),
-                            ),
-                            onPressed: () async {
-                              await DatabaseHelper.deleteNote(id);
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const MyApp(),
-                                ),
-                                (Route<dynamic> route) => false,
-                              );
-                            }),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-          ];
-        },
-      ),
-    );
-  }
-}
-
 class _MyHomePageResearchState extends State<MyHomePageResearch> {
-  List<Color> colors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.purple,
-  ];
-
   List<Type_Note> dossiers = [];
 
   late Future<List<NoteUser>> _notes;
@@ -295,7 +61,7 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(
-      const Color.fromRGBO(61, 110, 201, 1.0),
+      Utils.mainColor,
     );
 
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
@@ -319,14 +85,14 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
         ),
         title: Text(widget.title),
         actions: [],
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
-              color: const Color.fromRGBO(16, 43, 64, 1),
+              color: Utils.secondaryColor,
               height: 100.0,
               child: Align(
                 alignment: Alignment.bottomLeft,
@@ -391,7 +157,7 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                         children: [
                           Icon(
                             Icons.folder,
-                            color: Color.fromRGBO(16, 43, 64, 1),
+                            color: Utils.secondaryColor,
                           ),
                           Text(
                             " Dossiers",
@@ -522,7 +288,7 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
                         children: [
                           Icon(
                             Icons.description,
-                            color: Color.fromRGBO(16, 43, 64, 1),
+                            color: Utils.secondaryColor,
                           ),
                           Text(
                             " Notes",
