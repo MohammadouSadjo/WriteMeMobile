@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/utils/colors.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
 
 import '../../database_helper.dart';
 import '../../home.dart';
@@ -171,11 +173,7 @@ class MyListTile extends StatelessWidget {
                       title: const Center(
                         child: Text(
                           'Suppression',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.0,
-                            color: Utils.mainColor,
-                          ),
+                          style: TextStyleModalTitle.style,
                         ),
                       ),
                       content: const Column(
@@ -186,9 +184,7 @@ class MyListTile extends StatelessWidget {
                                 left: 10, right: 10, bottom: 15),
                             child: Text(
                               "Etes-vous sûr de vouloir supprimer cette note?",
-                              style: TextStyle(
-                                color: Utils.secondaryColor,
-                              ),
+                              style: TextStyleModalContent.style,
                             ),
                           ),
                         ],

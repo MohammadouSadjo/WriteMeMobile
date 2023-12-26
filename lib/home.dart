@@ -10,9 +10,9 @@ import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
 import 'package:write_me/note_folder.dart';
-import 'package:write_me/note_print.dart';
-import 'package:write_me/note_update.dart';
 import 'package:write_me/utils/colors.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
 import 'utils/customWidgets/myListTile.dart';
 
 import 'database_helper.dart';
@@ -98,11 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: const Center(
                       child: Text(
                         'Recherche',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 25.0,
-                          color: Utils.mainColor,
-                        ),
+                        style: TextStyleModalTitle.style,
                       ),
                     ),
                     content: TextField(
@@ -139,11 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   title: const Center(
                                     child: Text(
                                       'Erreur',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20.0,
-                                        color: Utils.mainColor,
-                                      ),
+                                      style: TextStyleModalTitle.style,
                                     ),
                                   ),
                                   content: const Column(
@@ -154,11 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             left: 10, right: 10, bottom: 15),
                                         child: Text(
                                           'Zone de texte vide!',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15.0,
-                                            color: Utils.mainColor,
-                                          ),
+                                          style: TextStyleModalContent.style,
                                         ),
                                       ),
                                     ],
@@ -550,14 +538,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Center(
-                                child: Text(
-                                  'Nouveau dossier',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20.0,
-                                    color: Utils.mainColor,
-                                  ),
-                                ),
+                                child: Text('Nouveau dossier',
+                                    style: TextStyleModalTitle.style),
                               ),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -618,12 +600,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             title: const Center(
                                               child: Text(
                                                 'Erreur',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 20.0,
-                                                  color: Color.fromRGBO(
-                                                      61, 110, 201, 1.0),
-                                                ),
+                                                style:
+                                                    TextStyleModalTitle.style,
                                               ),
                                             ),
                                             content: const Column(
@@ -636,13 +614,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       bottom: 15),
                                                   child: Text(
                                                     'Zone de texte vide!',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 15.0,
-                                                      color: Color.fromRGBO(
-                                                          61, 110, 201, 1.0),
-                                                    ),
+                                                    style: TextStyleModalContent
+                                                        .style,
                                                   ),
                                                 ),
                                               ],

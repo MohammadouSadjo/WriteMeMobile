@@ -4,6 +4,8 @@ import 'package:write_me/folder_contain_empty.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/notes.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
 
 import 'utils/colors.dart';
 
@@ -117,7 +119,7 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(widget.titre),
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -159,7 +161,7 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
         onPressed: () async {
           final titre = titreController.text;
           final texte = texteController.text;
@@ -171,11 +173,7 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
                   title: const Center(
                     child: Text(
                       'Erreur',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20.0,
-                        color: Color.fromRGBO(61, 110, 201, 1.0),
-                      ),
+                      style: TextStyleModalTitle.style,
                     ),
                   ),
                   content: const Column(
@@ -187,11 +185,7 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
                             EdgeInsets.only(left: 10, right: 10, bottom: 15),
                         child: Text(
                           'Zone(s) de texte vides!',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15.0,
-                            color: Color.fromRGBO(61, 110, 201, 1.0),
-                          ),
+                          style: TextStyleModalContent.style,
                         ),
                       ),
                     ],
@@ -201,7 +195,7 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
                       child: const Text(
                         'Fermer',
                         style: TextStyle(
-                          color: Color.fromRGBO(61, 110, 201, 1.0),
+                          color: Utils.mainColor,
                         ),
                       ),
                       onPressed: () {

@@ -7,8 +7,6 @@ import 'package:write_me/folder_contain_empty.dart';
 import 'package:write_me/home.dart';
 import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
-import 'package:write_me/note_print.dart';
-import 'package:write_me/note_update.dart';
 
 import 'database_helper.dart';
 import 'utils/CustomWidgets/myListTile.dart';

@@ -4,6 +4,8 @@ import 'package:write_me/folder_contain_empty.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/dto/notesRequest.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
 
 import 'utils/colors.dart';
 
@@ -128,11 +130,7 @@ class _NotePageState extends State<NoteFolderPage> {
                   title: const Center(
                     child: Text(
                       'Erreur',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20.0,
-                        color: Utils.mainColor,
-                      ),
+                      style: TextStyleModalTitle.style,
                     ),
                   ),
                   content: const Column(
@@ -143,11 +141,7 @@ class _NotePageState extends State<NoteFolderPage> {
                             EdgeInsets.only(left: 10, right: 10, bottom: 15),
                         child: Text(
                           'Zone(s) de texte vides!',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15.0,
-                            color: Utils.mainColor,
-                          ),
+                          style: TextStyleModalContent.style,
                         ),
                       ),
                     ],

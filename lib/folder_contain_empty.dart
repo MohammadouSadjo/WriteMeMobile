@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:write_me/database_helper.dart';
 import 'package:write_me/models/notes.dart';
 
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/type_note.dart';
-import 'package:write_me/note_print_folder.dart';
-import 'package:write_me/note_update_folder.dart';
 import 'package:write_me/utils/customWidgets/myListTileFolder.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
 
 import 'home.dart';
 import 'utils/colors.dart';
@@ -121,11 +120,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                           title: const Center(
                             child: Text(
                               'Renommer le dossier',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20.0,
-                                color: Utils.mainColor,
-                              ),
+                              style: TextStyleModalTitle.style,
                             ),
                           ),
                           content: Column(
@@ -197,12 +192,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                         title: const Center(
                                           child: Text(
                                             'Erreur',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20.0,
-                                              color: Color.fromRGBO(
-                                                  61, 110, 201, 1.0),
-                                            ),
+                                            style: TextStyleModalTitle.style,
                                           ),
                                         ),
                                         content: const Column(
@@ -215,12 +205,8 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                                   bottom: 15),
                                               child: Text(
                                                 'Zone de texte vide!',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15.0,
-                                                  color: Color.fromRGBO(
-                                                      61, 110, 201, 1.0),
-                                                ),
+                                                style:
+                                                    TextStyleModalContent.style,
                                               ),
                                             ),
                                           ],
@@ -303,11 +289,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                           title: const Center(
                             child: Text(
                               'Suppression',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20.0,
-                                color: Utils.mainColor,
-                              ),
+                              style: TextStyleModalTitle.style,
                             ),
                           ),
                           content: const Column(
@@ -318,9 +300,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                     left: 10, right: 10, bottom: 15),
                                 child: Text(
                                   "Etes-vous sûr de vouloir supprimer ce dossier et toutes ses notes?",
-                                  style: TextStyle(
-                                    color: Utils.secondaryColor,
-                                  ),
+                                  style: TextStyleModalContent.style,
                                 ),
                               ),
                             ],
@@ -609,11 +589,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                               return AlertDialog(
                                   title: const Text(
                                     'Sélectionnez un élément',
-                                    style: TextStyle(
-                                      color: Utils.secondaryColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                    style: TextStyleModalTitle.style,
                                   ),
                                   content: Container(
                                     width: 300,

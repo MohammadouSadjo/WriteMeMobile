@@ -6,6 +6,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/dto/notesRequest.dart';
 import 'package:write_me/models/dto/type_noteRequest.dart';
 import 'package:write_me/models/type_note.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
 
 import 'utils/colors.dart';
 
@@ -94,7 +96,7 @@ class _NotePageState extends State<NotePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text('Ajouter une note'),
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -138,7 +140,7 @@ class _NotePageState extends State<NotePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(61, 110, 201, 1.0),
+        backgroundColor: Utils.mainColor,
         onPressed: () {
           final titre = titreController.text;
           final texte = texteController.text;
@@ -150,11 +152,7 @@ class _NotePageState extends State<NotePage> {
                   title: const Center(
                     child: Text(
                       'Erreur',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20.0,
-                        color: Color.fromRGBO(61, 110, 201, 1.0),
-                      ),
+                      style: TextStyleModalTitle.style,
                     ),
                   ),
                   content: const Column(
@@ -165,11 +163,7 @@ class _NotePageState extends State<NotePage> {
                             EdgeInsets.only(left: 10, right: 10, bottom: 15),
                         child: Text(
                           'Zone(s) de texte vides!',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15.0,
-                            color: Color.fromRGBO(61, 110, 201, 1.0),
-                          ),
+                          style: TextStyleModalContent.style,
                         ),
                       ),
                     ],
@@ -179,7 +173,7 @@ class _NotePageState extends State<NotePage> {
                       child: const Text(
                         'Fermer',
                         style: TextStyle(
-                          color: Color.fromRGBO(61, 110, 201, 1.0),
+                          color: Utils.mainColor,
                         ),
                       ),
                       onPressed: () {
@@ -201,19 +195,12 @@ class _NotePageState extends State<NotePage> {
                     title: const Center(
                       child: Text(
                         'Note créée',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20.0,
-                          color: Color.fromRGBO(61, 110, 201, 1.0),
-                        ),
+                        style: TextStyleModalTitle.style,
                       ),
                     ),
                     content: const Text(
                       "Ajouter la note à un dossier?",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15.0,
-                      ),
+                      style: TextStyleModalContent.style,
                     ),
                     actions: [
                       TextButton(
@@ -276,11 +263,7 @@ class _NotePageState extends State<NotePage> {
                                 return AlertDialog(
                                   title: const Text(
                                     'Sélectionnez un élément',
-                                    style: TextStyle(
-                                      color: Utils.secondaryColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                    style: TextStyleModalTitle.style,
                                   ),
                                   content: SizedBox(
                                     width: 300,
@@ -341,12 +324,8 @@ class _NotePageState extends State<NotePage> {
                                               title: const Center(
                                                 child: Text(
                                                   'Nouveau dossier',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 20.0,
-                                                    color: Color.fromRGBO(
-                                                        61, 110, 201, 1.0),
-                                                  ),
+                                                  style:
+                                                      TextStyleModalTitle.style,
                                                 ),
                                               ),
                                               content: Column(
@@ -423,19 +402,8 @@ class _NotePageState extends State<NotePage> {
                                                               child: Text(
                                                                 'Erreur',
                                                                 style:
-                                                                    TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize:
-                                                                      20.0,
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          61,
-                                                                          110,
-                                                                          201,
-                                                                          1.0),
-                                                                ),
+                                                                    TextStyleModalTitle
+                                                                        .style,
                                                               ),
                                                             ),
                                                             content:
@@ -455,19 +423,8 @@ class _NotePageState extends State<NotePage> {
                                                                               15),
                                                                   child: Text(
                                                                     'Zone de texte vide!',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          15.0,
-                                                                      color: Color.fromRGBO(
-                                                                          61,
-                                                                          110,
-                                                                          201,
-                                                                          1.0),
-                                                                    ),
+                                                                    style: TextStyleModalContent
+                                                                        .style,
                                                                   ),
                                                                 ),
                                                               ],

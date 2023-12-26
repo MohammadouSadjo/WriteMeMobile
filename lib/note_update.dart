@@ -6,6 +6,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/dto/type_noteRequest.dart';
 import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
+import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
 
 import 'utils/colors.dart';
 
@@ -178,11 +180,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                   title: const Center(
                     child: Text(
                       'Erreur',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20.0,
-                        color: Utils.mainColor,
-                      ),
+                      style: TextStyleModalTitle.style,
                     ),
                   ),
                   content: const Column(
@@ -193,11 +191,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                             EdgeInsets.only(left: 10, right: 10, bottom: 15),
                         child: Text(
                           'Zone(s) de texte vides!',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15.0,
-                            color: Utils.mainColor,
-                          ),
+                          style: TextStyleModalContent.style,
                         ),
                       ),
                     ],
@@ -229,19 +223,12 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                     title: const Center(
                       child: Text(
                         'Note Modifiée',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20.0,
-                          color: Utils.mainColor,
-                        ),
+                        style: TextStyleModalTitle.style,
                       ),
                     ),
                     content: const Text(
                       "Ajouter la note à un dossier?",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15.0,
-                      ),
+                      style: TextStyleModalContent.style,
                     ),
                     actions: [
                       TextButton(
@@ -304,11 +291,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                 return AlertDialog(
                                   title: const Text(
                                     'Sélectionnez un élément',
-                                    style: TextStyle(
-                                      color: Utils.secondaryColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                    style: TextStyleModalTitle.style,
                                   ),
                                   content: SizedBox(
                                     width: 300,
@@ -368,12 +351,8 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                               title: const Center(
                                                 child: Text(
                                                   'Nouveau dossier',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 20.0,
-                                                    color: Color.fromRGBO(
-                                                        61, 110, 201, 1.0),
-                                                  ),
+                                                  style:
+                                                      TextStyleModalTitle.style,
                                                 ),
                                               ),
                                               content: Column(
@@ -451,19 +430,8 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                                               child: Text(
                                                                 'Erreur',
                                                                 style:
-                                                                    TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize:
-                                                                      20.0,
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          61,
-                                                                          110,
-                                                                          201,
-                                                                          1.0),
-                                                                ),
+                                                                    TextStyleModalTitle
+                                                                        .style,
                                                               ),
                                                             ),
                                                             content:
@@ -483,19 +451,8 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                                                               15),
                                                                   child: Text(
                                                                     'Zone de texte vide!',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          15.0,
-                                                                      color: Color.fromRGBO(
-                                                                          61,
-                                                                          110,
-                                                                          201,
-                                                                          1.0),
-                                                                    ),
+                                                                    style: TextStyleModalContent
+                                                                        .style,
                                                                   ),
                                                                 ),
                                                               ],
