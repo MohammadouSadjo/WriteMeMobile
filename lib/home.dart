@@ -4,15 +4,15 @@ import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/folder_contain_empty.dart';
-import 'package:write_me/home_research.dart';
 import 'package:write_me/models/dto/type_noteRequest.dart';
 import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
 import 'package:write_me/note_folder.dart';
 import 'package:write_me/utils/colors.dart';
-import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
-import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
+import 'package:write_me/utils/customWidgets/dialogs/errorEmpty/errorModal.dart';
+import 'package:write_me/utils/customWidgets/dialogs/research/researchModal.dart';
+import 'utils/customWidgets/dialogs/textStyleModalTitle.dart';
 import 'utils/customWidgets/myListTile.dart';
 
 import 'database_helper.dart';
@@ -94,94 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Center(
-                      child: Text(
-                        'Recherche',
-                        style: TextStyleModalTitle.style,
-                      ),
-                    ),
-                    content: TextField(
-                      controller: researchController,
-                      decoration: const InputDecoration(
-                        hintText: 'Rechercher...',
-                      ),
-                    ),
-                    actions: [
-                      TextButton(
-                        child: const Text(
-                          'Annuler',
-                          style: TextStyle(
-                            color: Utils.mainColor,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: const Text(
-                          'Rechercher',
-                          style: TextStyle(
-                            color: Utils.mainColor,
-                          ),
-                        ),
-                        onPressed: () {
-                          if (researchController.text == "") {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Center(
-                                    child: Text(
-                                      'Erreur',
-                                      style: TextStyleModalTitle.style,
-                                    ),
-                                  ),
-                                  content: const Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 10, right: 10, bottom: 15),
-                                        child: Text(
-                                          'Zone de texte vide!',
-                                          style: TextStyleModalContent.style,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      child: const Text(
-                                        'Fermer',
-                                        style: TextStyle(
-                                          color: Utils.mainColor,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MyAppResearch(
-                                  title: 'WriteMe',
-                                  research: researchController.text,
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ],
-                  );
+                  return ResearchModal(context, researchController);
                 },
               );
             },
@@ -596,45 +509,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Center(
-                                              child: Text(
-                                                'Erreur',
-                                                style:
-                                                    TextStyleModalTitle.style,
-                                              ),
-                                            ),
-                                            content: const Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 10,
-                                                      right: 10,
-                                                      bottom: 15),
-                                                  child: Text(
-                                                    'Zone de texte vide!',
-                                                    style: TextStyleModalContent
-                                                        .style,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                child: const Text(
-                                                  'Fermer',
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        61, 110, 201, 1.0),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
+                                          return ErrorModal(context);
                                         },
                                       );
                                     } else {

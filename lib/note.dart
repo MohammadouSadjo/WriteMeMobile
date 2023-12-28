@@ -6,10 +6,11 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/dto/notesRequest.dart';
 import 'package:write_me/models/dto/type_noteRequest.dart';
 import 'package:write_me/models/type_note.dart';
-import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
-import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
+import 'package:write_me/utils/customWidgets/dialogs/errorEmpty/errorModal.dart';
+import 'package:write_me/utils/customWidgets/dialogs/textStyleModalContent.dart';
 
 import 'utils/colors.dart';
+import 'utils/customWidgets/dialogs/textStyleModalTitle.dart';
 
 void main() {
   runApp(const Note());
@@ -148,40 +149,7 @@ class _NotePageState extends State<NotePage> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Center(
-                    child: Text(
-                      'Erreur',
-                      style: TextStyleModalTitle.style,
-                    ),
-                  ),
-                  content: const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: 10, right: 10, bottom: 15),
-                        child: Text(
-                          'Zone(s) de texte vides!',
-                          style: TextStyleModalContent.style,
-                        ),
-                      ),
-                    ],
-                  ),
-                  actions: [
-                    TextButton(
-                      child: const Text(
-                        'Fermer',
-                        style: TextStyle(
-                          color: Utils.mainColor,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
+                return ErrorModal(context);
               },
             );
           } else {
@@ -397,61 +365,8 @@ class _NotePageState extends State<NotePage> {
                                                         context: context,
                                                         builder: (BuildContext
                                                             context) {
-                                                          return AlertDialog(
-                                                            title: const Center(
-                                                              child: Text(
-                                                                'Erreur',
-                                                                style:
-                                                                    TextStyleModalTitle
-                                                                        .style,
-                                                              ),
-                                                            ),
-                                                            content:
-                                                                const Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          left:
-                                                                              10,
-                                                                          right:
-                                                                              10,
-                                                                          bottom:
-                                                                              15),
-                                                                  child: Text(
-                                                                    'Zone de texte vide!',
-                                                                    style: TextStyleModalContent
-                                                                        .style,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            actions: [
-                                                              TextButton(
-                                                                child:
-                                                                    const Text(
-                                                                  'Fermer',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            61,
-                                                                            110,
-                                                                            201,
-                                                                            1.0),
-                                                                  ),
-                                                                ),
-                                                                onPressed: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                            ],
-                                                          );
+                                                          return ErrorModal(
+                                                              context);
                                                         },
                                                       );
                                                     } else {

@@ -4,8 +4,7 @@ import 'package:write_me/folder_contain_empty.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/dto/notesRequest.dart';
-import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
-import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
+import 'package:write_me/utils/customWidgets/dialogs/errorEmpty/errorModal.dart';
 
 import 'utils/colors.dart';
 
@@ -126,40 +125,7 @@ class _NotePageState extends State<NoteFolderPage> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Center(
-                    child: Text(
-                      'Erreur',
-                      style: TextStyleModalTitle.style,
-                    ),
-                  ),
-                  content: const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: 10, right: 10, bottom: 15),
-                        child: Text(
-                          'Zone(s) de texte vides!',
-                          style: TextStyleModalContent.style,
-                        ),
-                      ),
-                    ],
-                  ),
-                  actions: [
-                    TextButton(
-                      child: const Text(
-                        'Fermer',
-                        style: TextStyle(
-                          color: Utils.mainColor,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
+                return ErrorModal(context);
               },
             );
           } else {

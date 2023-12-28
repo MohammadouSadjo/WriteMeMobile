@@ -4,6 +4,7 @@ import 'package:write_me/models/notes.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/type_note.dart';
+import 'package:write_me/utils/customWidgets/errorModal.dart';
 import 'package:write_me/utils/customWidgets/myListTileFolder.dart';
 import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
 import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
@@ -188,44 +189,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Center(
-                                          child: Text(
-                                            'Erreur',
-                                            style: TextStyleModalTitle.style,
-                                          ),
-                                        ),
-                                        content: const Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 10,
-                                                  right: 10,
-                                                  bottom: 15),
-                                              child: Text(
-                                                'Zone de texte vide!',
-                                                style:
-                                                    TextStyleModalContent.style,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            child: const Text(
-                                              'Fermer',
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    61, 110, 201, 1.0),
-                                              ),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
+                                      return ErrorModal(context);
                                     },
                                   );
                                 } else {

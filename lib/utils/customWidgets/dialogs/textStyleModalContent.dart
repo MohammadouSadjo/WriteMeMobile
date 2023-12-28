@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../colors.dart';
+import '../../colors.dart';
 
-class TextStyleModalTitle {
+class TextStyleModalContent {
   static const style = TextStyle(
     fontWeight: FontWeight.w500,
-    fontSize: 20.0,
+    fontSize: 15.0,
     color: Utils.mainColor,
   );
 }
