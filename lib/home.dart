@@ -12,6 +12,7 @@ import 'package:write_me/note_folder.dart';
 import 'package:write_me/utils/colors.dart';
 import 'package:write_me/utils/customWidgets/dialogs/errorEmpty/errorModal.dart';
 import 'package:write_me/utils/customWidgets/dialogs/research/researchModal.dart';
+import 'package:write_me/utils/customWidgets/myTypeNote.dart';
 import 'utils/customWidgets/dialogs/textStyleModalTitle.dart';
 import 'utils/customWidgets/myListTile.dart';
 
@@ -241,88 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Row(
                                 children: typenotelist!.map((typenote) {
                                   int id = typenote.id_type_note;
-                                  return Column(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  FolderContainEmpty(
-                                                title: 'WriteMe',
-                                                id: id,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  image: const DecorationImage(
-                                                    image: AssetImage(
-                                                        'lib/images/logov2.png'),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  border: Border.all(
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              61,
-                                                              110,
-                                                              201,
-                                                              1.0),
-                                                      width: 2.0),
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(10))),
-                                              width: 110,
-                                              height: 110,
-                                            ),
-                                            Container(
-                                              width: 120.0,
-                                              height: 30.0,
-                                              margin: const EdgeInsets.only(
-                                                  right: 10.0,
-                                                  top: 10.0,
-                                                  bottom: 35),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Text(
-                                                    typenote.intitule_type,
-                                                    textAlign: TextAlign.center,
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    DateFormat(
-                                                            "dd MMM", 'fr_FR')
-                                                        .format(typenote
-                                                            .date_creation)
-                                                        .toString(),
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 11,
-                                                      color: Color.fromRGBO(
-                                                          16, 43, 64, 0.5),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  );
+                                  return MyTypeNote(id, typenote);
                                 }).toList(),
                               ),
                             );
