@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:splash_view/splash_view.dart';
 import 'package:write_me/home.dart';
-import 'package:write_me/utils/colors.dart';
+import 'package:write_me/utils/constants/colors.dart';
 
 void main() {
   runApp(const MyAppMain());

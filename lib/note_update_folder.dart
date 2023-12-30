@@ -4,9 +4,8 @@ import 'package:write_me/folder_contain_empty.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/notes.dart';
+import 'package:write_me/utils/constants/colors.dart';
 import 'package:write_me/utils/customWidgets/dialogs/errorEmpty/errorModal.dart';
-
-import 'utils/colors.dart';
 
 class NoteUpdateFolder extends StatelessWidget {
   const NoteUpdateFolder(

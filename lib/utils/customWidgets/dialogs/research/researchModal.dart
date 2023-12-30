@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:write_me/utils/constants/colors.dart';
 
 import '../../../../home_research.dart';
-import '../../../colors.dart';
 import '../errorEmpty/errorModal.dart';
-import '../textStyleModalTitle.dart';
+import '../../../constants/textStyleModalTitle.dart';
 
 class ResearchModal extends StatelessWidget {
   final BuildContext context;

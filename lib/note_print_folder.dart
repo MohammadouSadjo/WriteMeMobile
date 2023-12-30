@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/note_update_folder.dart';
-
-import 'utils/colors.dart';
+import 'package:write_me/utils/constants/colors.dart';
 
 class NotePrintFolder extends StatelessWidget {
   const NotePrintFolder(

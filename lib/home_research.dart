@@ -5,11 +5,12 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/home.dart';
 import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
+import 'package:write_me/utils/constants/colors.dart';
+import 'package:write_me/utils/customWidgets/myDrawer.dart';
 import 'package:write_me/utils/customWidgets/myTypeNote.dart';
 
 import 'database_helper.dart';
 import 'utils/CustomWidgets/myListTile.dart';
-import 'utils/colors.dart';
 
 class MyAppResearch extends StatelessWidget {
   const MyAppResearch(
@@ -84,30 +85,7 @@ class _MyHomePageResearchState extends State<MyHomePageResearch> {
         actions: [],
         backgroundColor: Utils.mainColor,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              color: Utils.secondaryColor,
-              height: 100.0,
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Container(
-                  height: 50,
-                  child: const Center(
-                    child: Text("Menu",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: const MyDrawer(),
       body: FutureBuilder<List<Type_Note>>(
         future: _typenotes,
         builder: (context, typenotesSnapshot) {

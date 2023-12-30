@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../colors.dart';
+import 'package:write_me/utils/constants/colors.dart';
 
 class TextStyleModalTitle {
   static const style = TextStyle(

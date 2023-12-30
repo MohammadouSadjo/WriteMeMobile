@@ -6,11 +6,11 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/dto/type_noteRequest.dart';
 import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
+import 'package:write_me/utils/constants/colors.dart';
 import 'package:write_me/utils/customWidgets/dialogs/errorEmpty/errorModal.dart';
-import 'package:write_me/utils/customWidgets/dialogs/textStyleModalContent.dart';
+import 'package:write_me/utils/constants/textStyleModalContent.dart';
 
-import 'utils/colors.dart';
-import 'utils/customWidgets/dialogs/textStyleModalTitle.dart';
+import 'utils/constants/textStyleModalTitle.dart';
 
 class NoteUpdate extends StatelessWidget {
   const NoteUpdate(

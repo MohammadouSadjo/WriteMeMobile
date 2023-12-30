@@ -4,13 +4,13 @@ import 'package:write_me/models/notes.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/type_note.dart';
-import 'package:write_me/utils/customWidgets/errorModal.dart';
+import 'package:write_me/utils/constants/colors.dart';
+import 'package:write_me/utils/customWidgets/dialogs/deleteTypeNote.dart';
+import 'package:write_me/utils/customWidgets/dialogs/renameTypeNote.dart';
 import 'package:write_me/utils/customWidgets/myListTileFolder.dart';
-import 'package:write_me/utils/customWidgets/textStyleModalContent.dart';
-import 'package:write_me/utils/customWidgets/textStyleModalTitle.dart';
 
 import 'home.dart';
-import 'utils/colors.dart';
+import 'utils/constants/textStyleModalTitle.dart';
 
 class FolderContainEmpty extends StatelessWidget {
   const FolderContainEmpty({
@@ -117,114 +117,8 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Center(
-                            child: Text(
-                              'Renommer le dossier',
-                              style: TextStyleModalTitle.style,
-                            ),
-                          ),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 15),
-                                child: TextField(
-                                  controller: intituletypeController,
-                                  style: const TextStyle(
-                                    color: Utils.secondaryColor,
-                                  ),
-                                  decoration: const InputDecoration(
-                                    labelText: 'Nom du dossier',
-                                    labelStyle: TextStyle(
-                                      color: Utils.secondaryColor,
-                                    ),
-                                    hintText: 'Renommez le dossier',
-                                    hintStyle: TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          actions: [
-                            TextButton(
-                              child: const Text(
-                                'Annuler',
-                                style: TextStyle(
-                                  color: Utils.mainColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: const Text(
-                                'Confirmer',
-                                style: TextStyle(
-                                  color: Utils.mainColor,
-                                ),
-                              ),
-                              onPressed: () async {
-                                final intitule_type =
-                                    intituletypeController.text;
-                                DateTime dateCreationInit = DateTime.now();
-                                FutureBuilder<Type_Note?>(
-                                    future: type_note,
-                                    builder: (context, snapshot) {
-                                      final typeNote = snapshot.data;
-                                      dateCreationInit =
-                                          typeNote!.date_creation;
-                                      return Text(
-                                          typeNote.date_creation as String);
-                                    });
-
-                                final dateCreation = dateCreationInit;
-                                final dateModification = DateTime.now();
-
-                                if (intitule_type == "") {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return ErrorModal(context);
-                                    },
-                                  );
-                                } else {
-                                  if (intitule_type != "") {
-                                    var typenoteUpdate = Type_Note(
-                                        id_type_note: widget.id,
-                                        intitule_type: intitule_type,
-                                        date_creation: dateCreation,
-                                        date_modification: dateModification);
-                                    final typenoteId =
-                                        await DatabaseHelper.updateTypeNote(
-                                            typenoteUpdate);
-                                    if (typenoteId != 0) {
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => FolderContainEmpty(
-                                            id: widget.id,
-                                            title: '',
-                                          ),
-                                        ),
-                                        (Route<dynamic> route) => false,
-                                      );
-                                    } else {
-                                      print(
-                                          'Erreur lors de l\'insertion de la note.');
-                                    }
-                                  } else {
-                                    print("Erreur");
-                                  }
-                                }
-                              },
-                            ),
-                          ],
-                        );
+                        return RenameTypeNote(context, intituletypeController,
+                            type_note, widget.id);
                       },
                     );
                   },
@@ -249,71 +143,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Center(
-                            child: Text(
-                              'Suppression',
-                              style: TextStyleModalTitle.style,
-                            ),
-                          ),
-                          content: const Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 15),
-                                child: Text(
-                                  "Etes-vous sûr de vouloir supprimer ce dossier et toutes ses notes?",
-                                  style: TextStyleModalContent.style,
-                                ),
-                              ),
-                            ],
-                          ),
-                          actions: [
-                            TextButton(
-                              child: const Text(
-                                'Annuler',
-                                style: TextStyle(
-                                  color: Utils.mainColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                                child: const Text(
-                                  'Confirmer',
-                                  style: TextStyle(
-                                    color: Utils.mainColor,
-                                  ),
-                                ),
-                                onPressed: () async {
-                                  FutureBuilder<List<NoteUser>>(
-                                      future: _notes,
-                                      builder: (context, snapshot) {
-                                        final notes = snapshot.data;
-
-                                        notes!.map((note) async {
-                                          int id_note = note.id_note;
-                                          await DatabaseHelper.deleteNote(
-                                              id_note);
-                                        });
-                                        return const Text("");
-                                      });
-
-                                  await DatabaseHelper.deleteTypeNote(
-                                      widget.id);
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const MyApp(),
-                                    ),
-                                    (Route<dynamic> route) => false,
-                                  );
-                                }),
-                          ],
-                        );
+                        return DeleteTypeNote(context, _notes, widget.id);
                       },
                     );
                   },
@@ -323,51 +153,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
           ),
         ],
         backgroundColor: Utils.mainColor,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              color: Utils.secondaryColor,
-              height: 100.0,
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Container(
-                  height: 50,
-                  child: const Center(
-                    child: Text("Menu",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.settings,
-                color: Utils.secondaryColor,
-              ),
-              title: const Text(
-                'Paramètres du compte',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onTap: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const MyApp(),
-                  ),
-                  (Route<dynamic> route) => false,
-                );
-              },
-            ),
-          ],
-        ),
       ),
       body: WillPopScope(
         onWillPop: () async {

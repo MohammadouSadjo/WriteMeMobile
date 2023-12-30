@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:write_me/models/dto/type_noteRequest.dart';
 import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
 import 'package:write_me/note_folder.dart';
-import 'package:write_me/utils/colors.dart';
-import 'package:write_me/utils/customWidgets/dialogs/errorEmpty/errorModal.dart';
+import 'package:write_me/utils/constants/colors.dart';
+import 'package:write_me/utils/customWidgets/dialogs/addTypeNote.dart';
 import 'package:write_me/utils/customWidgets/dialogs/research/researchModal.dart';
+import 'package:write_me/utils/customWidgets/myDrawer.dart';
 import 'package:write_me/utils/customWidgets/myTypeNote.dart';
-import 'utils/customWidgets/dialogs/textStyleModalTitle.dart';
 import 'utils/customWidgets/myListTile.dart';
 
 import 'database_helper.dart';
@@ -101,45 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         backgroundColor: Utils.mainColor,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              color: Utils.secondaryColor,
-              height: 100.0,
-              child: const Align(
-                alignment: Alignment.bottomLeft,
-                child: SizedBox(
-                  height: 50,
-                  child: Center(
-                    child: Text("Menu",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.logout,
-                color: Utils.secondaryColor,
-              ),
-              title: const Text(
-                "Fermer l'application",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onTap: () {
-                SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const MyDrawer(),
       body: FutureBuilder<List<Type_Note>>(
         future: _typenotes,
         builder: (context, typenotesSnapshot) {
@@ -367,99 +327,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Center(
-                                child: Text('Nouveau dossier',
-                                    style: TextStyleModalTitle.style),
-                              ),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10, bottom: 15),
-                                    child: TextField(
-                                      controller: intituletypeController,
-                                      style: const TextStyle(
-                                        color: Utils.secondaryColor,
-                                      ),
-                                      decoration: const InputDecoration(
-                                        labelText: 'Nom du dossier',
-                                        labelStyle: TextStyle(
-                                          color: Utils.secondaryColor,
-                                        ),
-                                        hintText: 'Nommez le dossier',
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text(
-                                    'Annuler',
-                                    style: TextStyle(
-                                      color: Utils.mainColor,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text(
-                                    'Confirmer',
-                                    style: TextStyle(
-                                      color: Utils.mainColor,
-                                    ),
-                                  ),
-                                  onPressed: () async {
-                                    final intitule_type =
-                                        intituletypeController.text;
-
-                                    final dateCreation = DateTime.now();
-                                    final dateModification = DateTime.now();
-
-                                    if (intitule_type == "") {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return ErrorModal(context);
-                                        },
-                                      );
-                                    } else {
-                                      if (intitule_type != "") {
-                                        var type_note = Type_NoteRequest(
-                                            intitule_type: intitule_type,
-                                            date_creation: dateCreation,
-                                            date_modification:
-                                                dateModification);
-                                        final typenoteId =
-                                            await DatabaseHelper.createTypeNote(
-                                                type_note);
-                                        if (typenoteId != 0) {
-                                          Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) => const MyApp(),
-                                            ),
-                                            (Route<dynamic> route) => false,
-                                          );
-                                        } else {
-                                          print(
-                                              'Erreur lors de l\'insertion de la note.');
-                                        }
-                                      } else {
-                                        print("Erreur");
-                                      }
-                                    }
-                                  },
-                                ),
-                              ],
-                            );
+                            return AddTypeNote(context, intituletypeController);
                           },
                         );
                       },

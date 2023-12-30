@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:write_me/utils/constants/colors.dart';
 
-import '../../../colors.dart';
-import '../textStyleModalContent.dart';
-import '../textStyleModalTitle.dart';
+import '../../../constants/textStyleModalContent.dart';
+import '../../../constants/textStyleModalTitle.dart';
 
 class ErrorModal extends StatelessWidget {
   final BuildContext context;

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:write_me/utils/colors.dart';
+import 'package:write_me/utils/constants/colors.dart';
 
 import '../../database_helper.dart';
 import '../../folder_contain_empty.dart';
 import '../../note_print_folder.dart';
 import '../../note_update_folder.dart';
-import 'dialogs/textStyleModalContent.dart';
-import 'dialogs/textStyleModalTitle.dart';
+import '../constants/textStyleModalContent.dart';
+import '../constants/textStyleModalTitle.dart';
 
 class MyListTileFolder extends StatelessWidget {
   final int id;
