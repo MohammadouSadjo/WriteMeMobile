@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
 import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
 import 'package:write_me/note_folder.dart';
+import 'package:write_me/providers/listNotesProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 import 'package:write_me/utils/customWidgets/dialogs/addTypeNote.dart';
 import 'package:write_me/utils/customWidgets/dialogs/research/researchModal.dart';
@@ -33,36 +35,38 @@ class MyApp extends StatelessWidget {
         fontFamily: 'RobotoSerif',
         primaryColor: Utils.mainColor,
       ),
-      home: const MyHomePage(title: 'WriteMe'),
+      home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+/*class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
-}
+}*/
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePage extends StatelessWidget {
   List<Type_Note> dossiers = [];
 
-  late Future<List<NoteUser>> _notes;
-  late Future<List<Type_Note>> _typenotes;
+  final Future<List<NoteUser>> _notes = DatabaseHelper.getNotes();
+  final Future<List<Type_Note>> _typenotes = DatabaseHelper.getTypeNotes();
 
-  @override
+  MyHomePage({super.key});
+
+  /*@override
   void initState() {
     super.initState();
     _loadNotes();
-  }
+  }*/
 
-  Future<void> _loadNotes() async {
+  /*Future<void> _loadNotes() async {
     _notes = DatabaseHelper.getNotes();
     _typenotes = DatabaseHelper.getTypeNotes();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           },
         ),
-        title: Text(widget.title),
+        title: const Text("WriteMe"),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -226,19 +230,64 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
                       Expanded(
-                        child: FutureBuilder<List<NoteUser>>(
-                          future: _notes,
+                        child: FutureBuilder(
+                          future: Provider.of<ListNotesProvider>(context,
+                                  listen: false)
+                              .getAllNotes(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const CircularProgressIndicator();
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
                             } else if (snapshot.hasError) {
                               return Text('Erreur: ${snapshot.error}');
-                            } else if (notesSnapshot.hasData &&
+                            } /*else if (notesSnapshot.hasData &&
                                 notesSnapshot.data!.isEmpty) {
                               return const Text("Aucune note");
-                            } else {
-                              return ListView.builder(
+                            } */
+                            else {
+                              return Consumer<ListNotesProvider>(
+                                child: const Text("Aucune note"),
+                                builder: (context, listNotesProvider, child) =>
+                                    listNotesProvider.allnotes.isEmpty
+                                        ? child!
+                                        : ListView.builder(
+                                            itemCount: listNotesProvider
+                                                .allnotes.length,
+                                            itemBuilder: (context, index) {
+                                              final note = listNotesProvider
+                                                  .allnotes[index];
+                                              return Column(
+                                                children: [
+                                                  MyListTile(
+                                                    id: note.id_note,
+                                                    dateCreation:
+                                                        note.date_creation,
+                                                    dateModification:
+                                                        note.date_modification,
+                                                    titre: note.titre,
+                                                    texte: note.texte,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  const Divider(
+                                                    indent: 80,
+                                                    height: 15,
+                                                    thickness: 0.7,
+                                                    color: Color.fromRGBO(
+                                                        16, 43, 64, 0.4),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                              );
+                              /*return ListView.builder(
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (context, index) {
                                   final note = snapshot.data![index];
@@ -267,7 +316,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ],
                                   );
                                 },
-                              );
+                              );*/
                             }
                           },
                         ),

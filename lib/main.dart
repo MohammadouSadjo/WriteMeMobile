@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:splash_view/splash_view.dart';
 import 'package:write_me/home.dart';
+import 'package:write_me/providers/listNotesProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 
 void main() {
-  runApp(const MyAppMain());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ListNotesProvider()),
+      ],
+      child: const MyAppMain(),
+    ),
+  );
+  //const MyAppMain());
 }
 
 class MyAppMain extends StatelessWidget {
@@ -31,7 +41,7 @@ class MyAppMain extends StatelessWidget {
         ),
         home: Center(
           child: SplashView(
-            duration: const Duration(seconds: 8),
+            //duration: const Duration(seconds: 8),
             logo: Image.asset(
               'lib/images/logov2.png',
             ),

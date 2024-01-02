@@ -17,7 +17,7 @@ class MyListTile extends StatelessWidget {
   final String titre;
   final String texte;
 
-  MyListTile(
+  const MyListTile(
       {super.key,
       required this.id,
       required this.dateCreation,
