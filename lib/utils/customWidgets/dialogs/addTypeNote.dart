@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:write_me/database_helper.dart';
-import 'package:write_me/home.dart';
+import 'package:provider/provider.dart';
 import 'package:write_me/models/dto/type_noteRequest.dart';
+import 'package:write_me/providers/typeNoteProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 import 'package:write_me/utils/constants/textStyleModalTitle.dart';
 import 'package:write_me/utils/customWidgets/dialogs/errorEmpty/errorModal.dart';
@@ -54,51 +54,59 @@ class AddTypeNote extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        TextButton(
-          child: const Text(
-            'Confirmer',
-            style: TextStyle(
-              color: Utils.mainColor,
+        Consumer<TypeNoteProvider>(builder: (context, typenoteProvider, child) {
+          return TextButton(
+            child: const Text(
+              'Confirmer',
+              style: TextStyle(
+                color: Utils.mainColor,
+              ),
             ),
-          ),
-          onPressed: () async {
-            final intitule_type = intituletypeController.text;
+            onPressed: () async {
+              final intitule_type = intituletypeController.text;
 
-            final dateCreation = DateTime.now();
-            final dateModification = DateTime.now();
+              final dateCreation = DateTime.now();
+              final dateModification = DateTime.now();
 
-            if (intitule_type == "") {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return ErrorModal(context);
-                },
-              );
-            } else {
-              if (intitule_type != "") {
-                var type_note = Type_NoteRequest(
-                    intitule_type: intitule_type,
-                    date_creation: dateCreation,
-                    date_modification: dateModification);
-                final typenoteId =
-                    await DatabaseHelper.createTypeNote(type_note);
-                if (typenoteId != 0) {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const MyApp(),
-                    ),
-                    (Route<dynamic> route) => false,
-                  );
-                } else {
-                  print('Erreur lors de l\'insertion de la note.');
-                }
+              if (intitule_type == "") {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ErrorModal(context);
+                  },
+                );
               } else {
-                print("Erreur");
+                if (intitule_type != "") {
+                  var type_note = Type_NoteRequest(
+                      intitule_type: intitule_type,
+                      date_creation: dateCreation,
+                      date_modification: dateModification);
+
+                  typenoteProvider.addTypeNote(type_note);
+                  Navigator.of(context).pop();
+                  intituletypeController.text = "";
+                  /*final typenoteId =
+                      await DatabaseHelper.createTypeNote(type_note);
+                  if (typenoteId != 0) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const MyApp(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
+                  } else {
+                    print('Erreur lors de l\'insertion de la note.');
+                  }*/
+                } else {
+                  print("Erreur");
+                  intituletypeController.text = "";
+                  Navigator.of(context).pop();
+                }
               }
-            }
-          },
-        ),
+            },
+          );
+        })
       ],
     );
   }

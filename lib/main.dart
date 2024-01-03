@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:splash_view/splash_view.dart';
 import 'package:write_me/home.dart';
 import 'package:write_me/providers/listNotesProvider.dart';
+import 'package:write_me/providers/typeNoteProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 
 void main() {
@@ -11,6 +12,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ListNotesProvider()),
+        ChangeNotifierProvider(create: (_) => TypeNoteProvider()),
       ],
       child: const MyAppMain(),
     ),

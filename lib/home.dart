@@ -7,6 +7,7 @@ import 'package:write_me/models/type_note.dart';
 import 'package:write_me/note.dart';
 import 'package:write_me/note_folder.dart';
 import 'package:write_me/providers/listNotesProvider.dart';
+import 'package:write_me/providers/typeNoteProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 import 'package:write_me/utils/customWidgets/dialogs/addTypeNote.dart';
 import 'package:write_me/utils/customWidgets/dialogs/research/researchModal.dart';
@@ -177,36 +178,42 @@ class MyHomePage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      FutureBuilder<List<Type_Note>>(
-                        future: _typenotes,
+                      FutureBuilder(
+                        future: Provider.of<TypeNoteProvider>(context,
+                                listen: false)
+                            .getAllTypeNotes(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
                           } else if (snapshot.hasError) {
                             return Text(
                                 'Une erreur s\'est produite: ${snapshot.error}');
-                          } else if (snapshot.hasData &&
-                              snapshot.data!.isEmpty) {
-                            return const Column(
-                              children: [
-                                SizedBox(height: 16.0),
-                                Text("Aucun dossier"),
-                                SizedBox(height: 16.0),
-                                SizedBox(height: 16.0),
-                              ],
-                            );
                           } else {
-                            final typenotelist = snapshot.data;
-
-                            return SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: typenotelist!.map((typenote) {
-                                  int id = typenote.id_type_note;
-                                  return MyTypeNote(id, typenote);
-                                }).toList(),
+                            return Consumer<TypeNoteProvider>(
+                              child: const Column(
+                                children: [
+                                  SizedBox(height: 16.0),
+                                  Text("Aucun dossier"),
+                                  SizedBox(height: 16.0),
+                                  SizedBox(height: 16.0),
+                                ],
                               ),
+                              builder: (context, typenotes, child) =>
+                                  typenotes.alltypeNote.isEmpty
+                                      ? child!
+                                      : SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: typenotes.alltypeNote
+                                                .map((typenote) {
+                                              int id = typenote.id_type_note;
+                                              return MyTypeNote(id, typenote);
+                                            }).toList(),
+                                          ),
+                                        ),
                             );
                           }
                         },
