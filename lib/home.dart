@@ -90,17 +90,37 @@ class MyHomePage extends StatelessWidget {
         ),
         title: const Text("WriteMe"),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return ResearchModal(context, researchController);
-                },
-              );
-            },
-          ),
+          Consumer2<ListNotesProvider, TypeNoteProvider>(
+            child: IconButton(
+              icon: const Icon(
+                Icons.search,
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ResearchModal(context, researchController);
+                  },
+                );
+              },
+            ),
+            builder: (context, noteProvider, typenoteProvider, child) =>
+                noteProvider.research == 0
+                    ? child!
+                    : IconButton(
+                        icon: const Icon(
+                          Icons.cancel,
+                          shadows: [
+                            Shadow(color: Colors.red, offset: Offset(1.0, 1.0))
+                          ],
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          noteProvider.getAllNotes();
+                          typenoteProvider.getAllTypeNotes();
+                        },
+                      ),
+          )
         ],
         backgroundColor: Utils.mainColor,
       ),

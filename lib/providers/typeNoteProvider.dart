@@ -14,6 +14,14 @@ class TypeNoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getTypeNotesResearch(String research) async {
+    List<Type_Note> notes =
+        await DatabaseHelper.getTypeNotesByResearch(research);
+    _alltypeNotes = notes;
+    //_research = 1;
+    notifyListeners();
+  }
+
   Future<void> addTypeNote(Type_NoteRequest typenote) async {
     int id = await DatabaseHelper.createTypeNote(typenote);
     Type_Note _typenote = Type_Note(

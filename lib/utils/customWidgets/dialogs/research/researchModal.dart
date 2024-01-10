@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:write_me/providers/listNotesProvider.dart';
+import 'package:write_me/providers/typeNoteProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 
-import '../../../../home_research.dart';
 import '../errorEmpty/errorModal.dart';
 import '../../../constants/textStyleModalTitle.dart';
 
@@ -38,23 +40,28 @@ class ResearchModal extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        TextButton(
-          child: const Text(
-            'Rechercher',
-            style: TextStyle(
-              color: Utils.mainColor,
+        Consumer2<ListNotesProvider, TypeNoteProvider>(
+          builder: (context, noteProvider, typenoteProvider, child) =>
+              TextButton(
+            child: const Text(
+              'Rechercher',
+              style: TextStyle(
+                color: Utils.mainColor,
+              ),
             ),
-          ),
-          onPressed: () {
-            if (researchController.text == "") {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return ErrorModal(context);
-                },
-              );
-            } else {
-              Navigator.push(
+            onPressed: () {
+              if (researchController.text == "") {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ErrorModal(context);
+                  },
+                );
+              } else {
+                noteProvider.getNotesResearch(researchController.text);
+                typenoteProvider.getTypeNotesResearch(researchController.text);
+                Navigator.of(context).pop();
+                /*Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => MyAppResearch(
@@ -62,10 +69,11 @@ class ResearchModal extends StatelessWidget {
                     research: researchController.text,
                   ),
                 ),
-              );
-            }
-          },
-        ),
+              );*/
+              }
+            },
+          ),
+        )
       ],
     );
   }
