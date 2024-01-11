@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:write_me/database_helper.dart';
+import 'package:write_me/models/dto/notesRequest.dart';
 import 'package:write_me/models/notes.dart';
 
 class ListNotesProvider extends ChangeNotifier {
@@ -21,6 +22,23 @@ class ListNotesProvider extends ChangeNotifier {
     List<NoteUser> notes = await DatabaseHelper.getNotesByResearch(research);
     _allnotes = notes;
     _research = 1;
+    notifyListeners();
+  }
+
+  Future<void> addNote(NoteUserRequest noteUserRequest) async {
+    int id = await DatabaseHelper.createNote(noteUserRequest);
+
+    NoteUser note = NoteUser(
+        id_note: id,
+        type_note_id: noteUserRequest.type_note_id,
+        titre: noteUserRequest.titre,
+        texte: noteUserRequest.texte,
+        date_creation: noteUserRequest.date_creation,
+        date_modification: noteUserRequest.date_modification);
+    if (note.id_note == 0) {
+      _allnotes.add(note);
+    }
+
     notifyListeners();
   }
 

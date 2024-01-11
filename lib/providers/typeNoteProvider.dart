@@ -22,7 +22,7 @@ class TypeNoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addTypeNote(Type_NoteRequest typenote) async {
+  Future<int> addTypeNote(Type_NoteRequest typenote) async {
     int id = await DatabaseHelper.createTypeNote(typenote);
     Type_Note _typenote = Type_Note(
         id_type_note: id,
@@ -32,5 +32,6 @@ class TypeNoteProvider extends ChangeNotifier {
 
     _alltypeNotes.add(_typenote);
     notifyListeners();
+    return id;
   }
 }

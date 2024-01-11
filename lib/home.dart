@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
+        '/home': (context) => const MyApp(),
         '/note': (context) => const Note(),
         '/notefolder': (context) => const NoteFolder(),
       },
@@ -379,6 +380,11 @@ class MyHomePage extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
+                        /*Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Note()));*/
+                        //Navigator.pushNamed(context, '/note');
                         Navigator.pushReplacementNamed(
                           context,
                           '/note',
