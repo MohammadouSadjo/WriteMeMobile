@@ -23,6 +23,18 @@ class ListNotesProvider extends ChangeNotifier {
     _research = 1;
     notifyListeners();
   }
+
+  Future<void> deleteNote(int id) async {
+    await DatabaseHelper.deleteNote(id);
+    NoteUser? note;
+    for (var element in _allnotes) {
+      if (element.id_note == id) {
+        note = element;
+      }
+    }
+    _allnotes.remove(note);
+    notifyListeners();
+  }
   /*List<NoteUser> getNotes() {
     List<NoteUser> result = [];
     notes.then((value) {

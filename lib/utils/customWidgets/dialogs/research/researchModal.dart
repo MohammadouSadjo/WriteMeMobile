@@ -61,6 +61,7 @@ class ResearchModal extends StatelessWidget {
                 noteProvider.getNotesResearch(researchController.text);
                 typenoteProvider.getTypeNotesResearch(researchController.text);
                 Navigator.of(context).pop();
+                researchController.text = "";
                 /*Navigator.push(
                 context,
                 MaterialPageRoute(

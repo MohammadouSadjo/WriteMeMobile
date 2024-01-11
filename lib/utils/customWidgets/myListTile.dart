@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
+import 'package:write_me/providers/listNotesProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 
-import '../../database_helper.dart';
-import '../../home.dart';
 import '../../note_print.dart';
 import '../../note_update.dart';
 import '../constants/textStyleModalTitle.dart';
@@ -201,23 +201,21 @@ class MyListTile extends StatelessWidget {
                             Navigator.of(context).pop();
                           },
                         ),
-                        TextButton(
-                            child: const Text(
-                              'Confirmer',
-                              style: TextStyle(
-                                color: Utils.mainColor,
-                              ),
-                            ),
-                            onPressed: () async {
-                              await DatabaseHelper.deleteNote(id);
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const MyApp(),
-                                ),
-                                (Route<dynamic> route) => false,
-                              );
-                            }),
+                        Consumer<ListNotesProvider>(
+                          builder: (context, notesProvider, child) =>
+                              TextButton(
+                                  child: const Text(
+                                    'Confirmer',
+                                    style: TextStyle(
+                                      color: Utils.mainColor,
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    notesProvider.deleteNote(id);
+
+                                    Navigator.of(context).pop();
+                                  }),
+                        )
                       ],
                     );
                   },

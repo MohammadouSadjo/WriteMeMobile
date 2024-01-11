@@ -110,9 +110,9 @@ class MyHomePage extends StatelessWidget {
                     : IconButton(
                         icon: const Icon(
                           Icons.cancel,
-                          shadows: [
+                          /*shadows: [
                             Shadow(color: Colors.red, offset: Offset(1.0, 1.0))
-                          ],
+                          ],*/
                           color: Colors.red,
                         ),
                         onPressed: () {
