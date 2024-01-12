@@ -5,8 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:write_me/providers/listNotesProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 
-import '../../database_helper.dart';
-import '../../folder_contain_empty.dart';
 import '../../note_print_folder.dart';
 import '../../note_update_folder.dart';
 import '../constants/textStyleModalContent.dart';

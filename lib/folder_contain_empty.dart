@@ -11,7 +11,6 @@ import 'package:write_me/utils/customWidgets/dialogs/deleteTypeNote.dart';
 import 'package:write_me/utils/customWidgets/dialogs/renameTypeNote.dart';
 import 'package:write_me/utils/customWidgets/myListTileFolder.dart';
 
-import 'home.dart';
 import 'utils/constants/textStyleModalTitle.dart';
 
 class FolderContainEmpty extends StatelessWidget {
