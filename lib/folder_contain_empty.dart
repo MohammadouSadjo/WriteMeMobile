@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:write_me/database_helper.dart';
 import 'package:write_me/models/notes.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/type_note.dart';
+import 'package:write_me/providers/listNotesProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 import 'package:write_me/utils/customWidgets/dialogs/deleteTypeNote.dart';
 import 'package:write_me/utils/customWidgets/dialogs/renameTypeNote.dart';
@@ -78,13 +80,8 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const MyApp(),
-            ),
-            (Route<dynamic> route) => false,
-          ),
+          onPressed: () =>
+              Navigator.popUntil(context, (route) => route.isFirst),
         ),
         title: FutureBuilder<Type_Note?>(
           future: type_note,
@@ -156,133 +153,122 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
       ),
       body: WillPopScope(
         onWillPop: () async {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const MyApp(),
-            ),
-            (Route<dynamic> route) => false,
-          );
+          Navigator.popUntil(context, (route) => route.isFirst);
           return true;
         },
-        child: FutureBuilder<List<NoteUser>>(
-          future: _notes,
-          builder: (context, notesSnapshot) {
-            if ((notesSnapshot.connectionState == ConnectionState.waiting) ||
-                (notesSnapshot.hasError)) {
-              return const Center(child: CircularProgressIndicator());
-            } else if ((notesSnapshot.hasData && notesSnapshot.data!.isEmpty)) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset(
-                      'lib/images/logov2.png',
-                      width: 200.0,
-                      height: 200.0,
-                    ),
-                    const Text(
-                      "Ajouter une note",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17.0,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30.0, vertical: 15.0),
-                      child: const Center(
-                        child: Text(
-                          "Aucune note n'a encore été créée! Cliquez sur le bouton en bas à droite pour commencer.",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12.0,
-                            color: Colors.grey,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+        child: FutureBuilder(
+          future: Provider.of<ListNotesProvider>(context, listen: false)
+              .getAllNotesByTypeNote(widget.id),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
+            } else if (snapshot.hasError) {
+              return Text('Une erreur s\'est produite: ${snapshot.error}');
             } else {
-              // ...
               initializeDateFormatting();
-              return Padding(
-                padding: const EdgeInsets.only(top: 20.0, left: 10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Row(
-                      children: [
-                        Icon(
-                          Icons.description,
-                          color: Utils.secondaryColor,
+              return Consumer<ListNotesProvider>(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        'lib/images/logov2.png',
+                        width: 200.0,
+                        height: 200.0,
+                      ),
+                      const Text(
+                        "Ajouter une note",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17.0,
+                          color: Colors.grey,
                         ),
-                        Text(
-                          " Notes",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30.0, vertical: 15.0),
+                        child: const Center(
+                          child: Text(
+                            "Aucune note n'a encore été créée! Cliquez sur le bouton en bas à droite pour commencer.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12.0,
+                              color: Colors.grey,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: FutureBuilder<List<NoteUser>>(
-                        future: _notes,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Erreur: ${snapshot.error}');
-                          } else if (notesSnapshot.hasData &&
-                              notesSnapshot.data!.isEmpty) {
-                            return const Text("Aucune note");
-                          } else {
-                            return ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                final note = snapshot.data![index];
-                                return Column(
-                                  children: [
-                                    MyListTileFolder(
-                                      id: note.id_note,
-                                      dateCreation: note.date_creation,
-                                      dateModification: note.date_modification,
-                                      titre: note.titre,
-                                      texte: note.texte,
-                                      typeNoteId: widget.id,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    const Divider(
-                                      indent: 80,
-                                      height: 15,
-                                      thickness: 0.7,
-                                      color: Color.fromRGBO(16, 43, 64, 0.4),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                builder: (context, notesProvider, child) => notesProvider
+                        .allnotesByType.isEmpty
+                    ? child!
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 20.0, left: 10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Row(
+                              children: [
+                                Icon(
+                                  Icons.description,
+                                  color: Utils.secondaryColor,
+                                ),
+                                Text(
+                                  " Notes",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: notesProvider.allnotesByType.length,
+                                itemBuilder: (context, index) {
+                                  final note =
+                                      notesProvider.allnotesByType[index];
+                                  return Column(
+                                    children: [
+                                      MyListTileFolder(
+                                        id: note.id_note,
+                                        dateCreation: note.date_creation,
+                                        dateModification:
+                                            note.date_modification,
+                                        titre: note.titre,
+                                        texte: note.texte,
+                                        typeNoteId: widget.id,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      const Divider(
+                                        indent: 80,
+                                        height: 15,
+                                        thickness: 0.7,
+                                        color: Color.fromRGBO(16, 43, 64, 0.4),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
               );
+              // ...
             }
           },
         ),

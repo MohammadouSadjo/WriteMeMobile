@@ -145,7 +145,7 @@ class DatabaseHelper {
     final db = await DatabaseHelper.db();
     print(db.path);
 
-    String whereClause = "intitule_type LIKE '%$searchQuery%'";
+    //String whereClause = "intitule_type LIKE '%$searchQuery%'";
 
     /*final List<Map<String, dynamic>> maps =
         await db.query('typenotes', orderBy: "id_typenote", where: whereClause);*/

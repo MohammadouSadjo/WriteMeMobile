@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
+import 'package:write_me/providers/listNotesProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 
 import '../../database_helper.dart';
@@ -205,26 +207,21 @@ class MyListTileFolder extends StatelessWidget {
                             Navigator.of(context).pop();
                           },
                         ),
-                        TextButton(
-                            child: const Text(
-                              'Confirmer',
-                              style: TextStyle(
-                                color: Utils.mainColor,
-                              ),
-                            ),
-                            onPressed: () async {
-                              await DatabaseHelper.deleteNote(id);
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => FolderContainEmpty(
-                                    id: typeNoteId,
-                                    title: '',
+                        Consumer<ListNotesProvider>(
+                          builder: (context, notesProvider, child) =>
+                              TextButton(
+                                  child: const Text(
+                                    'Confirmer',
+                                    style: TextStyle(
+                                      color: Utils.mainColor,
+                                    ),
                                   ),
-                                ),
-                                (Route<dynamic> route) => false,
-                              );
-                            }),
+                                  onPressed: () async {
+                                    notesProvider.deleteNote(id);
+
+                                    Navigator.of(context).pop();
+                                  }),
+                        )
                       ],
                     );
                   },

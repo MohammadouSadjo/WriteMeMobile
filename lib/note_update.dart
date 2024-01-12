@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:write_me/database_helper.dart';
 import 'package:write_me/home.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +7,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/dto/type_noteRequest.dart';
 import 'package:write_me/models/notes.dart';
 import 'package:write_me/models/type_note.dart';
+import 'package:write_me/providers/listNotesProvider.dart';
+import 'package:write_me/providers/typeNoteProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 import 'package:write_me/utils/customWidgets/dialogs/errorEmpty/errorModal.dart';
 import 'package:write_me/utils/constants/textStyleModalContent.dart';
@@ -62,21 +65,6 @@ class NoteUpdatePage extends StatefulWidget {
 
 class _NoteUpdatePageState extends State<NoteUpdatePage> {
   String? selectedItem;
-
-  List<String> items = [
-    'Élément 1',
-    'Élément 2',
-    'Élément 3',
-    'Élément 4',
-    'Élément 5',
-    'Élément 6',
-    'Élément 7',
-    'Élément 8',
-    'Élément 9',
-    'Élément 10',
-    'Élément 11',
-    'Élément 12',
-  ];
 
   late Future<List<Type_Note>> _typenotes;
 
@@ -171,6 +159,7 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Utils.mainColor,
         onPressed: () {
+          FocusManager.instance.primaryFocus?.unfocus();
           final titre = titreController.text;
           final texte = texteController.text;
           if (titre == "" || texte == "") {
@@ -199,47 +188,39 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                       style: TextStyleModalContent.style,
                     ),
                     actions: [
-                      TextButton(
-                        child: const Text(
-                          'Non',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15.0,
-                            color: Colors.redAccent,
+                      Consumer<ListNotesProvider>(
+                        builder: (context, notesProvider, child) => TextButton(
+                          child: const Text(
+                            'Non',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15.0,
+                              color: Colors.redAccent,
+                            ),
                           ),
-                        ),
-                        onPressed: () async {
-                          final titre = titreController.text;
-                          final texte = texteController.text;
+                          onPressed: () async {
+                            final titre = titreController.text;
+                            final texte = texteController.text;
 
-                          final dateCreation = widget.dateCreation;
-                          final dateModification = DateTime.now();
+                            final dateCreation = widget.dateCreation;
+                            final dateModification = DateTime.now();
 
-                          if (titre != "" && texte != "") {
-                            var noteUpdate = NoteUser(
-                                id_note: widget.id,
-                                type_note_id: 0,
-                                titre: titre,
-                                texte: texte,
-                                date_creation: dateCreation,
-                                date_modification: dateModification);
-                            final noteId =
-                                await DatabaseHelper.updateNote(noteUpdate);
-                            if (noteId != 0) {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const MyApp(),
-                                ),
-                                (Route<dynamic> route) => false,
-                              );
+                            if (titre != "" && texte != "") {
+                              var noteUpdate = NoteUser(
+                                  id_note: widget.id,
+                                  type_note_id: 0,
+                                  titre: titre,
+                                  texte: texte,
+                                  date_creation: dateCreation,
+                                  date_modification: dateModification);
+                              notesProvider.updateNote(noteUpdate);
+                              Navigator.popUntil(
+                                  context, (route) => route.isFirst);
                             } else {
-                              print('Erreur lors de l\'insertion de la note.');
+                              print("Erreur");
                             }
-                          } else {
-                            print("Erreur");
-                          }
-                        },
+                          },
+                        ),
                       ),
                       TextButton(
                         child: const Text(
@@ -370,106 +351,102 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                                     Navigator.of(context).pop();
                                                   },
                                                 ),
-                                                TextButton(
-                                                  child: const Text(
-                                                    'Confirmer',
-                                                    style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          61, 110, 201, 1.0),
+                                                Consumer2<ListNotesProvider,
+                                                    TypeNoteProvider>(
+                                                  builder: (context,
+                                                          notesProvider,
+                                                          typenotesProvider,
+                                                          child) =>
+                                                      TextButton(
+                                                    child: const Text(
+                                                      'Confirmer',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            61, 110, 201, 1.0),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  onPressed: () async {
-                                                    final intitule_type =
-                                                        intituledossierController
-                                                            .text;
+                                                    onPressed: () async {
+                                                      final intitule_type =
+                                                          intituledossierController
+                                                              .text;
 
-                                                    final dateCreation =
-                                                        DateTime.now();
-                                                    final dateModification =
-                                                        DateTime.now();
+                                                      final dateCreation =
+                                                          DateTime.now();
+                                                      final dateModification =
+                                                          DateTime.now();
 
-                                                    if (intitule_type == "") {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return ErrorModal(
-                                                              context);
-                                                        },
-                                                      );
-                                                    } else {
-                                                      if (intitule_type != "") {
-                                                        var type_note = Type_NoteRequest(
-                                                            intitule_type:
-                                                                intitule_type,
-                                                            date_creation:
-                                                                dateCreation,
-                                                            date_modification:
-                                                                dateModification);
-                                                        final typenoteId =
-                                                            await DatabaseHelper
-                                                                .createTypeNote(
-                                                                    type_note);
-                                                        if (typenoteId != 0) {
-                                                          final id = widget.id;
-                                                          final titre =
-                                                              titreController
-                                                                  .text;
-                                                          final texte =
-                                                              texteController
-                                                                  .text;
-                                                          final dateCreation =
-                                                              widget
-                                                                  .dateCreation;
-                                                          final dateModification =
-                                                              DateTime.now();
+                                                      if (intitule_type == "") {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return ErrorModal(
+                                                                context);
+                                                          },
+                                                        );
+                                                      } else {
+                                                        if (intitule_type !=
+                                                            "") {
+                                                          var type_note = Type_NoteRequest(
+                                                              intitule_type:
+                                                                  intitule_type,
+                                                              date_creation:
+                                                                  dateCreation,
+                                                              date_modification:
+                                                                  dateModification);
+                                                          final typenoteId =
+                                                              await typenotesProvider
+                                                                  .addTypeNote(
+                                                                      type_note);
 
-                                                          if (titre != "" &&
-                                                              texte != "") {
-                                                            var noteUpdate = NoteUser(
-                                                                id_note: id,
-                                                                type_note_id:
-                                                                    typenoteId,
-                                                                titre: titre,
-                                                                texte: texte,
-                                                                date_creation:
-                                                                    dateCreation,
-                                                                date_modification:
-                                                                    dateModification);
-                                                            final noteId =
-                                                                await DatabaseHelper
-                                                                    .updateNote(
-                                                                        noteUpdate);
-                                                            if (noteId != 0) {
-                                                              print(
-                                                                  "redirection");
-                                                              Navigator
-                                                                  .pushAndRemoveUntil(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder: (_) =>
-                                                                      const MyApp(),
-                                                                ),
-                                                                (Route<dynamic>
-                                                                        route) =>
-                                                                    false,
-                                                              );
+                                                          if (typenoteId != 0) {
+                                                            final id =
+                                                                widget.id;
+                                                            final titre =
+                                                                titreController
+                                                                    .text;
+                                                            final texte =
+                                                                texteController
+                                                                    .text;
+                                                            final dateCreation =
+                                                                widget
+                                                                    .dateCreation;
+                                                            final dateModification =
+                                                                DateTime.now();
+
+                                                            if (titre != "" &&
+                                                                texte != "") {
+                                                              var noteUpdate = NoteUser(
+                                                                  id_note: id,
+                                                                  type_note_id:
+                                                                      typenoteId,
+                                                                  titre: titre,
+                                                                  texte: texte,
+                                                                  date_creation:
+                                                                      dateCreation,
+                                                                  date_modification:
+                                                                      dateModification);
+                                                              notesProvider
+                                                                  .updateNote(
+                                                                      noteUpdate);
+
+                                                              Navigator.popUntil(
+                                                                  context,
+                                                                  (route) => route
+                                                                      .isFirst);
                                                             } else {
-                                                              print(
-                                                                  'Erreur lors de l\'insertion de la note.');
+                                                              print("Erreur");
                                                             }
                                                           } else {
-                                                            print("Erreur");
+                                                            print(
+                                                                'Erreur lors de l\'insertion de la note.');
                                                           }
                                                         } else {
-                                                          print(
-                                                              'Erreur lors de l\'insertion de la note.');
+                                                          print("Erreur");
                                                         }
-                                                      } else {
-                                                        print("Erreur");
                                                       }
-                                                    }
-                                                  },
+                                                    },
+                                                  ),
                                                 ),
                                               ],
                                             );
@@ -498,59 +475,53 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                                         ),
                                       ),
                                     ),
-                                    TextButton(
-                                      onPressed: () async {
-                                        final id = widget.id;
-                                        final titre = titreController.text;
-                                        final texte = texteController.text;
+                                    Consumer<ListNotesProvider>(
+                                      builder:
+                                          (context, notesProvider, child) =>
+                                              TextButton(
+                                        onPressed: () async {
+                                          final id = widget.id;
+                                          final titre = titreController.text;
+                                          final texte = texteController.text;
 
-                                        final dateCreation =
-                                            widget.dateCreation;
-                                        final dateModification = DateTime.now();
+                                          final dateCreation =
+                                              widget.dateCreation;
+                                          final dateModification =
+                                              DateTime.now();
 
-                                        if (selectedItem != null) {
-                                          if (titre != "" && texte != "") {
-                                            var noteUpdate = NoteUser(
-                                                id_note: id,
-                                                type_note_id: id_typenote,
-                                                titre: titre,
-                                                texte: texte,
-                                                date_creation: dateCreation,
-                                                date_modification:
-                                                    dateModification);
-                                            final noteId =
-                                                await DatabaseHelper.updateNote(
-                                                    noteUpdate);
-                                            if (noteId != 0) {
-                                              print("redirection");
-                                              Navigator.pushAndRemoveUntil(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (_) => const MyApp(),
-                                                ),
-                                                (Route<dynamic> route) => false,
-                                              );
+                                          if (selectedItem != null) {
+                                            if (titre != "" && texte != "") {
+                                              var noteUpdate = NoteUser(
+                                                  id_note: id,
+                                                  type_note_id: id_typenote,
+                                                  titre: titre,
+                                                  texte: texte,
+                                                  date_creation: dateCreation,
+                                                  date_modification:
+                                                      dateModification);
+                                              notesProvider
+                                                  .updateNote(noteUpdate);
+
+                                              Navigator.popUntil(context,
+                                                  (route) => route.isFirst);
                                             } else {
-                                              print(
-                                                  'Erreur lors de l\'insertion de la note.');
+                                              print("Erreur");
                                             }
-                                          } else {
-                                            print("Erreur");
-                                          }
 
-                                          print(
-                                              'Élément sélectionné : $selectedItem');
-                                        }
-                                      },
-                                      child: const Text(
-                                        'Valider',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15.0,
-                                          color: Colors.greenAccent,
+                                            print(
+                                                'Élément sélectionné : $selectedItem');
+                                          }
+                                        },
+                                        child: const Text(
+                                          'Valider',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15.0,
+                                            color: Colors.greenAccent,
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                    )
                                   ],
                                 );
                               });
@@ -560,7 +531,9 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
                       ),
                     ],
                   );
-                });
+                }).then(
+              (value) => Navigator.popUntil(context, (route) => route.isFirst),
+            );
           }
         },
         tooltip: 'Enregistrer la note',
