@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:write_me/database_helper.dart';
-import 'package:write_me/home.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/dto/notesRequest.dart';
@@ -190,7 +189,6 @@ class _NotePageState extends State<NotePage> {
                                 if (titre != "" && texte != "") {
                                   //Navigator.of(context).popUntil((route) => false)
                                   notesProvider.addNote(note);
-                                  int count = 0;
                                   Navigator.popUntil(
                                       context, (route) => route.isFirst);
                                   /*Navigator.popUntil(

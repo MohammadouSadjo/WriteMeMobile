@@ -35,7 +35,7 @@ class ListNotesProvider extends ChangeNotifier {
         texte: noteUserRequest.texte,
         date_creation: noteUserRequest.date_creation,
         date_modification: noteUserRequest.date_modification);
-    if (note.id_note == 0) {
+    if (note.type_note_id == 0) {
       _allnotes.add(note);
     }
 

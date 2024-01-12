@@ -147,8 +147,18 @@ class DatabaseHelper {
 
     String whereClause = "intitule_type LIKE '%$searchQuery%'";
 
-    final List<Map<String, dynamic>> maps =
-        await db.query('typenotes', orderBy: "id_typenote", where: whereClause);
+    /*final List<Map<String, dynamic>> maps =
+        await db.query('typenotes', orderBy: "id_typenote", where: whereClause);*/
+
+    final List<Map<String, dynamic>> maps = await db.rawQuery('''
+    SELECT typenotes.id_typenote, typenotes.intitule_type, 
+           typenotes.date_creation, typenotes.date_modification
+    FROM typenotes
+    LEFT JOIN notes ON typenotes.id_typenote = notes.typenote_id
+    WHERE typenotes.intitule_type LIKE '%$searchQuery%'
+       OR notes.titre LIKE '%$searchQuery%' OR notes.texte LIKE '%$searchQuery%'
+    GROUP BY typenotes.id_typenote ORDER BY typenotes.id_typenote
+  ''');
 
     return List.generate(maps.length, (i) {
       return Type_Note(
