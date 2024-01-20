@@ -5,8 +5,14 @@ import 'package:write_me/models/type_note.dart';
 
 class TypeNoteProvider extends ChangeNotifier {
   List<Type_Note> _alltypeNotes = [];
+  Type_Note? _typenote;
+  String? _typenoteName;
 
   List<Type_Note> get alltypeNote => _alltypeNotes;
+
+  Type_Note? get typenote => _typenote;
+
+  String? get typenoteName => _typenoteName;
 
   Future<void> getAllTypeNotes() async {
     List<Type_Note> notes = await DatabaseHelper.getTypeNotes();
@@ -15,7 +21,9 @@ class TypeNoteProvider extends ChangeNotifier {
   }
 
   Future<void> getTypeNote(int id) async {
-    Type_Note? type_note = await DatabaseHelper.getTypeNote(id);
+    _typenote = await DatabaseHelper.getTypeNote(id);
+    _typenoteName = _typenote?.intitule_type;
+    notifyListeners();
   }
 
   Future<void> getTypeNotesResearch(String research) async {
@@ -37,5 +45,13 @@ class TypeNoteProvider extends ChangeNotifier {
     _alltypeNotes.add(_typenote);
     notifyListeners();
     return id;
+  }
+
+  Future<void> updateTypeNote(Type_Note typenote) async {
+    await DatabaseHelper.updateTypeNote(typenote);
+
+    _typenoteName = typenote.intitule_type;
+
+    notifyListeners();
   }
 }

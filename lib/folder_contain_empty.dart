@@ -6,6 +6,7 @@ import 'package:write_me/models/notes.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:write_me/models/type_note.dart';
 import 'package:write_me/providers/listNotesProvider.dart';
+import 'package:write_me/providers/typeNoteProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 import 'package:write_me/utils/customWidgets/dialogs/deleteTypeNote.dart';
 import 'package:write_me/utils/customWidgets/dialogs/renameTypeNote.dart';
@@ -82,7 +83,9 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
           onPressed: () =>
               Navigator.popUntil(context, (route) => route.isFirst),
         ),
-        title: Text(widget.title),
+        title: Consumer<TypeNoteProvider>(
+            builder: (context, typenoteProvider, child) =>
+                Text(typenoteProvider.typenoteName.toString())),
         actions: [
           PopupMenuButton<String>(
             itemBuilder: (BuildContext context) {
@@ -103,12 +106,13 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                       ),
                     ],
                   ),
-                  onTap: () {
+                  onTap: () async {
+                    Type_Note? typenote = await type_note;
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return RenameTypeNote(context, intituletypeController,
-                            type_note, widget.id);
+                            typenote, widget.id);
                       },
                     );
                   },
