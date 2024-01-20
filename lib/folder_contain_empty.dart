@@ -48,8 +48,6 @@ class MyFolderContainEmpty extends StatefulWidget {
 class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
   late Future<Type_Note?> type_note;
 
-  late Future<List<NoteUser>> _notes;
-
   late Future<List<NoteUser>> _listallnotes;
 
   String? selectedItem;
@@ -62,7 +60,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
   }
 
   Future<void> _loadNotes() async {
-    _notes = DatabaseHelper.getNoteByType(widget.id);
     _listallnotes = DatabaseHelper.getNotes();
   }
 
@@ -137,7 +134,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return DeleteTypeNote(context, _notes, widget.id);
+                        return DeleteTypeNote(context, widget.id);
                       },
                     );
                   },

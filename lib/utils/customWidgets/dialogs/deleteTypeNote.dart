@@ -10,10 +10,9 @@ import 'package:write_me/utils/constants/textStyleModalTitle.dart';
 
 class DeleteTypeNote extends StatelessWidget {
   final BuildContext context;
-  final Future<List<NoteUser>> _notes;
   final int typeNoteId;
 
-  const DeleteTypeNote(this.context, this._notes, this.typeNoteId, {super.key});
+  const DeleteTypeNote(this.context, this.typeNoteId, {super.key});
 
   @override
   Widget build(BuildContext context) {
