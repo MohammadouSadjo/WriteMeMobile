@@ -82,13 +82,7 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
           onPressed: () =>
               Navigator.popUntil(context, (route) => route.isFirst),
         ),
-        title: FutureBuilder<Type_Note?>(
-          future: type_note,
-          builder: (context, snapshot) {
-            final typeNote = snapshot.data;
-            return Text(typeNote!.intitule_type);
-          },
-        ),
+        title: Text(widget.title),
         actions: [
           PopupMenuButton<String>(
             itemBuilder: (BuildContext context) {
