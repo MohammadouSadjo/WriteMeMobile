@@ -54,4 +54,13 @@ class TypeNoteProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> deleteTypeNote(int id) async {
+    Type_Note? type_note = await DatabaseHelper.getTypeNote(id);
+    _alltypeNotes.remove(type_note);
+
+    await DatabaseHelper.deleteTypeNote(id);
+
+    notifyListeners();
+  }
 }

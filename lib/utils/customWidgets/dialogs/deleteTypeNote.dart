@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:write_me/database_helper.dart';
+import 'package:provider/provider.dart';
 import 'package:write_me/home.dart';
 import 'package:write_me/models/notes.dart';
+import 'package:write_me/providers/listNotesProvider.dart';
+import 'package:write_me/providers/typeNoteProvider.dart';
 import 'package:write_me/utils/constants/colors.dart';
 import 'package:write_me/utils/constants/textStyleModalContent.dart';
 import 'package:write_me/utils/constants/textStyleModalTitle.dart';
@@ -46,35 +48,33 @@ class DeleteTypeNote extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        TextButton(
-            child: const Text(
-              'Confirmer',
-              style: TextStyle(
-                color: Utils.mainColor,
-              ),
-            ),
-            onPressed: () async {
-              FutureBuilder<List<NoteUser>>(
-                  future: _notes,
-                  builder: (context, snapshot) {
-                    final notes = snapshot.data;
+        Consumer2<ListNotesProvider, TypeNoteProvider>(
+          builder: (context, notesProvider, typenoteProvider, child) =>
+              TextButton(
+                  child: const Text(
+                    'Confirmer',
+                    style: TextStyle(
+                      color: Utils.mainColor,
+                    ),
+                  ),
+                  onPressed: () {
+                    List<NoteUser> notes = notesProvider.allnotesByType;
+                    print("test on pressed");
 
-                    notes!.map((note) async {
+                    for (var note in notes) {
                       int id_note = note.id_note;
-                      await DatabaseHelper.deleteNote(id_note);
-                    });
-                    return const Text("");
-                  });
+                      notesProvider.deleteNote(id_note);
+                    }
 
-              await DatabaseHelper.deleteTypeNote(typeNoteId);
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const MyApp(),
-                ),
-                (Route<dynamic> route) => false,
-              );
-            }),
+                    typenoteProvider.deleteTypeNote(typeNoteId);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute<void>(
+                            builder: (BuildContext context) => const MyApp()),
+                        (route) => false);
+                    //Navigator.popUntil(context, (route) => route.isFirst);
+                  }),
+        ),
       ],
     );
   }
