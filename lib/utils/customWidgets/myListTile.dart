@@ -210,7 +210,7 @@ class MyListTile extends StatelessWidget {
                                       color: Utils.mainColor,
                                     ),
                                   ),
-                                  onPressed: () async {
+                                  onPressed: () {
                                     notesProvider.deleteNote(id);
 
                                     Navigator.of(context).pop();

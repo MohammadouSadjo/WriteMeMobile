@@ -76,7 +76,6 @@ class ListNotesProvider extends ChangeNotifier {
   }
 
   Future<void> deleteNote(int id) async {
-    await DatabaseHelper.deleteNote(id);
     NoteUser? note;
     note = await DatabaseHelper.getNote(id);
     if (note?.type_note_id == 0) {
@@ -95,6 +94,7 @@ class ListNotesProvider extends ChangeNotifier {
       _allnotesByType.remove(note);
     }
 
+    await DatabaseHelper.deleteNote(id);
     notifyListeners();
   }
   /*List<NoteUser> getNotes() {
