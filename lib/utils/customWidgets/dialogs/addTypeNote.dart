@@ -85,19 +85,6 @@ class AddTypeNote extends StatelessWidget {
                   typenoteProvider.addTypeNote(type_note);
                   Navigator.of(context).pop();
                   intituletypeController.text = "";
-                  /*final typenoteId =
-                      await DatabaseHelper.createTypeNote(type_note);
-                  if (typenoteId != 0) {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const MyApp(),
-                      ),
-                      (Route<dynamic> route) => false,
-                    );
-                  } else {
-                    print('Erreur lors de l\'insertion de la note.');
-                  }*/
                 } else {
                   print("Erreur");
                   intituletypeController.text = "";

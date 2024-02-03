@@ -93,7 +93,6 @@ class DatabaseHelper {
           date_modification: DateTime.fromMillisecondsSinceEpoch(
               maps[i]['date_modification']));
     });
-    //return db.query('notes', orderBy: "id_note", where: "typenote_id = 0");
   }
 
   static Future<List<NoteUser>> getNotesByResearch(String searchQuery) async {
@@ -137,18 +136,12 @@ class DatabaseHelper {
           date_modification: DateTime.fromMillisecondsSinceEpoch(
               maps[i]['date_modification']));
     });
-    //return db.query('typenotes', orderBy: "id_typenote");
   }
 
   static Future<List<Type_Note>> getTypeNotesByResearch(
       String searchQuery) async {
     final db = await DatabaseHelper.db();
     print(db.path);
-
-    //String whereClause = "intitule_type LIKE '%$searchQuery%'";
-
-    /*final List<Map<String, dynamic>> maps =
-        await db.query('typenotes', orderBy: "id_typenote", where: whereClause);*/
 
     final List<Map<String, dynamic>> maps = await db.rawQuery('''
     SELECT typenotes.id_typenote, typenotes.intitule_type, 
@@ -191,7 +184,6 @@ class DatabaseHelper {
     } else {
       return null;
     }
-    //return db.query('notes', where: "id_note = ?", whereArgs: [id], limit: 1);
   }
 
   static Future<List<NoteUser>> getNoteByType(int id) async {
@@ -211,7 +203,6 @@ class DatabaseHelper {
           date_modification: DateTime.fromMillisecondsSinceEpoch(
               maps[i]['date_modification']));
     });
-    //return db.query('notes', where: "typenote_id = ?", whereArgs: [id]);
   }
 
   static Future<Type_Note?> getTypeNote(int id) async {
@@ -232,9 +223,6 @@ class DatabaseHelper {
     } else {
       return null;
     }
-
-    //return db.query('typenotes',
-    //  where: "id_typenote = ?", whereArgs: [id], limit: 1);
   }
 
   static Future<int> updateNote(NoteUser user) async {

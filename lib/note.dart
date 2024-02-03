@@ -81,8 +81,8 @@ class _NotePageState extends State<NotePage> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.popUntil(
-              context, (route) => route.isFirst) /*Navigator.pop(context)*/,
+          onPressed: () =>
+              Navigator.popUntil(context, (route) => route.isFirst),
         ),
         title: const Text('Ajouter une note'),
         backgroundColor: Utils.mainColor,
@@ -112,7 +112,6 @@ class _NotePageState extends State<NotePage> {
               ),
               controller: titreController,
               onChanged: (value) {},
-              //onTapOutside: ,
             ),
             const SizedBox(height: 16.0),
             Expanded(
@@ -187,20 +186,9 @@ class _NotePageState extends State<NotePage> {
                                     date_modification: dateModification);
 
                                 if (titre != "" && texte != "") {
-                                  //Navigator.of(context).popUntil((route) => false)
                                   notesProvider.addNote(note);
                                   Navigator.popUntil(
                                       context, (route) => route.isFirst);
-                                  /*Navigator.popUntil(
-                                context,
-                                ModalRoute.withName('/home'),
-                              );*/
-                                  /*var nav = Navigator.of(context);
-                              nav.pop();
-                              nav.pop();*/
-
-                                  /*Navigator.of(context).pop();
-                              Navigator.of(context).pop();*/
                                 } else {
                                   print("Erreur");
                                 }
@@ -270,7 +258,7 @@ class _NotePageState extends State<NotePage> {
                                                     textColor: selectedItem ==
                                                             typenote
                                                                 .intitule_type
-                                                        ? Colors.white //
+                                                        ? Colors.white
                                                         : null,
                                                   );
                                                 },
@@ -410,10 +398,6 @@ class _NotePageState extends State<NotePage> {
                                                                   await typenotesProvider
                                                                       .addTypeNote(
                                                                           type_note);
-                                                              /*final typenoteId =
-                                                                  await DatabaseHelper
-                                                                      .createTypeNote(
-                                                                          type_note);*/
                                                               if (typenoteId !=
                                                                   0) {
                                                                 final titre =
@@ -452,28 +436,6 @@ class _NotePageState extends State<NotePage> {
                                                                       (route) =>
                                                                           route
                                                                               .isFirst);
-                                                                  /*final noteId =
-                                                                      await DatabaseHelper
-                                                                          .createNote(
-                                                                              note);
-                                                                  if (noteId !=
-                                                                      0) {
-                                                                    Navigator
-                                                                        .pushAndRemoveUntil(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                        builder:
-                                                                            (_) =>
-                                                                                const MyApp(),
-                                                                      ),
-                                                                      (Route<dynamic>
-                                                                              route) =>
-                                                                          false,
-                                                                    );
-                                                                  } else {
-                                                                    print(
-                                                                        'Erreur lors de l\'insertion de la note.');
-                                                                  }*/
                                                                 } else {
                                                                   print(
                                                                       "Erreur");
@@ -544,25 +506,6 @@ class _NotePageState extends State<NotePage> {
                                                   notesProvider.addNote(note);
                                                   Navigator.popUntil(context,
                                                       (route) => route.isFirst);
-                                                  /*final noteId =
-                                                      await DatabaseHelper
-                                                          .createNote(note);
-                                                  if (noteId != 0) {
-                                                    print("redirection");
-                                                    Navigator
-                                                        .pushAndRemoveUntil(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (_) =>
-                                                            const MyApp(),
-                                                      ),
-                                                      (Route<dynamic> route) =>
-                                                          false,
-                                                    );
-                                                  } else {
-                                                    print(
-                                                        'Erreur lors de l\'insertion de la note.');
-                                                  }*/
                                                 } else {
                                                   print("Erreur");
                                                 }

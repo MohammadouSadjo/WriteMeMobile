@@ -17,10 +17,6 @@ import 'utils/customWidgets/myListTile.dart';
 
 import 'database_helper.dart';
 
-/*void main() {
-  runApp(const MyApp());
-}*/
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -42,15 +38,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/*class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}*/
-
 class MyHomePage extends StatelessWidget {
   List<Type_Note> dossiers = [];
 
@@ -58,17 +45,6 @@ class MyHomePage extends StatelessWidget {
   final Future<List<Type_Note>> _typenotes = DatabaseHelper.getTypeNotes();
 
   MyHomePage({super.key});
-
-  /*@override
-  void initState() {
-    super.initState();
-    _loadNotes();
-  }*/
-
-  /*Future<void> _loadNotes() async {
-    _notes = DatabaseHelper.getNotes();
-    _typenotes = DatabaseHelper.getTypeNotes();
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +87,6 @@ class MyHomePage extends StatelessWidget {
                     : IconButton(
                         icon: const Icon(
                           Icons.cancel,
-                          /*shadows: [
-                            Shadow(color: Colors.red, offset: Offset(1.0, 1.0))
-                          ],*/
                           color: Colors.red,
                         ),
                         onPressed: () {
@@ -270,11 +243,7 @@ class MyHomePage extends StatelessWidget {
                               );
                             } else if (snapshot.hasError) {
                               return Text('Erreur: ${snapshot.error}');
-                            } /*else if (notesSnapshot.hasData &&
-                                notesSnapshot.data!.isEmpty) {
-                              return const Text("Aucune note");
-                            } */
-                            else {
+                            } else {
                               return Consumer<ListNotesProvider>(
                                 child: const Text("Aucune note"),
                                 builder: (context, listNotesProvider, child) =>
@@ -315,36 +284,6 @@ class MyHomePage extends StatelessWidget {
                                             },
                                           ),
                               );
-                              /*return ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  final note = snapshot.data![index];
-                                  return Column(
-                                    children: [
-                                      MyListTile(
-                                        id: note.id_note,
-                                        dateCreation: note.date_creation,
-                                        dateModification:
-                                            note.date_modification,
-                                        titre: note.titre,
-                                        texte: note.texte,
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      const Divider(
-                                        indent: 80,
-                                        height: 15,
-                                        thickness: 0.7,
-                                        color: Color.fromRGBO(16, 43, 64, 0.4),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );*/
                             }
                           },
                         ),
@@ -380,11 +319,6 @@ class MyHomePage extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        /*Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Note()));*/
-                        //Navigator.pushNamed(context, '/note');
                         Navigator.pushReplacementNamed(
                           context,
                           '/note',

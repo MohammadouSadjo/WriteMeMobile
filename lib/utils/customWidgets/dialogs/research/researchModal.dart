@@ -62,15 +62,6 @@ class ResearchModal extends StatelessWidget {
                 typenoteProvider.getTypeNotesResearch(researchController.text);
                 Navigator.of(context).pop();
                 researchController.text = "";
-                /*Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MyAppResearch(
-                    title: 'WriteMe',
-                    research: researchController.text,
-                  ),
-                ),
-              );*/
               }
             },
           ),

@@ -4,7 +4,6 @@ import 'package:write_me/models/dto/notesRequest.dart';
 import 'package:write_me/models/notes.dart';
 
 class ListNotesProvider extends ChangeNotifier {
-  //Future<List<NoteUser>> notes = DatabaseHelper.getNotes();
   List<NoteUser> _allnotes = [];
   List<NoteUser> _allnotesByType = [];
   int _research = 0;
@@ -97,12 +96,4 @@ class ListNotesProvider extends ChangeNotifier {
     await DatabaseHelper.deleteNote(id);
     notifyListeners();
   }
-  /*List<NoteUser> getNotes() {
-    List<NoteUser> result = [];
-    notes.then((value) {
-      result = value;
-    });
-    //notifyListeners();
-    return result;
-  }*/
 }

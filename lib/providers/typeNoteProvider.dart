@@ -30,7 +30,6 @@ class TypeNoteProvider extends ChangeNotifier {
     List<Type_Note> notes =
         await DatabaseHelper.getTypeNotesByResearch(research);
     _alltypeNotes = notes;
-    //_research = 1;
     notifyListeners();
   }
 

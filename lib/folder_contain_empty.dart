@@ -24,7 +24,6 @@ class FolderContainEmpty extends StatelessWidget {
   final int id;
   final String title;
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MyFolderContainEmpty(
@@ -262,7 +261,6 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                         ),
                       ),
               );
-              // ...
             }
           },
         ),

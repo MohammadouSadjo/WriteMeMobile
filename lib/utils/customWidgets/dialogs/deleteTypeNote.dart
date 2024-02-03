@@ -71,7 +71,6 @@ class DeleteTypeNote extends StatelessWidget {
                         MaterialPageRoute<void>(
                             builder: (BuildContext context) => const MyApp()),
                         (route) => false);
-                    //Navigator.popUntil(context, (route) => route.isFirst);
                   }),
         ),
       ],
