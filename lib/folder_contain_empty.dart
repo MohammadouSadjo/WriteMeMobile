@@ -378,45 +378,40 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
                                         Navigator.of(context).pop();
                                       },
                                     ),
-                                    TextButton(
-                                      child: const Text(
-                                        'Confirmer',
-                                        style: TextStyle(
-                                          color: Utils.mainColor,
+                                    Consumer2<ListNotesProvider,
+                                        TypeNoteProvider>(
+                                      builder: (context, notesProvider,
+                                              typenoteProvider, child) =>
+                                          TextButton(
+                                        child: const Text(
+                                          'Confirmer',
+                                          style: TextStyle(
+                                            color: Utils.mainColor,
+                                          ),
                                         ),
-                                      ),
-                                      onPressed: () async {
-                                        if (id_note != 0) {
-                                          NoteUser? finalNote =
-                                              await DatabaseHelper.getNote(
-                                                  id_note);
+                                        onPressed: () async {
+                                          if (id_note != 0) {
+                                            NoteUser? finalNote =
+                                                await DatabaseHelper.getNote(
+                                                    id_note);
 
-                                          if (finalNote != null) {
-                                            initializeDateFormatting();
+                                            if (finalNote != null) {
+                                              initializeDateFormatting();
 
-                                            finalNote.type_note_id = widget.id;
-                                            finalNote.date_modification =
-                                                DateTime.now();
-                                            int updateNote =
-                                                await DatabaseHelper.updateNote(
-                                                    finalNote);
-                                            if (updateNote != 0) {
-                                              Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      FolderContainEmpty(
-                                                    title: 'WriteMe',
-                                                    id: widget.id,
-                                                  ),
-                                                ),
-                                              );
+                                              finalNote.type_note_id =
+                                                  widget.id;
+                                              finalNote.date_modification =
+                                                  DateTime.now();
+                                              notesProvider
+                                                  .updateNote(finalNote);
+
+                                              Navigator.of(context).pop();
+                                            } else {
+                                              print('Erreur ');
                                             }
-                                          } else {
-                                            print('Erreur ');
                                           }
-                                        }
-                                      },
+                                        },
+                                      ),
                                     ),
                                   ]);
                             });
