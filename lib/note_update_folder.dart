@@ -99,10 +99,16 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
       builder: (context, notesProvider, child) => Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
             onPressed: () => Navigator.pop(context),
           ),
-          title: Text(widget.titre),
+          title: Text(
+            widget.titre,
+            style: const TextStyle(color: Colors.white),
+          ),
           backgroundColor: Utils.mainColor,
         ),
         body: Padding(
@@ -181,7 +187,10 @@ class _NoteUpdateFolderPageState extends State<NoteUpdateFolderPage> {
             }
           },
           tooltip: 'Modifier vklhgdfite la note',
-          child: const Icon(Icons.save),
+          child: const Icon(
+            Icons.save,
+            color: Colors.white,
+          ),
         ),
       ),
     );

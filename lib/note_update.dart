@@ -108,10 +108,16 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(widget.titre),
+        title: Text(
+          widget.titre,
+          style: const TextStyle(color: Colors.white),
+        ),
         backgroundColor: Utils.mainColor,
       ),
       body: Padding(
@@ -536,7 +542,10 @@ class _NoteUpdatePageState extends State<NoteUpdatePage> {
           }
         },
         tooltip: 'Enregistrer la note',
-        child: const Icon(Icons.save),
+        child: const Icon(
+          Icons.save,
+          color: Colors.white,
+        ),
       ),
     );
   }

@@ -51,7 +51,7 @@ class MyTypeNote extends StatelessWidget {
                   ),
                   Container(
                     width: 120.0,
-                    height: 30.0,
+                    //height: 30.0,
                     margin: const EdgeInsets.only(
                         right: 10.0, top: 10.0, bottom: 35),
                     child: Column(

@@ -75,15 +75,21 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
           onPressed: () =>
               Navigator.popUntil(context, (route) => route.isFirst),
         ),
         title: Consumer<TypeNoteProvider>(
-            builder: (context, typenoteProvider, child) =>
-                Text(typenoteProvider.typenoteName.toString())),
+            builder: (context, typenoteProvider, child) => Text(
+                  typenoteProvider.typenoteName.toString(),
+                  style: const TextStyle(color: Colors.white),
+                )),
         actions: [
           PopupMenuButton<String>(
+            iconColor: Colors.white,
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
@@ -427,7 +433,10 @@ class _MyFolderContainEmptyState extends State<MyFolderContainEmpty> {
         },
         tooltip: "Ajout d'une note",
         backgroundColor: Utils.mainColor,
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

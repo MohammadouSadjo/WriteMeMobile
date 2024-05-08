@@ -59,19 +59,26 @@ class MyHomePage extends StatelessWidget {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: const Icon(Icons.menu),
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
             );
           },
         ),
-        title: const Text("WriteMe"),
+        title: const Text(
+          "WriteMe",
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           Consumer2<ListNotesProvider, TypeNoteProvider>(
             child: IconButton(
               icon: const Icon(
                 Icons.search,
+                color: Colors.white,
               ),
               onPressed: () {
                 showDialog(
@@ -202,6 +209,8 @@ class MyHomePage extends StatelessWidget {
                                       : SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: typenotes.alltypeNote
                                                 .map((typenote) {
                                               int id = typenote.id_type_note;
@@ -357,7 +366,10 @@ class MyHomePage extends StatelessWidget {
         },
         tooltip: "Ajout d'une note",
         backgroundColor: Utils.mainColor,
-        child: const Icon(Icons.edit),
+        child: const Icon(
+          Icons.edit,
+          color: Colors.white,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

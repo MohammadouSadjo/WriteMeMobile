@@ -22,7 +22,6 @@ class ListNotesProvider extends ChangeNotifier {
   Future<void> getAllNotesByTypeNote(int id) async {
     List<NoteUser> notes = await DatabaseHelper.getNoteByType(id);
     _allnotesByType = notes;
-    _research = 0;
     notifyListeners();
   }
 

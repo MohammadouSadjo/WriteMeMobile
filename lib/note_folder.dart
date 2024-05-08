@@ -69,10 +69,16 @@ class _NotePageState extends State<NoteFolderPage> {
       builder: (context, notesProvider, child) => Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
             onPressed: () => Navigator.pop(context),
           ),
-          title: const Text('Ajouter une note'),
+          title: const Text(
+            'Ajouter une note',
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: Utils.mainColor,
         ),
         body: Padding(
@@ -150,7 +156,10 @@ class _NotePageState extends State<NoteFolderPage> {
             }
           },
           tooltip: 'Enregistrer la note',
-          child: const Icon(Icons.save),
+          child: const Icon(
+            Icons.save,
+            color: Colors.white,
+          ),
         ),
       ),
     );
