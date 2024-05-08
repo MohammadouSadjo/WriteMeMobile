@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.1 <3.0.0'
+  sdk: '>=3.1.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -36,7 +36,13 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  splashscreen: ^1.3.5
+  google_fonts: ^3.0.1
+  carousel_slider: ^4.0.0
+  sqflite:
+  path:
+  splash_view: ^2.0.1
+  flutter_statusbarcolor_ns: ^0.5.0
+  provider: ^6.1.1
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +54,16 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  intl: ^0.17.0
+  intl_translation:
+  flutter_launcher_icons:
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/images/logov2.png"
+  adaptive_icon_background: "lib/images/fond_blanc.png"
+  adaptive_icon_foreground: "lib/images/logov2.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -59,6 +75,47 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - lib/images/logo_transparent.png
+    - lib/images/logo_transparent.jpg
+    - lib/images/logov2.png
+    - lib/images/logov2.jpg
+
+  fonts:
+    - family: Nova Round
+      fonts:
+        - asset: lib/fonts/NovaRound-Regular.ttf
+    - family: RobotoSerif
+      fonts:
+        - asset: lib/fonts/RobotoSerif-Black.ttf
+        - asset: lib/fonts/RobotoSerif-BlackItalic.ttf
+        - asset: lib/fonts/RobotoSerif-Bold.ttf
+        - asset: lib/fonts/RobotoSerif-BoldItalic.ttf
+        - asset: lib/fonts/RobotoSerif-ExtraBold.ttf
+        - asset: lib/fonts/RobotoSerif-ExtraBoldItalic.ttf
+        - asset: lib/fonts/RobotoSerif-ExtraLight.ttf
+        - asset: lib/fonts/RobotoSerif-ExtraLightItalic.ttf
+        - asset: lib/fonts/RobotoSerif-Italic.ttf
+        - asset: lib/fonts/RobotoSerif-Light.ttf
+        - asset: lib/fonts/RobotoSerif-LightItalic.ttf
+        - asset: lib/fonts/RobotoSerif-Medium.ttf
+        - asset: lib/fonts/RobotoSerif-MediumItalic.ttf
+        - asset: lib/fonts/RobotoSerif-SemiBold.ttf
+        - asset: lib/fonts/RobotoSerif-SemiBoldItalic.ttf
+        - asset: lib/fonts/RobotoSerif-Thin.ttf
+        - asset: lib/fonts/RobotoSerif-ThinItalic.ttf
+    - family: RobotoSlab
+      fonts:
+        - asset: lib/fonts/RobotoSlab-Black.ttf
+        - asset: lib/fonts/RobotoSlab-Bold.ttf
+        - asset: lib/fonts/RobotoSlab-ExtraBold.ttf
+        - asset: lib/fonts/RobotoSlab-ExtraLight.ttf
+        - asset: lib/fonts/RobotoSlab-Light.ttf
+        - asset: lib/fonts/RobotoSlab-Medium.ttf
+        - asset: lib/fonts/RobotoSlab-Regular.ttf
+        - asset: lib/fonts/RobotoSlab-SemiBold.ttf
+        - asset: lib/fonts/RobotoSlab-Thin.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
